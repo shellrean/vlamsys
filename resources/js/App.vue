@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<notifications group="foo" />
+		<notifications group="foo" position="bottom right"/>
 		<app-sidebar v-if="isAuth"/>
 		<div class="c-wrapper">
 			<app-header v-if="isAuth" />

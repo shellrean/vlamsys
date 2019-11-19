@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API\v2;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Matpel;
-use App\Http\Resources\MatpelCollection;
+use App\Soal;
+use App\JawabanSoal;
+
+use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
-class MatpelController extends Controller
+class SoalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +20,7 @@ class MatpelController extends Controller
      */
     public function index()
     {
-        $matpels = Matpel::orderBy('created_at', 'DESC');
-        if (request()->q != '') {
-            $matpels = $matpels->where('nama', 'LIKE', '%'. request()->q.'%');
-        }
-        
-        $matpels = $matpels->paginate(10);
-        return new MatpelCollection($matpels);
+        //
     }
 
     /**
@@ -35,23 +31,7 @@ class MatpelController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'kode_mapel'    => 'required|unique:matpels,kode_mapel',
-            'nama'          => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()],422);
-        }
-
-        $data = [
-            'kode_mapel'    => $request->kode_mapel,
-            'nama'          => $request->nama
-        ];
-
-        $data = Matpel::create($data);
-
-        return response()->json(['data' => $data]);
+        //
     }
 
     /**
@@ -85,8 +65,24 @@ class MatpelController extends Controller
      */
     public function destroy($id)
     {
-        $laundry = Matpel::find($id);
-        $laundry->delete();
-        return response()->json(['status' => 'success']);
+        //
     }
+
+    /**
+     * Get soal by banksoal
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getSoalByBanksoal($id)
+    {
+        $soal = Soal::with('jawabans')->where('banksoal_id',$id);
+        if (request()->q != '') {
+            $soal = $soal->where('kode_banksoal', 'LIKE', '%'. request()->q.'%');
+        }
+
+        $soal = $soal->paginate(10);
+        return new AppCollection($soal);
+    }
+
 }

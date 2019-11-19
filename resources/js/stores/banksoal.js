@@ -1,13 +1,13 @@
 import $axios from '../api.js'
 
 const state = () => ({
-	matpels: [],
+	banksoals: [],
 	page: 1
 })
 
 const mutations = {
 	ASSIGN_DATA(state, payload) {
-		state.matpels = payload
+		state.banksoals = payload
 	},
 	SET_PAGE(state, payload) {
         state.page = payload
@@ -15,19 +15,19 @@ const mutations = {
 }
 
 const actions = {
-	getMatpels({ commit, state }, payload) {
+	getBanksoals({ commit, state }, payload) {
 		let search = typeof payload != 'undefined' ? payload : ''
 		return new Promise(( resolve, reject ) =>  {
-			$axios.get(`/matpel?page=${state.page}&q=${search}`)
+			$axios.get(`/banksoal?page=${state.page}&q=${search}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
 				resolve(response.data)
 			})
 		}) 
 	},
-	addMatpel({ commit }, payload) {
+	addBanksoal({ commit }, payload) {
         return new Promise((resolve, reject) => {
-            $axios.post(`/matpel`, payload)
+            $axios.post(`/banksoal`, payload)
             .then((response) => {
                 resolve(response.data)
             })
@@ -38,9 +38,9 @@ const actions = {
             })
         })
     },
-    removeMatpel({ commit }, payload) {
+    removeBanksoal({ commit }, payload) {
         return new Promise((resolve, reject) => {
-            $axios.delete(`/matpel/${payload}`)
+            $axios.delete(`/banksoal/${payload}`)
             .then((response) => {
                 resolve(response.data)
             })

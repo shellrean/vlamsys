@@ -8,6 +8,10 @@ import Home from './pages/Home.vue'
 import MatpelIndex from './pages/matpel/Index.vue'
 import DataMatpel from './pages/matpel/Matpel.vue'
 
+import BanksoalIndex from './pages/banksoal/Index.vue'
+import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
+import SoalBanksoal from './pages/banksoal/SoalBanksoal.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -35,6 +39,25 @@ const router = new Router({
                     component: DataMatpel,
                     meta: { title: 'Manage mata pelajaran' }
                 }
+			]
+		},
+		{
+			path: '/banksoal',
+			component: BanksoalIndex,
+			meta: { requiresAuth: true },
+			children: [
+				{
+					path: '',
+					name: 'banksoal.data',
+					component: DataBanksoal,
+					meta: { title: 'Manage banksoal' }
+				},
+				{
+					path: '/soal/:banksoal_id',
+					name: 'banksoal.soal',
+					component: SoalBanksoal,
+					meta: { title: 'Manage soal' }
+				}
 			]
 		}
 	]

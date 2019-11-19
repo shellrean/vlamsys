@@ -5,11 +5,12 @@ namespace App\Http\Controllers\API\v2;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Matpel;
-use App\Http\Resources\MatpelCollection;
+use App\Banksoal;
+
+use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
-class MatpelController extends Controller
+class BanksoalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +19,13 @@ class MatpelController extends Controller
      */
     public function index()
     {
-        $matpels = Matpel::orderBy('created_at', 'DESC');
+        $banksoal = Banksoal::with(['matpel','user'])->orderBy('created_at', 'DESC');
         if (request()->q != '') {
-            $matpels = $matpels->where('nama', 'LIKE', '%'. request()->q.'%');
+            $banksoal = $banksoal->where('kode_banksoal', 'LIKE', '%'. request()->q.'%');
         }
-        
-        $matpels = $matpels->paginate(10);
-        return new MatpelCollection($matpels);
+
+        $banksoal = $banksoal->paginate(10);
+        return new AppCollection($banksoal);
     }
 
     /**
@@ -36,22 +37,23 @@ class MatpelController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kode_mapel'    => 'required|unique:matpels,kode_mapel',
-            'nama'          => 'required'
-        ]);
+            'kode_banksoal'     => 'required|unique:banksoals,kode_banksoal',
+            'matpel_id'         => 'required|exists:matpels,id'
+        ]); 
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()],422);
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()],200);
         }
 
         $data = [
-            'kode_mapel'    => $request->kode_mapel,
-            'nama'          => $request->nama
+            'kode_banksoal'     => $request->kode_banksoal,
+            'matpel_id'         => $request->matpel_id,
+            'author'            => auth()->user()->id
         ];
 
-        $data = Matpel::create($data);
+        $res = Banksoal::create($data);
 
-        return response()->json(['data' => $data]);
+        return response()->json(['data' => $res]);
     }
 
     /**
@@ -85,7 +87,7 @@ class MatpelController extends Controller
      */
     public function destroy($id)
     {
-        $laundry = Matpel::find($id);
+        $laundry = Banksoal::find($id);
         $laundry->delete();
         return response()->json(['status' => 'success']);
     }

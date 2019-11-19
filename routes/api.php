@@ -18,5 +18,9 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::group(['middleware' => 'auth:api'], function() {
 
 	Route::resource('/matpel', 'API\v2\MatpelController');
+	Route::resource('/banksoal', 'API\v2\BanksoalController');
 
+	Route::resource('/soal', 'API\v2\SoalController');
+	Route::get('/soal/banksoal/{id}', 'API\v2\SoalController@getSoalByBanksoal');
+	
 });
