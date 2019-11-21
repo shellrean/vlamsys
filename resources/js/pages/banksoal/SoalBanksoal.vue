@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header">
                     <router-link :to="{ name: 'banksoal.data' }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
-                    <router-link :to="{ name: 'banksoal.soal.tambah' }" class="btn btn-primary btn-sm rounded-0">Tambah</router-link>
+                    <router-link :to="{ name: 'banksoal.soal.tambah', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-primary btn-sm rounded-0">Tambah</router-link>
                     <div class="float-right">
                         <input type="text" class="form-control" placeholder="Cari..." v-model="search">
                     </div>

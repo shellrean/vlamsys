@@ -11,6 +11,7 @@ import DataMatpel from './pages/matpel/Matpel.vue'
 import BanksoalIndex from './pages/banksoal/Index.vue'
 import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
 import SoalBanksoal from './pages/banksoal/SoalBanksoal.vue'
+import SoalBanksoalTambah from './pages/banksoal/SoalBanksoalTambah.vue'
 
 Vue.use(Router)
 
@@ -57,6 +58,12 @@ const router = new Router({
 					name: 'banksoal.soal',
 					component: SoalBanksoal,
 					meta: { title: 'Manage soal' }
+				},
+				{
+					path: '/soal/:banksoal_id/tambah',
+					name: 'banksoal.soal.tambah',
+					component: SoalBanksoalTambah,
+					meta: { title: 'Tambah soal' }
 				}
 			]
 		}
