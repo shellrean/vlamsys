@@ -5,6 +5,7 @@ import auth from './stores/auth.js'
 import matpel from './stores/matpel.js'
 import banksoal from './stores/banksoal.js'
 import soal from './stores/soal.js'
+import ujian from './stores/ujian.js'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
 		auth,
 		matpel,
 		banksoal,
-		soal
+		soal,
+		ujian
 	},
 	state: {
 		token: localStorage.getItem('token'),

@@ -15,8 +15,8 @@
 				        	{{ data.index + 1 }}
 				      	</template>
 
-                    	<template v-slot:cell(pertanyaan)="row">
-                            {{ row.item.pertanyaan.substring(0,100)+".." }}
+                    	<template v-slot:cell(dibuat)="row">
+                            {{ row.item.created_at }}
                         </template>
                         <template v-slot:cell(show_details)="row">
         					<b-button size="sm" squared @click="row.toggleDetails" class="mr-2">
@@ -25,21 +25,24 @@
         				</template>
         				<template v-slot:row-details="row">
 					        <b-card>
-					          {{ row.item.pertanyaan }}
-					          <ul>
-					          	<li v-for="jawaban in row.item.jawabans">
-					          		<b-card>
-					          			{{ jawaban.text_jawaban }}
-					        		</b-card>
-					          	</li>
-					          </ul>
+					          <div v-html="row.item.pertanyaan"></div>
 					          
+					          <table class="table">
+					          	<tr v-for="jawab in row.item.jawabans">
+					          		<td>
+					          			<div v-html="jawab.text_jawaban"></div>
+					          			<i v-show="jawab.correct == '1'" class="cui-star text-warning"></i>
+					          		</td> 
+					          	</tr>
+					          </table>
 					        </b-card>
 					    </template>
 
                        <template v-slot:cell(actions)="row">
                             <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><i class="cui-trash"></i></button>
-                            <router-link :to="{ name: 'banksoal.soal', params: {id: row.item.id} }" class></router-link>
+                            <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-success rounded-0">
+                            	<i class="cui-pencil"></i>
+                            </router-link>
                         </template>
                     </b-table>
                 </div>
@@ -61,7 +64,7 @@ export default {
 		return {
 			fields: [
 				'index','show_details',
-				{ key: 'pertanyaan', label: 'Pertanyaan'},
+				{ key: 'dibuat', label: 'Dibuat pada'},
 				{ key: 'actions', label: 'Aksi'}
 			],
 			search: ''
@@ -81,9 +84,25 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions('soal',['getSoals']),
+		...mapActions('soal',['getSoals','removeSoal']),
 		getAllSoal() {
 			this.getSoals({ banksoal_id: this.$route.params.banksoal_id })
+		},
+		deleteBanksoal(id) {
+			this.$swal({
+                title: 'Kamu Yakin?',
+                text: "Tindakan ini akan menghapus secara permanent!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, Lanjutkan!'
+            }).then((result) => {
+                if (result.value) {
+                    this.removeSoal(id)
+                    this.getAllSoal()
+                }
+            })
 		}
 	},
 	watch: {

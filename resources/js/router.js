@@ -12,6 +12,10 @@ import BanksoalIndex from './pages/banksoal/Index.vue'
 import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
 import SoalBanksoal from './pages/banksoal/SoalBanksoal.vue'
 import SoalBanksoalTambah from './pages/banksoal/SoalBanksoalTambah.vue'
+import SoalBanksoalEdit from './pages/banksoal/SoalBanksoalEdit.vue'
+
+import UjianIndex from './pages/ujian/Index.vue'
+import DataUjian from './pages/ujian/Ujian.vue'
 
 Vue.use(Router)
 
@@ -64,6 +68,25 @@ const router = new Router({
 					name: 'banksoal.soal.tambah',
 					component: SoalBanksoalTambah,
 					meta: { title: 'Tambah soal' }
+				},
+				{
+					path: '/soal/:banksoal_id/:soal_id',
+					name: 'banksoal.soal.edit',
+					component : SoalBanksoalEdit,
+					meta: { title: 'Edit soal' }
+				}
+			]
+		},
+		{
+			path: '/ujian',
+			component: UjianIndex,
+			meta: { requiresAuth: true },
+			children: [
+				{
+					path: '',
+					name: 'ujian.data',
+					component: DataUjian,
+					meta: { title: 'Manage ujian' }
 				}
 			]
 		}

@@ -42,7 +42,8 @@ class SoalController extends Controller
      */
     public function show($id)
     {
-        //
+        $soal = Soal::with('jawabans')->where(['id' => $id])->first();
+        return response()->json(['data' => $soal]);
     }
 
     /**
@@ -83,6 +84,55 @@ class SoalController extends Controller
 
         $soal = $soal->paginate(10);
         return new AppCollection($soal);
+    }
+
+    /**
+     * Store soal
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeSoalBanksoal(Request $request)
+    {
+        $soal = Soal::create([
+            'banksoal_id'   => $request->banksoal_id,
+            'pertanyaan'    => $request->pertanyaan
+        ]);
+
+        JawabanSoal::create([
+            'soal_id'       => $soal->id,
+            'text_jawaban'  => $request->pilihan1,
+            'correct'       => ($request->correct == 'a' ? '1' : '0')
+        ]);
+        JawabanSoal::create([
+            'soal_id'       => $soal->id,
+            'text_jawaban'  => $request->pilihan2,
+            'correct'       => ($request->correct == 'b' ? '1' : '0')
+        ]);
+        JawabanSoal::create([
+            'soal_id'       => $soal->id,
+            'text_jawaban'  => $request->pilihan3,
+            'correct'       => ($request->correct == 'c' ? '1' : '0')
+        ]);
+        JawabanSoal::create([
+            'soal_id'       => $soal->id,
+            'text_jawaban'  => $request->pilihan4,
+            'correct'       => ($request->correct == 'd' ? '1' : '0')
+        ]);
+
+        return response()->json(['data' => 'success']);
+    }
+
+    /**
+     * Destroy soal
+     *
+     */
+    public function destroySoalBanksoal($id)
+    {
+        $soal = Soal::find($id);
+        $soal->delete();
+
+        return response()->json(['data' => 'success']);
     }
 
 }

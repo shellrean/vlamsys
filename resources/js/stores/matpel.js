@@ -2,6 +2,7 @@ import $axios from '../api.js'
 
 const state = () => ({
 	matpels: [],
+    allMatpels: [],
 	page: 1
 })
 
@@ -9,6 +10,9 @@ const mutations = {
 	ASSIGN_DATA(state, payload) {
 		state.matpels = payload
 	},
+    ASSIGN_ALL_DATA(state, payload) {
+        state.allMatpels = payload
+    },
 	SET_PAGE(state, payload) {
         state.page = payload
     }
@@ -25,6 +29,15 @@ const actions = {
 			})
 		}) 
 	},
+    getAllMatpels({ commit, state }, payload) {
+        return new Promise(( resolve, reject ) =>  {
+            $axios.get(`/matpel/list`)
+            .then((response) => {
+                commit('ASSIGN_ALL_DATA', response.data)
+                resolve(response.data)
+            })
+        }) 
+    },
 	addMatpel({ commit }, payload) {
         return new Promise((resolve, reject) => {
             $axios.post(`/matpel`, payload)

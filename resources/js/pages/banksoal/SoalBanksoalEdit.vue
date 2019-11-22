@@ -116,6 +116,9 @@ import {
   Placeholder,
 } from 'tiptap-extensions'
 export default {
+  created() {
+    this.getDataSoal()
+  },
   components: {
     EditorContent,
     EditorFloatingMenu,
@@ -251,7 +254,18 @@ export default {
   },
   methods: {
     ...mapActions('banksoal',['addSoalBanksoal']),
+    ...mapActions('soal',['editSoalBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
+    getDataSoal() {
+      this.editSoalBanksoal(this.$route.params.soal_id)
+      .then((response) => {
+        this.question.setContent(response.data.pertanyaan)
+        this.contenta.setContent(response.data.jawabans[0].text_jawaban)
+        this.contentb.setContent(response.data.jawabans[1].text_jawaban)
+        this.contentc.setContent(response.data.jawabans[2].text_jawaban)
+        this.contentd.setContent(response.data.jawabans[3].text_jawaban)
+      })
+    },
     postSoalBanksoal() {
       if (this.correct == '') {
         this.$swal({

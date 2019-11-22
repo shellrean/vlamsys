@@ -5,11 +5,14 @@ namespace App\Http\Controllers\API\v2;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Matpel;
-use App\Http\Resources\MatpelCollection;
-use Illuminate\Support\Facades\Validator;
 
-class MatpelController extends Controller
+use App\Jadwal;
+
+use App\Http\Resources\AppCollection;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
+class UjianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,25 +21,13 @@ class MatpelController extends Controller
      */
     public function index()
     {
-        $matpels = Matpel::orderBy('created_at', 'DESC');
+        $ujian = Jadwal::with('banksoal')->orderBy('created_at', 'DESC');
         if (request()->q != '') {
-            $matpels = $matpels->where('nama', 'LIKE', '%'. request()->q.'%');
+            $ujian = $ujian->where('token', 'LIKE', '%'. request()->q.'%');
         }
-        
-        $matpels = $matpels->paginate(10);
-        return new MatpelCollection($matpels);
-    }
 
-    /**
-     * Get all matpel data from table
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getAll()
-    {
-        $matpels = Matpel::orderBy('nama')->get();
-
-        return response()->json(['data' => $matpels]);
+        $ujian = $ujian->paginate(10);
+        return new AppCollection($ujian);
     }
 
     /**
@@ -48,22 +39,29 @@ class MatpelController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kode_mapel'    => 'required|unique:matpels,kode_mapel',
-            'nama'          => 'required'
+            'banksoal_id'       => 'required|exists:banksoals,id',
+            'tanggal'           => 'required',
+            'mulai'             => 'required',
+            'berakhir'          => 'required',
+            'lama'              => 'required|int',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()],422);
         }
-
         $data = [
-            'kode_mapel'    => $request->kode_mapel,
-            'nama'          => $request->nama
+            'banksoal_id'       => $request->banksoal_id,
+            'mulai'             => date('H:i:s', strtotime($request->mulai)),
+            'berakhir'          => date('H:i:s',strtotime($request->berakhir)),
+            'lama'              => $request->lama*60,
+            'tanggal'           => date('Y-m-d',strtotime($request->tanggal)),
+            'token'             => strtoupper(Str::random(6)),
+            'status_ujian'      => 0
         ];
 
-        $data = Matpel::create($data);
+        Jadwal::create($data);
 
-        return response()->json(['data' => $data]);
+        return response()->json(['data' => 'success']);
     }
 
     /**
@@ -97,9 +95,6 @@ class MatpelController extends Controller
      */
     public function destroy($id)
     {
-        $laundry = Matpel::find($id);
-        $laundry->delete();
-        return response()->json(['status' => 'success']);
+        //
     }
-
 }

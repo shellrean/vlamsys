@@ -39,6 +39,18 @@
             </li>
           </ul>
         </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+            <i class="c-sidebar-nav-icon cui-spreadsheet"></i> Ujian
+          </a>
+          <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+              <router-link class="c-sidebar-nav-link" to="/ujian">
+                <span class="c-sidebar-nav-icon"></span> Jadwal
+              </router-link>
+            </li>
+          </ul>
+        </li>
       </ul>
       <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
     </div>

@@ -13,9 +13,10 @@
                     </div>
                     <div class="form-group">
                         <label>Mata pelajaran</label>
-                        <select class="form-control" v-model="data.matpel_id">
+                 <!--        <select class="form-control" v-model="data.matpel_id">
                         	<option v-for="matpel in matpels.data" :value="matpel.id">{{ matpel.nama }}</option>
-                        </select>
+                        </select> -->
+                        <v-select label="nama" :options="matpels.data" v-model="data.matpel_id"></v-select>
                         <p class="text-danger" v-if="errors.matpel_id">{{ errors.matpel_id[0] }}</p>
                     </div>
                     <div class="form-group">
@@ -61,12 +62,17 @@
 </template>
 <script>
 import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 export default {
     name: 'DataBanksoal',
+    components: {
+        'v-select': vSelect
+    },
     created() {
         this.getBanksoals()
-        this.getMatpels()
+        this.getAllMatpels()
     },
     data() {
         return {
@@ -80,7 +86,8 @@ export default {
             data: {
                 kode_banksoal: '',
                 matpel_id: ''
-            }
+            },
+            selected: ''
         }
     },
     computed: {
@@ -89,7 +96,7 @@ export default {
             banksoals: state => state.banksoals
         }),
         ...mapState('matpel', {
-        	matpels: state => state.matpels
+        	matpels: state => state.allMatpels
         }),
         page: {
             get() {
@@ -102,9 +109,12 @@ export default {
     },
     methods: {
         ...mapActions('banksoal', ['getBanksoals','addBanksoal','removeBanksoal']),
-        ...mapActions('matpel',['getMatpels']),
+        ...mapActions('matpel',['getAllMatpels']),
         postBanksoal() {
-            this.addBanksoal(this.data).then( (data) => {
+            this.addBanksoal({
+                kode_banksoal : this.data.kode_banksoal,
+                matpel_id : this.data.matpel_id.id
+            }).then( (data) => {
                 this.$notify({
                   group: 'foo',
                   title: 'Sukses',
