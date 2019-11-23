@@ -1,103 +1,258 @@
 <template>
   <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                  <router-link :to="{ name: 'banksoal.soal', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
-                  <b-button variant="success" squared size="sm" class="float-right" :disabled="isLoading" @click.prevent="postSoalBanksoal">
-                    <b-spinner small type="grow" v-show="isLoading"></b-spinner>
-                    Simpan
-                  </b-button>
-                </div>
-                <div class="card-body">
-                  <div class="editor">
-                  <!--   <editor-floating-menu :editor="question" v-slot="{ commands, isActive, menu }">
-                      <div
-                        class="editor__floating-menu"
-                        :class="{ 'is-active': menu.isActive }"
-                        :style="`top: ${menu.top}px`"
-                      >
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <router-link :to="{ name: 'banksoal.soal', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
+          <b-button variant="success" squared size="sm" class="float-right" :disabled="isLoading" @click.prevent="postSoalBanksoal">
+            <b-spinner small type="grow" v-show="isLoading"></b-spinner>
+            Simpan
+          </b-button>
+        </div>
+        <div class="card-body">
+          <div class="editor">
+            <h4>Pertanyaan</h4>
+            <hr>
+            <editor-menu-bar :editor="question" v-slot="{ commands, isActive }">
+              <div class="menubar">
+                <button
+                  class="menubar__button"
+                  @click="showImagePrompt(commands.image)"
+                >
+                  <font-awesome-icon icon="image" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.bold() }"
+                  @click="commands.bold"
+                >
+                  <font-awesome-icon icon="bold" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.italic() }"
+                  @click="commands.italic"
+                >
+                  <font-awesome-icon icon="italic" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.strike() }"
+                  @click="commands.strike"
+                >
+                  <font-awesome-icon icon="strikethrough" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.underline() }"
+                  @click="commands.underline"
+                >
+                  <font-awesome-icon icon="underline" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.paragraph() }"
+                  @click="commands.paragraph"
+                >
+                  <font-awesome-icon icon="paragraph" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+                  @click="commands.heading({ level: 1 })"
+                >
+                  H1
+                </button>
 
-                        <button
-                          class="menubar__button btn btn-sm btn-dark rounded-0"
-                          :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-                          @click="commands.heading({ level: 1 })"
-                        >
-                          H1
-                        </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+                  @click="commands.heading({ level: 2 })"
+                >
+                  H2
+                </button>
 
-                        <button
-                          class="menubar__button btn btn-dark rounded-0"
-                          :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-                          @click="commands.heading({ level: 2 })"
-                        >
-                          H2
-                        </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+                  @click="commands.heading({ level: 3 })"
+                >
+                  H3
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.bullet_list() }"
+                  @click="commands.bullet_list"
+                >
+                  <font-awesome-icon icon="list" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.ordered_list() }"
+                  @click="commands.ordered_list"
+                >
+                  <font-awesome-icon icon="list-ol" />
+                </button>
+                <button
+                  class="menubar__button"
+                  :class="{ 'is-active': isActive.blockquote() }"
+                  @click="commands.blockquote"
+                >
+                  <font-awesome-icon icon="quote-right" />
+                </button>
+                <button
+                  class="menubar__button"
+                  @click="commands.undo"
+                >
+                  <font-awesome-icon icon="undo" />
+                </button>
 
-                        <button
-                          class="menubar__button btn btn-dark rounded-0"
-                          :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-                          @click="commands.heading({ level: 3 })"
-                        >
-                          H3
-                        </button>
-                      </div>
-                    </editor-floating-menu> -->
-                    <h4>Pertanyaan</h4>
-                    <hr>
-                    <editor-content class="editor__content" :editor="question" />
-
-                    <hr>
-                    <br><br>
-                    <h4>Pilihan</h4>
-                    <!-- <hr> -->
-                    <table class="table">
-                      <tr>
-                        <td width="10px">
-                          <b-form-radio name="correct" size="lg" value="a" v-model="correct"></b-form-radio>
-                        </td>
-                        <td>
-                          <editor-content class="editor__content" :editor="contenta" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <b-form-radio name="correct" size="lg" value="b" v-model="correct"></b-form-radio>
-                        </td>
-                        <td>
-                          <editor-content class="editor__content" :editor="contentb" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <b-form-radio name="correct" size="lg" value="c" v-model="correct"></b-form-radio>
-                        </td>
-                        <td>
-                          <editor-content class="editor__content" :editor="contentc" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <b-form-radio name="correct" size="lg" value="d" v-model="correct"></b-form-radio>
-                        </td>
-                        <td>
-                          <editor-content class="editor__content" :editor="contentd" />
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="card-footer">
-
-                </div>
+                <button
+                  class="menubar__button"
+                  @click="commands.redo"
+                >
+                  <font-awesome-icon icon="redo" />
+                </button>
               </div>
-            </div>
-          </div>
-</template>
+            </editor-menu-bar>
+            <editor-content class="editor__content" :editor="question" />
+            <hr><br><br>
+            <h4>Pilihan</h4>
+            <table class="table">
+              <tr v-for="(pilih,index) in pilihan">
+                <td width="10px">
+                  <b-form-radio name="correct" size="lg" :value="index" v-model="correct"></b-form-radio>
+                </td>
+                <td>
+                  <editor-menu-bar :editor="pilihan[index]" v-slot="{ commands, isActive }">
+                    <div class="menubar">
+                      <button
+                        class="menubar__button"
+                        @click="showImagePrompt(commands.image)"
+                      >
+                        <font-awesome-icon icon="image" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.bold() }"
+                        @click="commands.bold"
+                      >
+                        <font-awesome-icon icon="bold" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.italic() }"
+                        @click="commands.italic"
+                      >
+                        <font-awesome-icon icon="italic" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.strike() }"
+                        @click="commands.strike"
+                      >
+                        <font-awesome-icon icon="strikethrough" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.underline() }"
+                        @click="commands.underline"
+                      >
+                        <font-awesome-icon icon="underline" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.paragraph() }"
+                        @click="commands.paragraph"
+                      >
+                        <font-awesome-icon icon="paragraph" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+                        @click="commands.heading({ level: 1 })"
+                      >
+                        H1
+                      </button>
 
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+                        @click="commands.heading({ level: 2 })"
+                      >
+                        H2
+                      </button>
+
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+                        @click="commands.heading({ level: 3 })"
+                      >
+                        H3
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.bullet_list() }"
+                        @click="commands.bullet_list"
+                      >
+                        <font-awesome-icon icon="list" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.ordered_list() }"
+                        @click="commands.ordered_list"
+                      >
+                        <font-awesome-icon icon="list-ol" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        :class="{ 'is-active': isActive.blockquote() }"
+                        @click="commands.blockquote"
+                      >
+                        <font-awesome-icon icon="quote-right" />
+                      </button>
+                      <button
+                        class="menubar__button"
+                        @click="commands.undo"
+                      >
+                        <font-awesome-icon icon="undo" />
+                      </button>
+
+                      <button
+                        class="menubar__button"
+                        @click="commands.redo"
+                      >
+                        <font-awesome-icon icon="redo" />
+                      </button>
+                    </div>
+                  </editor-menu-bar>
+                  <editor-content class="editor__content" :editor="pilihan[index]" />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+    </div>
+    <b-modal id="modal-scoped" hide-backdrop size="xl">
+        <template v-slot:modal-header="{ close }">
+          <h5>Buat direktori</h5>
+        </template>
+        <template v-slot:modal-footer="{ ok, cancel}">
+          <b-button size="sm" variant="success" @click="postDirectory()">
+            Submit
+          </b-button>
+          <b-button size="sm" variant="secondary" @click="cancel()">
+            Cancel
+          </b-button>
+        </template>
+    </b-modal>
+  </div>
+</template>
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
-import { Editor, EditorContent, EditorFloatingMenu } from 'tiptap'
+import { Editor, EditorContent, EditorFloatingMenu,EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
   BulletList,
@@ -112,20 +267,28 @@ import {
   Code,
   Italic,
   Link,
+  Strike,
+  Underline,
   History,
   Placeholder,
+  Image,
 } from 'tiptap-extensions'
 export default {
+  created() {
+    this.getBanksoal(this.$route.params.banksoal_id)
+  },
   components: {
     EditorContent,
     EditorFloatingMenu,
+    EditorMenuBar
   },
   data() {
     return {
       correct: '',
-      question: new Editor({
+      question : new Editor({
         extensions: [
           new Blockquote(),
+          new Image(),
           new BulletList(),
           new CodeBlock(),
           new HardBreak(),
@@ -138,186 +301,162 @@ export default {
           new Bold(),
           new Code(),
           new Italic(),
+          new Strike(),
+          new Underline(),
           new History(),
           new Placeholder({
             emptyNodeClass: 'is-empty',
             emptyNodeText: 'Tulis pertanyaan …',
             showOnlyWhenEditable: true,
-          }),
+          })
         ],
-        content: '',
+        content: ''
       }),
-      contenta: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new History(),
-          new Placeholder({
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Tulis pilihan 1 …',
-            showOnlyWhenEditable: true,
-          }),
-        ],
-        content: '',
-      }),
-      contentb: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new History(),
-          new Placeholder({
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Tulis pilihan 2 …',
-            showOnlyWhenEditable: true,
-          }),
-        ],
-        content: '',
-      }),
-      contentc: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new History(),
-          new Placeholder({
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Tulis pilihan 3…',
-            showOnlyWhenEditable: true,
-          }),
-        ],
-        content: '',
-      }),
-      contentd: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new History(),
-          new Placeholder({
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Tulis pilihan 4…',
-            showOnlyWhenEditable: true,
-          }),
-        ],
-        content: '',
-      })
+      pilihan: [],
+      jmlh_pilihan: ''
     }
   },
   computed: {
     ...mapGetters(['isLoading']),
-    ...mapState(['errors'])
+    ...mapState(['errors']),
+    ...mapState('banksoal',{
+      banksoal: state => state.banksoal.data
+    })
   },
   methods: {
-    ...mapActions('banksoal',['addSoalBanksoal']),
+    ...mapActions('banksoal',['addSoalBanksoal','getBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
     postSoalBanksoal() {
-      if (this.correct == '') {
+      if (this.correct == null) {
         this.$swal({
-                title: 'Kunci jawaban kosong',
-                text: "Pilih jawaban yang benar",
-                type: 'warning',
-            })
+          title: 'Kunci jawaban kosong',
+          text: "Pilih jawaban yang benar",
+          type: 'warning',
+        })
         return
       }
       else {
+        this.SET_LOADING(true)
+        let sender = []
+        this.pilihan.forEach(function(item) {
+          sender.push(item.getHTML())
+        })
         this.addSoalBanksoal({
-        pertanyaan: this.question.getHTML(),
-        banksoal_id: this.$route.params.banksoal_id,
-        pilihan1: this.contenta.getHTML(),
-        pilihan2: this.contentb.getHTML(),
-        pilihan3: this.contentc.getHTML(),
-        pilihan4: this.contentd.getHTML(),
-        correct: this.correct
-      })
-      .then((data) => {
-        this.$notify({
-          group: 'foo',
-          title: 'Sukses',
-          type: 'success',
-          text: 'Soal berhasil ditambah.'
-        }),
-        this.clearForm()
-      })
+          pertanyaan: this.question.getHTML(),
+          banksoal_id: this.$route.params.banksoal_id,
+          pilihan: sender,
+          correct: this.correct
+        })
+        .then((data) => {
+          this.$notify({
+            group: 'foo',
+            title: 'Sukses',
+            type: 'success',
+            text: 'Soal berhasil ditambah.'
+          }),
+          this.clearForm()
+          this.SET_LOADING(false)
+        })
       }
-      
     },
     clearForm() {
       this.question.setContent(''),
-      this.contenta.setContent(''),
-      this.contentb.setContent(''),
-      this.contentc.setContent(''),
-      this.contentd.setContent(''),
-      this.correct = ''
+      this.correct = '',
+      this.pilihan.forEach(function(item) {
+        item.setContent('')
+      })
+    },
+    initEditor() {
+      let i
+      for(i=0; i<this.jmlh_pilihan; i++) {
+        let pilihan = new Editor({
+          extensions: [
+            new Blockquote(),
+            new BulletList(),
+            new CodeBlock(),
+            new HardBreak(),
+            new Heading({ levels: [1, 2, 3] }),
+            new ListItem(),
+            new OrderedList(),
+            new TodoItem(),
+            new TodoList(),
+            new Link(),
+            new Bold(),
+            new Code(),
+            new Italic(),
+            new Strike(),
+            new Underline(),
+            new History(),
+            new Placeholder({
+              emptyNodeClass: 'is-empty',
+              emptyNodeText: `Tulis pilihan${i+1} …`,
+              showOnlyWhenEditable: true,
+            })
+          ],
+          content: ''
+        })
+
+        this.pilihan.push(pilihan)
+      }
+    },
+    showImagePrompt(command) {
+      // this.$bvModal.show('modal-scoped')
+      const src = prompt('Enter the url of your image here')
+      if (src !== null) {
+        command({ src })
+      }
+    },
+    onSelectImage(e) {
+
+    }
+  },
+  watch: {
+    banksoal(val) {
+      this.jmlh_pilihan = val.jumlah_pilihan
+      this.initEditor()
     }
   }
 }
 </script>
-
 <style lang="scss">
-.editor {
-  position: relative;
-  &__floating-menu {
-    position: absolute;
-    z-index: 1;
-    margin-top: -0.25rem;
+.menubar {
+
+  margin-bottom: 1rem;
+  transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+
+  &.is-hidden {
     visibility: hidden;
     opacity: 0;
-    transition: opacity 0.2s, visibility 0.2s;
+  }
+
+  &.is-focused {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+
+  &__button {
+    font-weight: bold;
+    display: inline-flex;
+    background: transparent;
+    border: 0;
+    color: #000000;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.2rem;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(#000000, 0.05);
+    }
+
     &.is-active {
-      opacity: 1;
-      visibility: visible;
-      margin-left: 30px;
+      background-color: rgba(#000000, 0.1);
     }
   }
-}
-.editor p.is-empty:first-child::before {
-  content: attr(data-empty-text);
-  float: left;
-  color: #aaa;
-  pointer-events: none;
-  height: 0;
-  font-style: italic;
+
+  span#{&}__button {
+    font-size: 13.3333px;
+  }
 }
 </style>

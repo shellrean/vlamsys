@@ -3,18 +3,46 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-header">
-					<button @click="$bvModal.show('modal-scoped')" class="btn btn-sm btn-primary rounded-0">Tambah</button>
+					<button @click="$bvModal.show('modal-scoped')" class="btn btn-sm btn-primary rounded-0">Tambah jadwal</button>
 				</div>
 				<div class="card-body">
-					<b-table striped hover bordered small :fields="fields" :items="ujians.data" show-empty>
+					<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="ujians.data" show-empty>
+						<template v-slot:table-busy>
+                            <div class="text-center text-warning my-2">
+                              <b-spinner class="align-middle"></b-spinner>
+                              <strong>Loading...</strong>
+                            </div>
+                        </template>
 						<template v-slot:cell(lama)="row">
 							{{ parseInt(row.item.lama)/60+ " Menit" }}
 						</template>
 						<template v-slot:cell(status)="row">
-							<i class="badge badge-success" v-show="row.item.status_ujian == 1">Aktif</i>
-							<i class="badge badge-danger" v-show="row.item.status_ujian == 0">Non aktif</i>
+							<b-form-checkbox size="lg" v-model="row.item.status_ujian" @change="seterStatus(row.item.id,row.item.status_ujian)" value="1">Aktif</b-form-checkbox>
+						</template>
+						<template v-slot:cell(action)="row">
+							<b-button variant="success" size="sm" squared>
+								<font-awesome-icon icon="list" />
+							</b-button>
 						</template>
                     </b-table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p v-if="ujians.data"><i class="fa fa-bars"></i> {{ ujians.data.length }} item dari {{ ujians.meta.total }} total data</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <b-pagination
+                                    v-model="page"
+                                    :total-rows="ujians.meta.total"
+                                    :per-page="ujians.meta.per_page"
+                                    aria-controls="products"
+                                    v-if="ujians.data && ujians.data.length > 0"
+                                    ></b-pagination>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="card-footer">
 				</div>
 			</div>
 		</div>
@@ -91,7 +119,8 @@ export default {
 				{ key: 'berakhir', label: 'Waktu berakhir' },
 				{ key: 'lama', label: 'Durasi' },
 				{ key: 'token', label: 'Token' },
-				{ key: 'status', label: 'Status ujian' }
+				{ key: 'status', label: 'Status ujian' },
+				{ key: 'action', label: 'Aksi' }
 			],
 			search: '',
 			data: {
@@ -100,7 +129,9 @@ export default {
 				lama: '',
 				tanggal: '',
 				banksoal_id: '',
-			}
+			},
+			isActive: '',
+			isBusy: true
 		}
 	},
 	computed: {
@@ -121,7 +152,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions('ujian', ['getUjians','addUjian']),
+		...mapActions('ujian', ['getUjians','addUjian','setStatus']),
 		...mapActions('banksoal', ['getBanksoals']),
 		...mapMutations(['CLEAR_ERROR', 'SET_LOADING']),
 		postUjian() {
@@ -150,6 +181,20 @@ export default {
 			this.data.berakhir = '',
 			this.data.lama = '',
 			this.data.tanggal = ''
+		},
+		seterStatus(id,status) {
+			this.setStatus({
+				id: id,
+				status: (status == 0 ? 1 : 0)
+			})
+			.then((resp) => {
+				this.$notify({
+		          group: 'foo',
+		          title: 'Sukses',
+		          type: 'success',
+		          text: 'Status ujian diubah'
+		        })
+			})
 		}
 	},
 	watch: {
@@ -158,6 +203,9 @@ export default {
 		},
 		search() {
 			this.getUjians(this.search)
+		},
+		ujians() {
+			this.isBusy = false
 		}
 	}
 }

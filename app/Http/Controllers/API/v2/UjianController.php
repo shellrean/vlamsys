@@ -97,4 +97,13 @@ class UjianController extends Controller
     {
         //
     }
+
+    public function setStatus(Request $request)
+    {
+        $jadwal = Jadwal::find($request->id);
+        $jadwal->status_ujian = $request->status;
+        $jadwal->save();
+
+        return response()->json(['status' => 'success']);
+    }
 }

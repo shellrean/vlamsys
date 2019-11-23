@@ -99,26 +99,13 @@ class SoalController extends Controller
             'pertanyaan'    => $request->pertanyaan
         ]);
 
-        JawabanSoal::create([
-            'soal_id'       => $soal->id,
-            'text_jawaban'  => $request->pilihan1,
-            'correct'       => ($request->correct == 'a' ? '1' : '0')
-        ]);
-        JawabanSoal::create([
-            'soal_id'       => $soal->id,
-            'text_jawaban'  => $request->pilihan2,
-            'correct'       => ($request->correct == 'b' ? '1' : '0')
-        ]);
-        JawabanSoal::create([
-            'soal_id'       => $soal->id,
-            'text_jawaban'  => $request->pilihan3,
-            'correct'       => ($request->correct == 'c' ? '1' : '0')
-        ]);
-        JawabanSoal::create([
-            'soal_id'       => $soal->id,
-            'text_jawaban'  => $request->pilihan4,
-            'correct'       => ($request->correct == 'd' ? '1' : '0')
-        ]);
+        foreach($request->pilihan as $key=>$pilihan) {
+            JawabanSoal::create([
+                'soal_id'       => $soal->id,
+                'text_jawaban'  => $pilihan,
+                'correct'       => ($request->correct == $key ? '1' : '0')
+            ]);
+        } 
 
         return response()->json(['data' => 'success']);
     }

@@ -4,23 +4,14 @@
       <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
           <router-link class="c-sidebar-nav-link" to="/">
-            <i class="c-sidebar-nav-icon cui-speedometer"></i> Dashboard
+            <font-awesome-icon icon="tachometer-alt" class="c-sidebar-nav-icon" />
+            Dashboard
           </router-link>
         </li>
         <li class="c-sidebar-nav-title">Data pokok</li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon cui-layers"></i> Referensi
-          </a>
-          <ul class="c-sidebar-nav-dropdown-items">
-            <li class="c-sidebar-nav-item">
-              <router-link class="c-sidebar-nav-link" to="/setting"> <span class="c-sidebar-nav-icon"></span>Setting</router-link>
-            </li>
-          </ul>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon cui-folder"></i> Akademik
+            <font-awesome-icon icon="book-open" class="c-sidebar-nav-icon" /> Akademik
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
@@ -31,7 +22,7 @@
         <li class="c-sidebar-nav-title">Ujian</li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon cui-screen-smartphone"></i> Soal
+            <font-awesome-icon icon="briefcase" class="c-sidebar-nav-icon" />Soal
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
@@ -41,7 +32,7 @@
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon cui-spreadsheet"></i> Ujian
+            <font-awesome-icon icon="clipboard-list" class="c-sidebar-nav-icon" />Ujian
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
@@ -49,9 +40,24 @@
                 <span class="c-sidebar-nav-icon"></span> Jadwal
               </router-link>
             </li>
+            <li class="c-sidebar-nav-item">
+              <router-link class="c-sidebar-nav-link" to="/ujian">
+                <span class="c-sidebar-nav-icon"></span> Hasil ujian
+              </router-link>
+            </li>
           </ul>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <router-link class="c-sidebar-nav-link" to="/filemedia">
+            <font-awesome-icon icon="folder" class="c-sidebar-nav-icon" /> File media
+          </router-link>
         </li>
       </ul>
       <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
     </div>
 </template>
+<style>
+.c-sidebar-nav-icon {
+  margin-top: -5px;
+}
+</style>

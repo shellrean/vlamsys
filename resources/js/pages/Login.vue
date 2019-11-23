@@ -13,7 +13,7 @@
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text rounded-0">
-                  <i class="cui-user"></i>
+                  <font-awesome-icon icon="envelope" />
                 </span>
               </div>
               <input class="form-control" :class="{ 'is-invalid' : errors.email }" type="email" placeholder="Email" v-model="data.email" @keyup="clearError">
@@ -22,7 +22,7 @@
             <div class="input-group mb-4">
               <div class="input-group-prepend rounded-0">
                 <span class="input-group-text rounded-0">
-                  <i class="cui-https"></i>
+                  <font-awesome-icon icon="lock" />
                 </span>
               </div>
               <input class="form-control" :class="{ 'is-invalid' : errors.password }" type="password" placeholder="Password" v-model="data.password" @keyup="clearError">

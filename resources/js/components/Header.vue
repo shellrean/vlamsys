@@ -21,10 +21,10 @@
             <div class="dropdown-menu dropdown-menu-right pt-0">
               <div class="dropdown-header bg-light py-2"><strong>Account</strong></div>
               <a class="dropdown-item" href="#">
-                <i class="cui-https"></i> &nbsp;Lock Account
+                <font-awesome-icon icon="user-lock" /> &nbsp;Lock Account
               </a>
               <a class="dropdown-item" href="#" @click="logout">
-                <i class="cui-account-logout"></i>&nbsp; Logout
+                <font-awesome-icon icon="sign-out-alt" />&nbsp; Logout
               </a>
             </div>
           </li>

@@ -7,8 +7,7 @@
     <meta name="theme-color" content="#317EFB">
 
     <title>VLam System</title>
-
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/free.min.css">
+    
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <noscript>Scripts are required</noscript>

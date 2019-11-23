@@ -38,17 +38,21 @@ class BanksoalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'kode_banksoal'     => 'required|unique:banksoals,kode_banksoal',
-            'matpel_id'         => 'required|exists:matpels,id'
+            'matpel_id'         => 'required|exists:matpels,id',
+            'jumlah_soal'       => 'required|int',
+            'jumlah_pilihan'    => 'required|int'
         ]); 
 
         if($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()],200);
+            return response()->json(['errors' => $validator->errors()],422);
         }
 
         $data = [
             'kode_banksoal'     => $request->kode_banksoal,
             'matpel_id'         => $request->matpel_id,
-            'author'            => auth()->user()->id
+            'author'            => auth()->user()->id,
+            'jumlah_soal'       => $request->jumlah_soal,
+            'jumlah_pilihan'    => $request->jumlah_pilihan
         ];
 
         $res = Banksoal::create($data);
@@ -64,7 +68,9 @@ class BanksoalController extends Controller
      */
     public function show($id)
     {
-        //
+        $banksoal = Banksoal::find($id);
+
+        return response()->json(['data' => $banksoal]);
     }
 
     /**

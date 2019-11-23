@@ -17,7 +17,8 @@
                         <p class="text-danger" v-if="errors.nama">{{ errors.nama[0] }}</p>
                     </div>
                     <div class="form-group">
-                        <b-button squared variant="primary" @click="postMatpel">Simpan</b-button>
+                        <b-button squared variant="primary" @click="postMatpel" :disabled="isLoading">
+                        <b-spinner small type="grow" v-show="isLoading"></b-spinner>Simpan</b-button>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -30,9 +31,15 @@
                     List mata pelajaran
     			</div>
     			<div class="card-body">
-    				<b-table striped hover bordered small :fields="fields" :items="matpels.data" show-empty>
+    				<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="matpels.data" show-empty>
+                        <template v-slot:table-busy>
+                            <div class="text-center text-warning my-2">
+                              <b-spinner class="align-middle"></b-spinner>
+                              <strong>Loading...</strong>
+                            </div>
+                        </template>
                        <template v-slot:cell(actions)="row">
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteMatpel(row.item.id)"><i class="cui-trash"></i></button>
+                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteMatpel(row.item.id)"><font-awesome-icon icon="trash" /></button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -57,7 +64,7 @@
     </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: 'DataMatpel',
@@ -75,10 +82,12 @@ export default {
             data: {
                 nama: '',
                 kode_mapel: ''
-            }
+            },
+            isBusy: true
         }
     },
     computed: {
+        ...mapGetters(['isLoading']),
         ...mapState(['errors']),
         ...mapState('matpel', {
             matpels: state => state.matpels
@@ -94,7 +103,9 @@ export default {
     },
     methods: {
         ...mapActions('matpel', ['getMatpels','addMatpel','removeMatpel']),
+        ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
         postMatpel() {
+            this.SET_LOADING(true)
             this.addMatpel(this.data).then( (data) => {
                 this.$notify({
                   group: 'foo',
@@ -102,6 +113,7 @@ export default {
                   type: 'success',
                   text: 'Matpel berhasil ditambah.'
                 })
+                this.SET_LOADING(false)
                 this.getMatpels()  
             })
         },
@@ -128,6 +140,9 @@ export default {
         },
         search() {
             this.getMatpels(this.search)
+        },
+        matpels() {
+            this.isBusy = false
         }
     },
 }

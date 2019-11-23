@@ -10,7 +10,13 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <b-table striped hover bordered small :fields="fields" :items="soals.data" show-empty>
+                    <b-table striped hover bordered small :busy="isBusy" :fields="fields" :items="soals.data" show-empty>
+                        <template v-slot:table-busy>
+                            <div class="text-center text-warning my-2">
+                              <b-spinner class="align-middle"></b-spinner>
+                              <strong>Loading...</strong>
+                            </div>
+                        </template>
                     	<template v-slot:cell(index)="data">
 				        	{{ data.index + 1 }}
 				      	</template>
@@ -29,9 +35,11 @@
 					          
 					          <table class="table">
 					          	<tr v-for="jawab in row.item.jawabans">
+                                    <td width="20px">
+                                        <font-awesome-icon v-show="jawab.correct == '1'" icon="star" class="text-warning" />
+                                    </td>
 					          		<td>
 					          			<div v-html="jawab.text_jawaban"></div>
-					          			<i v-show="jawab.correct == '1'" class="cui-star text-warning"></i>
 					          		</td> 
 					          	</tr>
 					          </table>
@@ -39,12 +47,28 @@
 					    </template>
 
                        <template v-slot:cell(actions)="row">
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><i class="cui-trash"></i></button>
+                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /></button>
                             <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-success rounded-0">
-                            	<i class="cui-pencil"></i>
+                            	<font-awesome-icon icon="edit" />
                             </router-link>
                         </template>
                     </b-table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p v-if="soals.data"><i class="fa fa-bars"></i> {{ soals.data.length }} item dari {{ soals.meta.total }} total data</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <b-pagination
+                                    v-model="page"
+                                    :total-rows="soals.meta.total"
+                                    :per-page="soals.meta.per_page"
+                                    aria-controls="products"
+                                    v-if="soals.data && soals.data.length > 0"
+                                    ></b-pagination>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                 </div>
@@ -67,7 +91,8 @@ export default {
 				{ key: 'dibuat', label: 'Dibuat pada'},
 				{ key: 'actions', label: 'Aksi'}
 			],
-			search: ''
+			search: '',
+            isBusy: true
 		}
 	},
 	computed: {
@@ -87,6 +112,9 @@ export default {
 		...mapActions('soal',['getSoals','removeSoal']),
 		getAllSoal() {
 			this.getSoals({ banksoal_id: this.$route.params.banksoal_id })
+            .then(() => {
+                this.isBusy = false
+            })
 		},
 		deleteBanksoal(id) {
 			this.$swal({

@@ -17,6 +17,10 @@ import SoalBanksoalEdit from './pages/banksoal/SoalBanksoalEdit.vue'
 import UjianIndex from './pages/ujian/Index.vue'
 import DataUjian from './pages/ujian/Ujian.vue'
 
+import FilemediaIndex from './pages/filemedia/Index.vue'
+import DataFilemedia from './pages/filemedia/Filemedia.vue'
+import DataDirFilemedia from './pages/filemedia/DirFilemedia.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -87,6 +91,25 @@ const router = new Router({
 					name: 'ujian.data',
 					component: DataUjian,
 					meta: { title: 'Manage ujian' }
+				}
+			]
+		},
+		{
+			path: '/filemedia',
+			component: FilemediaIndex,
+			meta: { requiresAuth: true },
+			children: [
+				{
+					path: '',
+					name: 'filemedia.data',
+					component: DataFilemedia,
+					meta: { title: 'Manage filemedia' }
+				},
+				{
+					path: '/filemedia/directory/:directory_id',
+					name: 'filemedia.directory',
+					component: DataDirFilemedia,
+					meta: { title: 'Manage directory filemedia' }
 				}
 			]
 		}

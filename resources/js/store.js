@@ -6,6 +6,7 @@ import matpel from './stores/matpel.js'
 import banksoal from './stores/banksoal.js'
 import soal from './stores/soal.js'
 import ujian from './stores/ujian.js'
+import filemedia from './stores/filemedia.js'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
 		matpel,
 		banksoal,
 		soal,
-		ujian
+		ujian,
+		filemedia
 	},
 	state: {
 		token: localStorage.getItem('token'),

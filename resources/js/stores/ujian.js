@@ -37,6 +37,17 @@ const actions = {
 				}
 			})
 		})
+	},
+	setStatus({ state }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.post(`/ujian/set-status`, payload)
+			.then((response) => {
+				resolve(response.data)
+			})
+			.catch((error) => {
+				
+			})
+		})
 	}
 }
 

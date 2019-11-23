@@ -18,16 +18,19 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::group(['middleware' => 'auth:api'], function() {
 
 	Route::get('/matpel/list', 'API\v2\MatpelController@getAll');
-	Route::resource('/matpel', 'API\v2\MatpelController');
+	Route::apiResource('/matpel', 'API\v2\MatpelController');
 
 
-	Route::resource('/banksoal', 'API\v2\BanksoalController');
+	Route::apiResource('/banksoal', 'API\v2\BanksoalController');
 
 	Route::resource('/soal', 'API\v2\SoalController');
 	Route::get('/soal/banksoal/{id}', 'API\v2\SoalController@getSoalByBanksoal');
 	Route::post('/soal/banksoal', 'API\v2\SoalController@storeSoalBanksoal');
 	Route::delete('/soal/banksoal/{id}', 'API\v2\SoalController@destroySoalBanksoal');
 
-	Route::resource('/ujian', 'API\v2\UjianController');
-	
+	Route::apiResource('/ujian', 'API\v2\UjianController');
+	Route::post('/ujian/set-status', 'API\v2\UjianController@setStatus');
+
+	Route::apiResource('/directory', 'API\v2\DirectoryController');
+	Route::post('/directory/filemedia', 'API\v2\DirectoryController@storeFilemedia');
 });

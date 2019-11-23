@@ -2,6 +2,7 @@ import $axios from '../api.js'
 
 const state = () => ({
 	banksoals: [],
+    banksoal: '',
 	page: 1
 })
 
@@ -11,6 +12,9 @@ const mutations = {
 	},
 	SET_PAGE(state, payload) {
         state.page = payload
+    },
+    ASSIGN_FORM(state, payload) {
+        state.banksoal = payload
     }
 }
 
@@ -25,6 +29,14 @@ const actions = {
 			})
 		}) 
 	},
+    getBanksoal({ commit, state }, payload) {
+        return new Promise(( resolve, reject ) => {
+            $axios.get(`/banksoal/${payload}`)
+            .then((response) => {
+                commit('ASSIGN_FORM', response.data)
+            })
+        })
+    },
 	addBanksoal({ commit }, payload) {
         return new Promise((resolve, reject) => {
             $axios.post(`/banksoal`, payload)
