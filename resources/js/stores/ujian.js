@@ -2,7 +2,9 @@ import $axios from '../api.js'
 
 const state = () => ({
 	ujians: [],
-	page: 1
+	pesertas: [],
+	page: 1,
+	hasilUjian: []
 })
 
 const mutations = {
@@ -11,6 +13,12 @@ const mutations = {
 	},
 	SET_PAGE(state, payload) {
 		state.ujians = payload
+	},
+	ASSIGN_PESERTA_UJIAN(state, payload) {
+		state.pesertas = payload
+	},
+	ASSIGN_HASIL_UJIAN(state, payload) {
+		state.hasilUjian = payload
 	}
 }
 
@@ -46,6 +54,35 @@ const actions = {
 			})
 			.catch((error) => {
 				
+			})
+		})
+	},
+	changeToken({ commit, state }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.post(`/ujian/change-token`, payload)
+			.then((response) => {
+				resolve(response.data)
+			})
+		})
+	},
+	getPesertas({ commit, state }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.get(`/ujian/get-peserta/${payload}`)
+			.then((response) => {
+				commit('ASSIGN_PESERTA_UJIAN', response.data)
+				resolve(response.data)
+			})
+			.catch((error) => {
+
+			})
+		})
+	},
+	getHasilPeserta({ commit, state }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.get(`/ujian/hasil/${payload}`)
+			.then((response) => {
+				commit('ASSIGN_HASIL_UJIAN', response.data)
+				resolve(response.data)
 			})
 		})
 	}

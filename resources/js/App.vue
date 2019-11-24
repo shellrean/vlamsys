@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<notifications group="foo" position="bottom right"/>
-		<app-sidebar v-if="isAuth"/>
+		<app-sidebar v-show="isAuth"/>
 		<div class="c-wrapper">
 			<app-header v-if="isAuth" />
 			<transition name="slide-fade">
@@ -20,7 +20,7 @@
 	export default {
 		computed: {
 			...mapState(['token']),
-			...mapGetters(['isAuth','isAdmin'])
+			...mapGetters(['isAuth'])
 		},
 		components: {
 			'app-sidebar': Sidebar,

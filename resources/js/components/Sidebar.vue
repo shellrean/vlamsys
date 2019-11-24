@@ -41,7 +41,7 @@
               </router-link>
             </li>
             <li class="c-sidebar-nav-item">
-              <router-link class="c-sidebar-nav-link" to="/ujian">
+              <router-link class="c-sidebar-nav-link" :to="{ name: 'ujian.hasil' }">
                 <span class="c-sidebar-nav-icon"></span> Hasil ujian
               </router-link>
             </li>

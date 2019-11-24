@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 
 use App\Jadwal;
+use App\SiswaUjian;
+use App\HasilUjian;
 
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
@@ -65,39 +67,11 @@ class UjianController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Set status ujian.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function setStatus(Request $request)
     {
         $jadwal = Jadwal::find($request->id);
@@ -105,5 +79,39 @@ class UjianController extends Controller
         $jadwal->save();
 
         return response()->json(['status' => 'success']);
+    }
+
+    /**
+     * Change token.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changeToken(Request $request)
+    {
+        $jadwal = Jadwal::find($request->id);
+        $jadwal->token = strtoupper(Str::random(6));
+        $jadwal->save();
+
+        return response()->json(['data' => $jadwal]);
+    }
+
+    /**
+     * Get all peserta by ujian
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getPeserta($id)
+    {
+        $siswa = SiswaUjian::with('peserta')->where(['jadwal_id' => $id])->get();
+
+        return response()->json(['data' => $siswa]);
+    }
+
+    public function getHasil($id)
+    {
+        $hasilPeserta = HasilUjian::with('peserta')->where(['jadwal_id' => $id])->get();
+
+        return response()->json(['data' => $hasilPeserta]);
     }
 }

@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary">Tambah</b-button>
+                    <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary" squared>Tambah</b-button>
                 </div>
                 <div class="card-body">
                     <b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="banksoals.data" show-empty>

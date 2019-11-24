@@ -16,6 +16,9 @@ import SoalBanksoalEdit from './pages/banksoal/SoalBanksoalEdit.vue'
 
 import UjianIndex from './pages/ujian/Index.vue'
 import DataUjian from './pages/ujian/Ujian.vue'
+import PesertaUjian from './pages/ujian/PesertaUjian.vue'
+import HasilUjian from './pages/ujian/HasilUjian.vue'
+import HasilListUjian from './pages/ujian/HasilListUjian.vue'
 
 import FilemediaIndex from './pages/filemedia/Index.vue'
 import DataFilemedia from './pages/filemedia/Filemedia.vue'
@@ -91,6 +94,24 @@ const router = new Router({
 					name: 'ujian.data',
 					component: DataUjian,
 					meta: { title: 'Manage ujian' }
+				},
+				{
+					path: '/peserta/:ujian_id',
+					name: 'ujian.peserta',
+					component: PesertaUjian,
+					meta: { title: 'Lihat peserta ujian' }
+				},
+				{
+					path: 'hasil',
+					name: 'ujian.hasil',
+					component: HasilUjian,
+					meta: { title: 'Hasil ujian' }
+				},
+				{
+					path: 'hasil/:jadwal_id/list',
+					name: 'ujian.hasil.list',
+					component: HasilListUjian,
+					meta: { title: 'Hasil ujian list' }
 				}
 			]
 		},

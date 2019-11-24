@@ -30,6 +30,9 @@ Route::group(['middleware' => 'auth:api'], function() {
 
 	Route::apiResource('/ujian', 'API\v2\UjianController');
 	Route::post('/ujian/set-status', 'API\v2\UjianController@setStatus');
+	Route::post('/ujian/change-token', 'API\v2\UjianController@changeToken');
+	Route::get('/ujian/get-peserta/{id}', 'API\v2\UjianController@getPeserta');
+	Route::get('/ujian/hasil/{id}', 'API\v2\UjianController@getHasil');
 
 	Route::apiResource('/directory', 'API\v2\DirectoryController');
 	Route::post('/directory/filemedia', 'API\v2\DirectoryController@storeFilemedia');

@@ -20,9 +20,9 @@
 							<b-form-checkbox size="lg" v-model="row.item.status_ujian" @change="seterStatus(row.item.id,row.item.status_ujian)" value="1">Aktif</b-form-checkbox>
 						</template>
 						<template v-slot:cell(action)="row">
-							<b-button variant="success" size="sm" squared>
+							<router-link :to="{ name: 'ujian.peserta', params: { ujian_id: row.item.id } }" class="btn btn-sm btn-success rounded-0">
 								<font-awesome-icon icon="list" />
-							</b-button>
+							</router-link>
 						</template>
                     </b-table>
                     <div class="row">
@@ -116,7 +116,6 @@ export default {
 				{ key: 'banksoal.kode_banksoal', label: 'Kode banksoal' },
 				{ key: 'tanggal', label: 'Tanggal' },
 				{ key: 'mulai', label: 'Waktu mulai' },
-				{ key: 'berakhir', label: 'Waktu berakhir' },
 				{ key: 'lama', label: 'Durasi' },
 				{ key: 'token', label: 'Token' },
 				{ key: 'status', label: 'Status ujian' },
@@ -131,7 +130,8 @@ export default {
 				banksoal_id: '',
 			},
 			isActive: '',
-			isBusy: true
+			isBusy: true,
+			timeout: 0
 		}
 	},
 	computed: {
@@ -152,7 +152,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions('ujian', ['getUjians','addUjian','setStatus']),
+		...mapActions('ujian', ['getUjians','addUjian','setStatus','changeToken']),
 		...mapActions('banksoal', ['getBanksoals']),
 		...mapMutations(['CLEAR_ERROR', 'SET_LOADING']),
 		postUjian() {
@@ -183,7 +183,7 @@ export default {
 			this.data.tanggal = ''
 		},
 		seterStatus(id,status) {
-			this.setStatus({
+			this.changeToken({
 				id: id,
 				status: (status == 0 ? 1 : 0)
 			})
@@ -206,7 +206,21 @@ export default {
 		},
 		ujians() {
 			this.isBusy = false
+		},
+		timeout() {
+			const filter = this.ujians.data.filter((ujian) => {
+				return ujian.status_ujian == 1
+			})
+
+			filter.forEach((item) => {
+				this.changeToken({ id: item.id})
+			})
+
+			this.getUjians()
 		}
+	},
+	mounted() {
+		setInterval(() => { this.timeout ++ }, 15 * 60000);
 	}
 }
 </script>
