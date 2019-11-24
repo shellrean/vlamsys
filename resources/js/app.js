@@ -12,6 +12,11 @@ import BootstrapVue from 'bootstrap-vue'
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import Permissions from './mixins/Permission.js'
+Vue.mixin(Permissions)
+
+import { mapActions, mapGetters } from 'vuex'
+
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(Notifications)
@@ -24,5 +29,16 @@ new Vue({
 	store,
 	components: {
 		App
+	},
+	computed: {
+		...mapGetters(['isAuth'])
+	},
+	methods: {
+		...mapActions('user', ['getUserLogin'])
+	},
+	created() {
+		if (this.isAuth) {
+			this.getUserLogin()
+		}
 	}
 })

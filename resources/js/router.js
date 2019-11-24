@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store.js'
+import Setting from './pages/setting/Index.vue'
+import SetPermission from './pages/setting/SetPermission.vue'
 
 import Login from './pages/Login.vue'
 import Home from './pages/Home.vue'
@@ -29,6 +31,19 @@ Vue.use(Router)
 const router = new Router({
 	mode: 'history',
 	routes: [
+		{
+		    path: '/setting',
+		    component: Setting,
+		    meta: { requiresAuth: true },
+		    children: [
+		        {
+		            path: 'role-permission',
+		            name: 'role.permissions',
+		            component: SetPermission,
+		            meta: { title: 'Set Permissions' }
+		        },
+		    ]
+		},
 		{
 			path: '/login',
 			name: 'login',

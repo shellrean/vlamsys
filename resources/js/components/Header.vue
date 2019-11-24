@@ -36,9 +36,15 @@
 </template>
 <script>
   import Breadcrumb from './Breadcrumb.vue'
+  import { mapState } from 'vuex'
   export default {
     components: {
       'breadcrumb' : Breadcrumb
+    },
+    computed: {
+      ...mapState('user', {
+        authenticated: state => state.authenticated
+      })
     },
     methods: {
       logout() { 

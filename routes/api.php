@@ -15,6 +15,15 @@ use Illuminate\Http\Request;
 
 Route::post('/login', 'Auth\LoginController@login');
 
+Route::get('roles', 'API\v2\RolePermissionController@getAllRole')->name('roles');
+Route::get('permissions', 'API\v2\RolePermissionController@getallPermission')->name('permission');
+Route::post('role-permission', 'API\v2\RolePermissionController@getRolePermission')->name('role_permission');
+Route::post('set-role-permission', 'API\v2\RolePermissionController@setRolePermission')->name('set_role_permission');
+Route::post('set-role-user', 'API\v2\RolePermissionController@setRoleUser')->name('user.set_role');
+
+Route::get('user-authenticated', 'API\v2\UserController@getUserLogin')->name('user.authenticated');
+Route::get('user-lists', 'API\v2\UserController@userLists')->name('user.index');
+
 Route::group(['middleware' => 'auth:api'], function() {
 
 	Route::get('/matpel/list', 'API\v2\MatpelController@getAll');

@@ -60,6 +60,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['submit']),
+    ...mapActions('user',['getUserLogin']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
     postLogin() {
       this.SET_LOADING(true)
@@ -74,6 +75,9 @@ export default {
     clearError() {
       this.CLEAR_ERRORS()
     }
+  },
+  destroyed() {
+    this.getUserLogin()
   }
 }
 </script>

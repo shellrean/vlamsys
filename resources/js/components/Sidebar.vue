@@ -8,13 +8,13 @@
             Dashboard
           </router-link>
         </li>
-        <li class="c-sidebar-nav-title">Data pokok</li>
+        <li class="c-sidebar-nav-title" v-if="$can('read data pokok')">Data pokok</li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+          <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"  v-if="$can('read akademik')">
             <font-awesome-icon icon="book-open" class="c-sidebar-nav-icon" /> Akademik
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
-            <li class="c-sidebar-nav-item">
+            <li class="c-sidebar-nav-item" v-if="$can('read matpel')">
               <router-link class="c-sidebar-nav-link" to="/matpel"> <span class="c-sidebar-nav-icon"></span> Matpel</router-link>
             </li>
           </ul>
@@ -26,13 +26,13 @@
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
-              <router-link class="c-sidebar-nav-link" to="/banksoal"> <span class="c-sidebar-nav-icon"></span>Banksoal</router-link>
+              <router-link class="c-sidebar-nav-link" to="/banksoal" v-if="$can('create banksoal')"> <span class="c-sidebar-nav-icon"></span>Banksoal</router-link>
             </li>
           </ul>
         </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown" v-if="$can('read jadwal')" >
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <font-awesome-icon icon="clipboard-list" class="c-sidebar-nav-icon" />Ujian
+            <font-awesome-icon icon="clipboard-list" class="c-sidebar-nav-icon"/>Ujian
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
@@ -56,6 +56,28 @@
       <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
     </div>
 </template>
+<script>
+import { mapState } from 'vuex'
+export default {
+  computed: {
+    ...mapState('user', {
+      authenticated: state => state.authenticated
+    })
+  },
+  methods: {
+    logout() {
+      return new Promise((resolve, reject) => {
+        localStorage.removeItem('token')
+        resolve()
+      })
+      .then(() => {
+        this.$store.state.token = localStorage.getItem('token')
+        this.$router.push('/login')
+      })
+    }
+  }
+}
+</script>
 <style>
 .c-sidebar-nav-icon {
   margin-top: -5px;
