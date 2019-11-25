@@ -14,6 +14,12 @@
             <font-awesome-icon icon="book-open" class="c-sidebar-nav-icon" /> Akademik
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item" v-if="$can('read peserta')">
+              <router-link class="c-sidebar-nav-link" to="/peserta">
+                <span class="c-sidebar-nav-icon"></span> Peserta
+              </router-link>
+            </li>
+
             <li class="c-sidebar-nav-item" v-if="$can('read matpel')">
               <router-link class="c-sidebar-nav-link" to="/matpel"> <span class="c-sidebar-nav-icon"></span> Matpel</router-link>
             </li>

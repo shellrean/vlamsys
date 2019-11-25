@@ -8,6 +8,7 @@ import soal from './stores/soal.js'
 import ujian from './stores/ujian.js'
 import filemedia from './stores/filemedia.js'
 import user from './stores/user.js'
+import peserta from './stores/peserta.js'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
 		soal,
 		ujian,
 		filemedia,
-		user
+		user,
+		peserta
 	},
 	state: {
 		token: localStorage.getItem('token'),

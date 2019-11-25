@@ -6,7 +6,6 @@
 					Assign role to user
 				</div>
 				<div class="card-body">
-					<div class="alert alert-success" v-if="alert_role">Role telah ditambahkan</div>
 					<div class="form-group">
 						<label>Role</label>
 						<select class="form-control" v-model="role_user.role">
@@ -23,7 +22,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-danger btn-sm" @click="setRole">Set role</button>
+						<button class="btn btn-danger btn-sm rounded-0" @click="setRole">Set role</button>
 					</div>
 				</div>
 			</div>
@@ -41,10 +40,9 @@
 						<p class="text-danger" v-if="errors.role_id">{{ errors.role_id[0] }}</p>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-primary btn-sm" @click="checkPermission">{{ loading ? 'Loading...' : 'Check' }}</button>
+						<button class="btn btn-primary btn-sm rounded-0" @click="checkPermission">{{ loading ? 'Loading...' : 'Check' }}</button>
 					</div>
 					<div class="form-group">
-                        <div class="alert alert-success" v-if="alert_permission">Permission has been assigned</div>
                         <div class="nav-tabs-custom">
                             <div class="nav nav-tabs">
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#tab_1">Permissions</a>
@@ -66,7 +64,7 @@
                         </div>
                     </div>
                     <div class="pull-right">
-                        <button class="btn btn-primary btn-sm" @click="setPermission">
+                        <button class="btn btn-primary btn-sm rounded-0" @click="setPermission">
                             <i class="fa fa-send"></i> Set Permission
                         </button>
                     </div>
@@ -120,14 +118,16 @@ export default {
 		...mapMutations('user', ['CLEAR_ROLE_PERMISSION']),
 		setRole() {
 			this.setRoleUser(this.role_user).then(() => {
-				this.alert_role = true
-				setTimeout(() => {
-					this.role_user = {
-						role: '',
-						user_id: '',
-					}
-					this.alert_role = false
-				},1000)
+				this.$notify({
+                  group: 'foo',
+                  title: 'Sukses',
+                  type: 'success',
+                  text: 'Role berhasil ditambah.'
+                })
+                this.role_user = {
+					role: '',
+					user_id: '',
+				}
 			})
 		},
 		addPermission(name) {
@@ -152,14 +152,16 @@ export default {
 				permissions: this.new_permission
 			}).then((res) => {
 				if (res.status == 'success') {
-					this.alert_permission = true
-					setTimeout(() => {
-						this.role_selected = ''
-						this.new_permission = []
-						this.loading = false
-						this.alert_permission = false
-						this.CLEAR_ROLE_PERMISSION() 
-					}, 1000)
+					this.$notify({
+	                  group: 'foo',
+	                  title: 'Sukses',
+	                  type: 'success',
+	                  text: 'Role permission berhasil ditambah.'
+	                })
+	                this.role_selected = ''
+					this.new_permission = []
+					this.loading = false
+					this.CLEAR_ROLE_PERMISSION() 
 				}
 			})
 		}
