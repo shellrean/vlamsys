@@ -183,7 +183,7 @@ export default {
 			this.data.tanggal = ''
 		},
 		seterStatus(id,status) {
-			this.changeToken({
+			this.setStatus({
 				id: id,
 				status: (status == 0 ? 1 : 0)
 			})

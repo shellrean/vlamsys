@@ -21,7 +21,7 @@ const mutations = {
 const actions = {
 	getSoals({ commit, state }, payload) {
 		return new Promise(( resolve, reject ) =>  {
-			$axios.get(`/soal/banksoal/${payload.banksoal_id}`)
+			$axios.get(`/soal/banksoal/${payload.banksoal_id}?page=${state.page}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
 				resolve(response.data)

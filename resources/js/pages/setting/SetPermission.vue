@@ -22,7 +22,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-danger btn-sm rounded-0" @click="setRole">Set role</button>
+						<button class="btn btn-primary btn-sm rounded-0" @click="setRole">Set role</button>
 					</div>
 				</div>
 			</div>

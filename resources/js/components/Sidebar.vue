@@ -58,6 +58,12 @@
             <font-awesome-icon icon="folder" class="c-sidebar-nav-icon" /> File media
           </router-link>
         </li>
+        <li class="c-sidebar-nav-title">Develop</li>
+        <li class="c-sidebar-nav-item">
+          <router-link class="c-sidebar-nav-link" :to="{ name: 'role.permissions' }">
+            <font-awesome-icon icon="user-secret" class="c-sidebar-nav-icon" /> Setting role
+          </router-link>
+        </li>
       </ul>
       <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
     </div>

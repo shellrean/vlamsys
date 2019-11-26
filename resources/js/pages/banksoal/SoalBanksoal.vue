@@ -5,9 +5,6 @@
                 <div class="card-header">
                     <router-link :to="{ name: 'banksoal.data' }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
                     <router-link :to="{ name: 'banksoal.soal.tambah', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-primary btn-sm rounded-0">Tambah</router-link>
-                    <div class="float-right">
-                        <input type="text" class="form-control" placeholder="Cari..." v-model="search">
-                    </div>
                 </div>
                 <div class="card-body">
                     <b-table striped hover bordered small :busy="isBusy" :fields="fields" :items="soals.data" show-empty>
@@ -135,10 +132,10 @@ export default {
 	},
 	watch: {
         page() {
-            this.getSoals()
+            this.getAllSoal()
         },
         search() {
-            this.getSoals(this.search)
+            this.getAllSoal(this.search)
         }
     },
 }
