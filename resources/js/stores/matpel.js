@@ -3,6 +3,10 @@ import $axios from '../api.js'
 const state = () => ({
 	matpels: [],
     allMatpels: [],
+    matpel: {
+        kode_mapel: '',
+        nama: ''
+    },
 	page: 1
 })
 
@@ -15,6 +19,18 @@ const mutations = {
     },
 	SET_PAGE(state, payload) {
         state.page = payload
+    },
+    ASSIGN_FORM(state, payload) {
+        state.matpel = {
+            kode_mapel: payload.kode_mapel,
+            nama: payload.nama
+        }
+    },
+    CLEAR_FORM(state) {
+        state.matpel = {
+            kode_mapel: '',
+            nama: ''
+        }
     }
 }
 
@@ -38,11 +54,13 @@ const actions = {
             })
         }) 
     },
-	addMatpel({ commit }, payload) {
+	submitMatpel({ dispatch, commit, state }) {
         return new Promise((resolve, reject) => {
-            $axios.post(`/matpel`, payload)
+            $axios.post(`/matpel`, state.matpel)
             .then((response) => {
-                resolve(response.data)
+                dispatch('getMatpels').then(() => {
+                    resolve(response.data)
+                })
             })
             .catch((error) => {
                 if (error.response.status == 422) {

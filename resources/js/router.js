@@ -9,9 +9,11 @@ import Home from './pages/Home.vue'
 
 import MatpelIndex from './pages/matpel/Index.vue'
 import DataMatpel from './pages/matpel/Matpel.vue'
+import AddMatpel from './pages/matpel/Add.vue'
 
 import PesertaIndex from './pages/peserta/Index.vue'
 import DataPeserta from './pages/peserta/Peserta.vue'
+import AddPeserta from './pages/peserta/Add.vue'
 
 import BanksoalIndex from './pages/banksoal/Index.vue'
 import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
@@ -68,6 +70,12 @@ const router = new Router({
                     name: 'matpel.data',
                     component: DataMatpel,
                     meta: { title: 'Manage mata pelajaran' }
+                },
+                {
+                	path: 'add',
+                	name: 'matpel.add',
+                	component: AddMatpel,
+                	meta: { title: 'Tambah mata pelajara' }
                 }
 			]
 		},
@@ -81,6 +89,12 @@ const router = new Router({
 					name: 'peserta.data',
 					component: DataPeserta,
 					meta: { title: 'Manage peserta' }
+				},
+				{
+					path: 'add',
+					name: 'peserta.add',
+					component: AddPeserta,
+					meta: { title: 'Tambah peserta' }
 				}
 			]
 		},

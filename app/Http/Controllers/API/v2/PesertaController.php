@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Peserta;
 
 use App\Http\Resources\AppCollection;
+use Illuminate\Support\Facades\Validator;
 
 class PesertaController extends Controller
 {
@@ -35,7 +36,25 @@ class PesertaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'no_ujian'      => 'required|unique:pesertas,no_ujian',
+            'nama'          => 'required',
+            'password'      => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = [
+            'no_ujian'      => $request->no_ujian,
+            'nama'          => $request->nama,
+            'password'      => $request->password
+        ];
+
+        $data = Peserta::create($data);
+
+        return response()->json(['data' => $data]);
     }
 
     /**
@@ -69,6 +88,9 @@ class PesertaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $peserta = Peserta::find($id);
+        $peserta->delete();
+
+        return response()->json(['status' => 'deleted']);
     }
 }

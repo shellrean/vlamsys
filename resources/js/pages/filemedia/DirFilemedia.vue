@@ -15,9 +15,37 @@
 					    <button class="btn btn-outline-primary" type="button" @click="uploadFile">Upload</button>
 					  </div>
 					</div>
-					<div class="row mt-2"> 
-  						<div class="col-md-1" v-for="content in contentDirectory.data">
-  							<img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail">
+					<div class="row mt-2">
+  						<div class="col-md-12">
+  							<table class="table table-stipped table-hovered table-bordered">
+  								<tr>
+  									<td>link</td>
+  									<td>view</td>
+  									<td>Hapus</td>
+  								</tr>
+  								<tr v-for="content in contentDirectory.data">
+  									<td>
+  										<a :href="'/storage/'+content.dirname+'/'+content.filename" target="_blank">Link gambar</a>
+  									</td>
+  									<td>
+  										<img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail" style="max-width: 50px">
+  									</td>
+  									<td>
+  										<b-button variant="danger" squared><font-awesome-icon icon="trash" /></b-button>
+  									</td>
+  								</tr>
+  							</table>
+  						</div>
+  						<div class="col-md-12">
+  							<div class="float-right">
+  								<b-pagination
+                                    v-model="page"
+                                    :total-rows="contentDirectory.meta.total"
+                                    :per-page="contentDirectory.meta.per_page"
+                                    aria-controls="products"
+                                    v-if="contentDirectory.data && contentDirectory.data.length > 0"
+                                    ></b-pagination>
+  							</div>
   						</div>
   					</div>
 				</div>
@@ -35,13 +63,22 @@ export default {
 	data() {
 		return {
 			label: '',
-			image: ''
+			image: '',
+			isBusy: true
 		}
 	},
 	computed: {
 		...mapState('filemedia', {
-			contentDirectory: state => state.contentFilemedia.data
-		})
+			contentDirectory: state => state.contentFilemedia
+		}),
+		page: {
+            get() {
+                return this.$store.state.filemedia.page
+            },
+            set(val) {
+                this.$store.commit('filemedia/SET_PAGE', val)
+            }
+        }
 	},
 	methods: {
 		...mapActions('filemedia',['getContentFilemedia','addFilemedia']),
@@ -64,6 +101,14 @@ export default {
 		        })
            	)
 		}
-	}
+	},
+	watch: {
+        page() {
+            this.getContentFilemedia(this.$route.params.directory_id)
+        },
+        matpels() {
+            this.isBusy = false
+        }
+    },
 }
 </script>

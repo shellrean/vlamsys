@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Directory;
 use App\File;
 
+use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -59,7 +60,7 @@ class DirectoryController extends Controller
     {
         $contentDirectory = File::where(['directory_id' => $id]);
         $contentDirectory = $contentDirectory->paginate(50);
-        return response()->json(['data' => $contentDirectory]);
+        return new AppCollection($contentDirectory);
     }
 
     /**

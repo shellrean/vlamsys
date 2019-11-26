@@ -3,14 +3,18 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<b-button variant="primary" squared size="sm">Tambah peserta</b-button>
+					<router-link :to="{ name: 'peserta.add' }" class="btn btn-primary btn-sm rounded-0">Tambah peserta</router-link>
 					<div class="float-right">
                         <input type="text" class="form-control" placeholder="Cari nama..." v-model="search">
                     </div>
 				</div>
 				<div class="card-body">
 					<b-table striped hover bordered small :fields="fields" :items="pesertas.data" :busy="isBusy" show-empty>
-
+						<template v-slot:cell(actions)="row">
+							<b-button variant="danger" squared size="sm" @click="deletePeserta(row.item.id)">
+								<font-awesome-icon icon="trash" />
+							</b-button>
+						</template>
 					</b-table>
 				</div>
 			</div>
@@ -30,7 +34,7 @@ export default {
 			fields: [
 				{ key: 'no_ujian', label: 'No ujian' },
 				{ key: 'nama', label: 'Nama peserta' },
-				{ key: 'action', label: 'Aksi' }
+				{ key: 'actions', label: 'Aksi' }
 			],
 			search: '',
 			isBusy: true
@@ -50,7 +54,22 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions('peserta', ['getPesertas'])
+		...mapActions('peserta', ['getPesertas','removePeserta']),
+		deletePeserta(id) {
+			this.$swal({
+				title: 'Kamu Yakin?',
+				text: 'Tindakan ini akan menghapus secara permanent!',
+				type: 'warning',
+				showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, Lanjutkan!'
+            }).then((result) => {
+                if (result.value) {
+                    this.removePeserta(id)
+                }
+            })
+		}
 	},
 	watch: {
 		page() {

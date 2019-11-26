@@ -1,34 +1,9 @@
 <template>
 	<div class="row">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    Tambah mata pelajaran
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label>Kode mapel</label>
-                        <input type="text" class="form-control" placeholder="Kode mapel" v-model="data.kode_mapel">
-                        <p class="text-danger" v-if="errors.kode_mapel">{{ errors.kode_mapel[0] }}</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Nama mapel</label>
-                        <input type="text" class="form-control" placeholder="Nama mapel" v-model="data.nama">
-                        <p class="text-danger" v-if="errors.nama">{{ errors.nama[0] }}</p>
-                    </div>
-                    <div class="form-group">
-                        <b-button squared variant="primary" @click="postMatpel" :disabled="isLoading">
-                        <b-spinner small type="grow" v-show="isLoading"></b-spinner>Simpan</b-button>
-                    </div>
-                </div>
-                <div class="card-footer">
-                </div>
-            </div>
-        </div>
-    	<div class="col-lg-8">
+    	<div class="col-md-12">
     		<div class="card">
     			<div class="card-header">
-                    List mata pelajaran
+                    <router-link :to="{ name: 'matpel.add' }" class="btn btn-primary btn-sm rounded-0">Tambah matpel</router-link>
     			</div>
     			<div class="card-body">
     				<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="matpels.data" show-empty>
@@ -102,21 +77,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions('matpel', ['getMatpels','addMatpel','removeMatpel']),
+        ...mapActions('matpel', ['getMatpels','removeMatpel']),
         ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
-        postMatpel() {
-            this.SET_LOADING(true)
-            this.addMatpel(this.data).then( (data) => {
-                this.$notify({
-                  group: 'foo',
-                  title: 'Sukses',
-                  type: 'success',
-                  text: 'Matpel berhasil ditambah.'
-                })
-                this.SET_LOADING(false)
-                this.getMatpels()  
-            })
-        },
         deleteMatpel(id) {
             this.$swal({
                 title: 'Kamu Yakin?',
