@@ -19,9 +19,15 @@ class BanksoalController extends Controller
      */
     public function index()
     {
+        $user = request()->user('api'); 
+
         $banksoal = Banksoal::with(['matpel','user'])->orderBy('created_at', 'DESC');
         if (request()->q != '') {
             $banksoal = $banksoal->where('kode_banksoal', 'LIKE', '%'. request()->q.'%');
+        }
+
+        if ($user->role != 0) {
+            $banksoal = $banksoal->where('author',$user->id);
         }
 
         $banksoal = $banksoal->paginate(10);

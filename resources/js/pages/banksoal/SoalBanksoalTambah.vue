@@ -4,10 +4,6 @@
       <div class="card">
         <div class="card-header">
           <router-link :to="{ name: 'banksoal.soal', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
-          <b-button variant="success" squared size="sm" class="float-right" :disabled="isLoading" @click.prevent="postSoalBanksoal">
-            <b-spinner small type="grow" v-show="isLoading"></b-spinner>
-            Simpan
-          </b-button>
         </div>
         <div class="card-body">
           <div class="editor">
@@ -232,7 +228,12 @@
             </table>
           </div>
         </div>
-        <div class="card-footer"></div>
+        <div class="card-footer">
+          <b-button variant="success" squared size="sm" class="float-right" :disabled="isLoading" @click.prevent="postSoalBanksoal">
+            <b-spinner small type="grow" v-show="isLoading"></b-spinner>
+            Simpan
+          </b-button>
+        </div>
       </div>
     </div>
     <b-modal id="modal-scoped" hide-backdrop size="xl">

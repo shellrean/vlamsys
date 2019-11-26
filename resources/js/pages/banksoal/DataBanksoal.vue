@@ -43,7 +43,7 @@
                 </div> 
             </div>
         </div>
-        <b-modal id="modal-scoped" size="lg">
+        <b-modal id="modal-scoped" size="lg" hideBackdrop>
             <template v-slot:modal-header="{ close }">
               <h5>Tambah banksoal</h5>
             </template>
@@ -69,8 +69,8 @@
             </div>
             <template v-slot:modal-footer="{ ok, cancel}">
 
-              <b-button variant="primary" @click="postBanksoal">Simpan</b-button>
-              <b-button variant="secondary" @click="cancel()">
+              <b-button variant="primary" @click="postBanksoal" squared>Simpan</b-button>
+              <b-button variant="secondary" @click="cancel()" squared>
                 Cancel
               </b-button>
             </template>
