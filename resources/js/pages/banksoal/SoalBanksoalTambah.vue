@@ -238,14 +238,37 @@
     </div>
     <b-modal id="modal-scoped" hide-backdrop size="xl">
         <template v-slot:modal-header="{ close }">
-          <h5>Buat direktori</h5>
+          <h5>Pilih gambar</h5>
         </template>
-        <template v-slot:modal-footer="{ ok, cancel}">
-          <b-button size="sm" variant="success" @click="postDirectory()">
-            Submit
-          </b-button>
+        <div class="row">
+          <div class="col-md-4">
+            <img :src="gambar_pilih" style="max-width: 100%"> <br> <br>
+            <b-button size="sm" v-show="gambar_pilih != ''" variant="primary" squared @click="masukGambar">Masukkan gambar</b-button>
+          </div>
+          <div class="col-md-8">
+            <table class="table table-stripped table-hovered table-bordered">
+              <tr>
+                <td>Nama file</td>
+                <td>View</td>
+                <td>Aksi</td>
+              </tr>
+              <tr v-for="(content,index) in contentDirectory.data">
+                <td><a class="text-info" v-text="content.filename"></a></td>
+                <td>
+                  <img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail" style="max-width: 100px">
+                </td>
+                <td>
+                  <b-button variant="light" squared @click="pilihGambar(index)">
+                    Lihat
+                  </b-button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <template v-slot:modal-footer="{cancel}">
           <b-button size="sm" variant="secondary" @click="cancel()">
-            Cancel
+            Tutup
           </b-button>
         </template>
     </b-modal>
@@ -277,6 +300,7 @@ import {
 export default {
   created() {
     this.getBanksoal(this.$route.params.banksoal_id)
+    this.getContentFilemedia(1)
   },
   components: {
     EditorContent,
@@ -314,7 +338,9 @@ export default {
         content: ''
       }),
       pilihan: [],
-      jmlh_pilihan: ''
+      jmlh_pilihan: '',
+      gambar_pilih: '',
+      command: ''
     }
   },
   computed: {
@@ -322,9 +348,13 @@ export default {
     ...mapState(['errors']),
     ...mapState('banksoal',{
       banksoal: state => state.banksoal.data
+    }),
+    ...mapState('filemedia', {
+      contentDirectory: state => state.contentFilemedia
     })
   },
   methods: {
+    ...mapActions('filemedia', ['getContentFilemedia']),
     ...mapActions('banksoal',['addSoalBanksoal','getBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
     postSoalBanksoal() {
@@ -401,14 +431,21 @@ export default {
       }
     },
     showImagePrompt(command) {
-      // this.$bvModal.show('modal-scoped')
-      const src = prompt('Enter the url of your image here')
-      if (src !== null) {
-        command({ src })
-      }
+      this.$bvModal.show('modal-scoped')
+      this.command = command
+      // command({ src })
     },
     onSelectImage(e) {
 
+    },
+    pilihGambar(index) {
+      const gambar = this.contentDirectory.data[index]
+      this.gambar_pilih = 'http://localhost:8000/storage/'+gambar.dirname+'/'+gambar.filename
+    },
+    masukGambar() {
+      const command = this.command
+      const src = this.gambar_pilih
+      command({ src })
     }
   },
   watch: {
