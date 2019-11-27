@@ -246,7 +246,15 @@
             <b-button size="sm" v-show="gambar_pilih != ''" variant="primary" squared @click="masukGambar">Masukkan gambar</b-button>
           </div>
           <div class="col-md-8">
-            <table class="table table-stripped table-hovered table-bordered">
+            <div class="form-group">
+              <label>Direktori</label>
+              <select class="form-control" v-model="direktory">
+                <option value="">Pilih direktori</option>
+                <option :value="directorie.id" v-for="directorie in directories" v-text="directorie.name"></option>
+              </select>
+            </div>
+            
+            <table class="table table-striped table-hover table-bordered">
               <tr>
                 <td>Nama file</td>
                 <td>View</td>
@@ -255,7 +263,7 @@
               <tr v-for="(content,index) in contentDirectory.data">
                 <td><a class="text-info" v-text="content.filename"></a></td>
                 <td>
-                  <img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail" style="max-width: 100px">
+                  <img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail rounded-0" style="max-width: 100px">
                 </td>
                 <td>
                   <b-button variant="light" squared @click="pilihGambar(index)">
@@ -300,7 +308,8 @@ import {
 export default {
   created() {
     this.getBanksoal(this.$route.params.banksoal_id)
-    this.getContentFilemedia(1)
+    this.getDirectories()
+    this.getContentFile()
   },
   components: {
     EditorContent,
@@ -340,7 +349,8 @@ export default {
       pilihan: [],
       jmlh_pilihan: '',
       gambar_pilih: '',
-      command: ''
+      command: '',
+      direktory: ''
     }
   },
   computed: {
@@ -350,11 +360,12 @@ export default {
       banksoal: state => state.banksoal.data
     }),
     ...mapState('filemedia', {
-      contentDirectory: state => state.contentFilemedia
+      contentDirectory: state => state.contentFilemedia,
+      directories: state => state.directories.data
     })
   },
   methods: {
-    ...mapActions('filemedia', ['getContentFilemedia']),
+    ...mapActions('filemedia', ['getContentFilemedia','getDirectories']),
     ...mapActions('banksoal',['addSoalBanksoal','getBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
     postSoalBanksoal() {
@@ -403,6 +414,7 @@ export default {
         let pilihan = new Editor({
           extensions: [
             new Blockquote(),
+            new Image(),
             new BulletList(),
             new CodeBlock(),
             new HardBreak(),
@@ -433,7 +445,6 @@ export default {
     showImagePrompt(command) {
       this.$bvModal.show('modal-scoped')
       this.command = command
-      // command({ src })
     },
     onSelectImage(e) {
 
@@ -446,12 +457,22 @@ export default {
       const command = this.command
       const src = this.gambar_pilih
       command({ src })
+    },
+    getContentFile() {
+      if(this.direktory != '') {
+        this.getContentFilemedia(this.direktory)
+      }
     }
   },
   watch: {
     banksoal(val) {
       this.jmlh_pilihan = val.jumlah_pilihan
       this.initEditor()
+    },
+    direktory(val) {
+      if(val != '') {
+        this.getContentFilemedia(val)
+      }
     }
   }
 }
