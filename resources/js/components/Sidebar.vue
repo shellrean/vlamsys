@@ -92,6 +92,6 @@ export default {
 </script>
 <style>
 .c-sidebar-nav-icon {
-  margin-top: -5px;
+  margin-top: 0px;
 }
 </style>

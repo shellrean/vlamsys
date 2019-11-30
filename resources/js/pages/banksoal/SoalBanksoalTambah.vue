@@ -6,121 +6,164 @@
           <router-link :to="{ name: 'banksoal.soal', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
         </div>
         <div class="card-body">
-          <div class="editor">
-            <h4>Pertanyaan</h4>
-            <hr>
-            <editor-menu-bar :editor="question" v-slot="{ commands, isActive }">
-              <div class="menubar">
-                <button
-                  class="menubar__button"
-                  @click="showImagePrompt(commands.image)"
-                >
-                  <font-awesome-icon icon="image" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.bold() }"
-                  @click="commands.bold"
-                >
-                  <font-awesome-icon icon="bold" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.italic() }"
-                  @click="commands.italic"
-                >
-                  <font-awesome-icon icon="italic" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.strike() }"
-                  @click="commands.strike"
-                >
-                  <font-awesome-icon icon="strikethrough" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.underline() }"
-                  @click="commands.underline"
-                >
-                  <font-awesome-icon icon="underline" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.paragraph() }"
-                  @click="commands.paragraph"
-                >
-                  <font-awesome-icon icon="paragraph" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-                  @click="commands.heading({ level: 1 })"
-                >
-                  H1
-                </button>
-
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-                  @click="commands.heading({ level: 2 })"
-                >
-                  H2
-                </button>
-
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-                  @click="commands.heading({ level: 3 })"
-                >
-                  H3
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.bullet_list() }"
-                  @click="commands.bullet_list"
-                >
-                  <font-awesome-icon icon="list" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.ordered_list() }"
-                  @click="commands.ordered_list"
-                >
-                  <font-awesome-icon icon="list-ol" />
-                </button>
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.blockquote() }"
-                  @click="commands.blockquote"
-                >
-                  <font-awesome-icon icon="quote-right" />
-                </button>
-                <button
-                  class="menubar__button"
-                  @click="commands.undo"
-                >
-                  <font-awesome-icon icon="undo" />
-                </button>
-
-                <button
-                  class="menubar__button"
-                  @click="commands.redo"
-                >
-                  <font-awesome-icon icon="redo" />
-                </button>
+            <div class="card">
+              <div class="card-header">
+                <b>Setting soal</b>
               </div>
-            </editor-menu-bar>
-            <editor-content class="editor__content" :editor="question" />
-            <hr><br><br>
-            <h4>Pilihan</h4>
-            <table class="table">
-              <tr v-for="(pilih,index) in pilihan">
-                <td width="10px">
-                  <b-form-radio name="correct" size="lg" :value="index" v-model="correct"></b-form-radio>
-                </td>
-                <td>
-                  <editor-menu-bar :editor="pilihan[index]" v-slot="{ commands, isActive }">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Tipe soal</label>
+                      <select class="form-control" v-model="tipe_soal">
+                        <option value="1">Pilihan ganda</option>
+                        <option value="2">Essai</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>File audio</label>
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input">
+                          <label class="custom-file-label">Pilih File...</label>
+                        </div>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-dark" type="button">Upload</button>
+                        </div>
+                       </div>
+                      </div>
+                    </div>
+                  <div class="col-md-6">
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="card">
+            <div class="card-header">
+              <b>Pertanyaan</b>
+            </div>
+            <div class="card-body">
+              <div class="editor">
+                <editor-menu-bar :editor="question" v-slot="{ commands, isActive }">
+                  <div class="menubar">
+                    <button
+                      class="menubar__button"
+                      @click="showImagePrompt(commands.image)"
+                    >
+                      <font-awesome-icon icon="image" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.bold() }"
+                      @click="commands.bold"
+                    >
+                      <font-awesome-icon icon="bold" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.italic() }"
+                      @click="commands.italic"
+                    >
+                      <font-awesome-icon icon="italic" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.strike() }"
+                      @click="commands.strike"
+                    >
+                      <font-awesome-icon icon="strikethrough" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.underline() }"
+                      @click="commands.underline"
+                    >
+                      <font-awesome-icon icon="underline" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.paragraph() }"
+                      @click="commands.paragraph"
+                    >
+                      <font-awesome-icon icon="paragraph" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+                      @click="commands.heading({ level: 1 })"
+                    >
+                      H1
+                    </button>
+
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+                      @click="commands.heading({ level: 2 })"
+                    >
+                      H2
+                    </button>
+
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+                      @click="commands.heading({ level: 3 })"
+                    >
+                      H3
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.bullet_list() }"
+                      @click="commands.bullet_list"
+                    >
+                      <font-awesome-icon icon="list" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.ordered_list() }"
+                      @click="commands.ordered_list"
+                    >
+                      <font-awesome-icon icon="list-ol" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.blockquote() }"
+                      @click="commands.blockquote"
+                    >
+                      <font-awesome-icon icon="quote-right" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      @click="commands.undo"
+                    >
+                      <font-awesome-icon icon="undo" />
+                    </button>
+
+                    <button
+                      class="menubar__button"
+                      @click="commands.redo"
+                    >
+                      <font-awesome-icon icon="redo" />
+                    </button>
+                  </div>
+                </editor-menu-bar>
+                <editor-content class="editor__content" :editor="question" />
+              </div>
+            </div>
+          </div>
+          <div class="card" v-if="tipe_soal == 1">
+            <div class="card-header">
+              <b>Pilihan</b>
+            </div>
+            <div class="card-body">
+              <div class="editor">
+              <table class="table table-borderless">
+                <tr v-for="(pilih, index) in pilihan">
+                  <td width="10px">
+                    <b-form-radio name="correct" size="lg" :value="index" v-model="correct"></b-form-radio>
+                  </td>
+                  <td>
+                    <editor-menu-bar :editor="pilihan[index]" v-slot="{ commands, isActive }">
                     <div class="menubar">
                       <button
                         class="menubar__button"
@@ -221,15 +264,17 @@
                         <font-awesome-icon icon="redo" />
                       </button>
                     </div>
-                  </editor-menu-bar>
-                  <editor-content class="editor__content" :editor="pilihan[index]" />
-                </td>
-              </tr>
-            </table>
+                    </editor-menu-bar>
+                    <editor-content class="editor__content" :editor="pilihan[index]" />
+                  </td>
+                </tr>
+              </table>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card-footer">
-          <b-button variant="success" squared size="sm" class="float-right" :disabled="isLoading" @click.prevent="postSoalBanksoal">
+          <b-button variant="success" squared size="sm" :disabled="isLoading" @click.prevent="postSoalBanksoal">
             <b-spinner small type="grow" v-show="isLoading"></b-spinner>
             Simpan
           </b-button>
@@ -350,7 +395,8 @@ export default {
       jmlh_pilihan: '',
       gambar_pilih: '',
       command: '',
-      direktory: ''
+      direktory: '',
+      tipe_soal: 1
     }
   },
   computed: {
@@ -387,7 +433,8 @@ export default {
           pertanyaan: this.question.getHTML(),
           banksoal_id: this.$route.params.banksoal_id,
           pilihan: sender,
-          correct: this.correct
+          correct: this.correct,
+          tipe_soal: this.tipe_soal
         })
         .then((data) => {
           this.$notify({

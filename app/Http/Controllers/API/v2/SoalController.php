@@ -96,15 +96,18 @@ class SoalController extends Controller
     {
         $soal = Soal::create([
             'banksoal_id'   => $request->banksoal_id,
-            'pertanyaan'    => $request->pertanyaan
+            'pertanyaan'    => $request->pertanyaan,
+            'tipe_soal'     => $request->tipe_soal
         ]);
 
-        foreach($request->pilihan as $key=>$pilihan) {
-            JawabanSoal::create([
-                'soal_id'       => $soal->id,
-                'text_jawaban'  => $pilihan,
-                'correct'       => ($request->correct == $key ? '1' : '0')
-            ]);
+        if($request->tipe_soal == 1) {
+            foreach($request->pilihan as $key=>$pilihan) {
+                JawabanSoal::create([
+                    'soal_id'       => $soal->id,
+                    'text_jawaban'  => $pilihan,
+                    'correct'       => ($request->correct == $key ? '1' : '0')
+                ]);
+            }
         } 
 
         return response()->json(['data' => 'success']);
