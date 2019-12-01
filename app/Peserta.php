@@ -10,7 +10,4 @@ class Peserta extends Model
 		'no_ujian','nama','password'
 	];
 
-    protected $hidden = [
-    	'api_token','password'
-    ];
 }

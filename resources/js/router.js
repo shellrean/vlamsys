@@ -31,6 +31,10 @@ import FilemediaIndex from './pages/filemedia/Index.vue'
 import DataFilemedia from './pages/filemedia/Filemedia.vue'
 import DataDirFilemedia from './pages/filemedia/DirFilemedia.vue'
 
+import ServerIndex from './pages/server/Index.vue'
+import DataServer from './pages/server/Server.vue'
+import AddServer from './pages/server/Add.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -176,6 +180,25 @@ const router = new Router({
 					name: 'filemedia.directory',
 					component: DataDirFilemedia,
 					meta: { title: 'Manage directory filemedia' }
+				}
+			]
+		},
+		{
+			path: '/server',
+			component: ServerIndex,
+			meta: { requiresAuth: true },
+			children: [
+				{
+					path: '',
+					name: 'server.data',
+					component: DataServer,
+					meta: { title: 'Manage server' }
+				},
+				{
+					path: 'add',
+					name: 'server.add',
+					component: AddServer,
+					meta: { title: 'Tambah server' }
 				}
 			]
 		}
