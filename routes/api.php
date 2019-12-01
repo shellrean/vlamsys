@@ -52,3 +52,4 @@ Route::group(['middleware' => 'auth:api'], function() {
 });
 
 Route::post('/pusat/sinkron', 'API\v2\PusatController@sinkron');
+Route::post('/pusat/connect', 'API\v2\PusatController@connect');

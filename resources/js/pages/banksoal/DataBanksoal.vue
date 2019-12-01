@@ -13,11 +13,24 @@
                               <strong>Loading...</strong>
                             </div>
                         </template>
-                        <template v-slot:cell(index)="data">
-                            {{ data.index + 1 }}
+                         <template v-slot:cell(show_details)="row">
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'success'" squared><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
                         </template>
-                        <template v-slot:cell(soalpil)="row">
-                            {{ row.item.jumlah_soal +" - "+row.item.jumlah_pilihan }}
+
+                        <template v-slot:row-details="row">
+                            <b-card>
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td width="150px">Pembuat</td><td v-text="row.item.user.name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jumlah soal</td><td v-text="row.item.jumlah_soal"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jumlah pilihan</td><td v-text="row.item.jumlah_pilihan"></td>
+                                    </tr>
+                                </table>
+                            </b-card>
                         </template>
                        <template v-slot:cell(actions)="row">
                             <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /></button>
@@ -51,6 +64,11 @@
                 <label>Kode banksoal</label>
                 <input type="text" class="form-control" :class="{ 'is-invalid' : errors.kode_banksoal }"  placeholder="Kode banksoal" v-model="data.kode_banksoal">
                 <p class="text-danger" v-if="errors.kode_banksoal">{{ errors.kode_banksoal[0] }}</p>
+            </div>
+            <div class="form-group">
+                <label>Name server</label>
+                <v-select label="server_name" :options="servers.data" v-model="data.server_name"></v-select>
+                <p class="text-danger" v-if="errors.server_name">{{ errors.server_name[0] }}</p>
             </div>
             <div class="form-group">
                 <label>Mata pelajaran</label>
@@ -91,15 +109,15 @@ export default {
     created() {
         this.getBanksoals().then(() => { this.isBusy = false })
         this.getAllMatpels()
+        this.getServers()
     },
     data() {
         return {
             fields: [
-                'index',
+                { key: 'show_details', label: 'Detail' },
+                { key: 'server_name', label: 'Nama server' },
                 { key: 'kode_banksoal', label: 'Kode banksoal'},
                 { key: 'matpel.nama', label: 'Mata pelajaran'},
-                { key: 'soalpil', label: 'Soal-pilihan'},
-                { key: 'user.name', label: 'Pembuat'},
                 { key: 'actions', label: 'Aksi' }
             ],
             search: '',
@@ -107,7 +125,8 @@ export default {
                 kode_banksoal: '',
                 matpel_id: '',
                 jumlah_soal : '',
-                jumlah_pilihan: ''
+                jumlah_pilihan: '',
+                server_name: ''
             },
             selected: '',
             isBusy: true
@@ -121,6 +140,9 @@ export default {
         ...mapState('matpel', {
             matpels: state => state.allMatpels
         }),
+        ...mapState('server', {
+            servers: state => state.servers
+        }),
         page: {
             get() {
                 return this.$store.state.banksoal.page
@@ -131,11 +153,13 @@ export default {
         }
     },
     methods: {
+        ...mapActions('server', ['getServers']),
         ...mapActions('banksoal', ['getBanksoals','addBanksoal','removeBanksoal']),
         ...mapActions('matpel',['getAllMatpels']),
         ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
         postBanksoal() {
             this.addBanksoal({
+                name_server: this.data.server_name.server_name,
                 kode_banksoal : this.data.kode_banksoal,
                 matpel_id : this.data.matpel_id.id,
                 jumlah_soal: this.data.jumlah_soal,

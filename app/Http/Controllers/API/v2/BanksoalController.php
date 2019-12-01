@@ -54,11 +54,12 @@ class BanksoalController extends Controller
         }
 
         $data = [
+            'server_name'       => ($request->name_server ? $request->name_server : 'All'),
             'kode_banksoal'     => $request->kode_banksoal,
             'matpel_id'         => $request->matpel_id,
             'author'            => auth()->user()->id,
             'jumlah_soal'       => $request->jumlah_soal,
-            'jumlah_pilihan'    => $request->jumlah_pilihan
+            'jumlah_pilihan'    => $request->jumlah_pilihan,
         ];
 
         $res = Banksoal::create($data);

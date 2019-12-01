@@ -25,7 +25,9 @@ import {
 	faUserLock,
 	faLock,
 	faUser,
-	faEnvelope
+	faEnvelope,
+	faChevronCircleDown,
+	faChevronCircleUp
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
  
@@ -54,7 +56,9 @@ library.add({
 	faUserLock,
 	faLock,
 	faUser,
-	faEnvelope
+	faEnvelope,
+	faChevronCircleDown,
+	faChevronCircleUp
 })
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
