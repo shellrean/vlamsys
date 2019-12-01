@@ -12,6 +12,8 @@ use App\JawabanSoal;
 use App\Jadwal;
 use App\Peserta;
 use App\Server;
+use App\Directory;
+use App\File;
 
 class PusatController extends Controller
 {
@@ -26,15 +28,12 @@ class PusatController extends Controller
         $soal = Soal::all();
     	$jawaban = JawabanSoal::all();
         $jadwal = Jadwal::all();
+        $directory = Directory::all();
+        $files = File::all();
 
         $peserta = Peserta::where([
             'name_server'   => $request->server_name
         ])->get();
-
-        // $peserta = Peserta::where(function ($q) {
-        //     $q->where('name_server', $request->server_name)
-        //         ->orWhere('name_server', 'All');
-        // });
 
     	$data = [
     		'status'		=> 'oke',
@@ -43,7 +42,9 @@ class PusatController extends Controller
     		'soal'			=> $soal,
     		'jawaban'		=> $jawaban,
             'jadwal'        => $jadwal,
-            'peserta'       => $peserta
+            'peserta'       => $peserta,
+            'directory'     => $directory,
+            'files'         => $files
     	];
 
     	return response()->json(['data' => $data]);
