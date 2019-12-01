@@ -32,6 +32,7 @@ export default {
 	data() {
 		return {
 			fields: [
+				{ key: 'name_server', label: 'Kode server ' },
 				{ key: 'no_ujian', label: 'No ujian' },
 				{ key: 'nama', label: 'Nama peserta' },
 				{ key: 'actions', label: 'Aksi' }

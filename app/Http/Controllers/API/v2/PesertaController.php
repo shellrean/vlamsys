@@ -37,6 +37,7 @@ class PesertaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'server_name'   => 'required',
             'no_ujian'      => 'required|unique:pesertas,no_ujian',
             'nama'          => 'required',
             'password'      => 'required'
@@ -47,6 +48,7 @@ class PesertaController extends Controller
         }
 
         $data = [
+            'name_server'   => $request->server_name,
             'no_ujian'      => $request->no_ujian,
             'nama'          => $request->nama,
             'password'      => $request->password

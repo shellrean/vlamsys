@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Peserta extends Model
 {
 	protected $fillable = [
-		'no_ujian','nama','password'
+		'name_server','no_ujian','nama','password'
 	];
 
 }

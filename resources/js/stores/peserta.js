@@ -3,6 +3,7 @@ import $axios from '../api.js'
 const state = () => ({
 	pesertas: [],
 	peserta: {
+		server_name: '',
 		no_ujian: '',
 		nama: '',
 		password: ''
@@ -19,6 +20,7 @@ const mutations = {
 	},
 	ASSIGN_FORM(state, payload) {
 		state.peserta = {
+			server_name: payload.server_name,
 			no_ujian: payload.no_ujian,
 			nama: payload.nama,
 			password: payload.password
@@ -26,6 +28,7 @@ const mutations = {
 	},
 	CLEAR_FORM(state) {
 		state.peserta = {
+			server_name: '',
 			no_ujian : '',
 			nama: '',
 			password: ''
