@@ -22,10 +22,8 @@
                             {{ row.item.created_at }}
                         </template>
                         <template v-slot:cell(show_details)="row">
-        					<b-button size="sm" squared @click="row.toggleDetails" class="mr-2">
-          					{{ row.detailsShowing ? 'Hide' : 'Show'}} Details
-        					</b-button>
-        				</template>
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'success'" squared><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                        </template>
         				<template v-slot:row-details="row">
 					        <b-card>
 					          <div v-html="row.item.pertanyaan"></div>
@@ -84,7 +82,8 @@ export default {
 	data() {
 		return {
 			fields: [
-				'index','show_details',
+				'index',
+                { key: 'show_details', label: 'Detail'},
 				{ key: 'dibuat', label: 'Dibuat pada'},
 				{ key: 'actions', label: 'Aksi'}
 			],
