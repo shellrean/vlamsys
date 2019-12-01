@@ -46,8 +46,11 @@ class ServerController extends Controller
         }
 
         $data = [
-            'server_name'      => $request->server_name,
-            'description'          => $request->description
+            'server_name'           => $request->server_name,
+            'description'           => $request->description,
+            'serial_number'         => '-',
+            'sinkron'               => '0',
+            'status'                => '0'
         ];
 
         $data = Server::create($data);
