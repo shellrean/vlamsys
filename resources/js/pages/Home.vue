@@ -3,22 +3,15 @@
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-            	<div class="card">
-            		<div class="card-header">
-            			VlamSys
-            		</div>
-            		<div class="card-body">
-		        		<div class="row">
-		        			<div class="col-md-4">
-		        				<div class="card">
-		        					<div class="card-body">
-				        				<h3 class="text-center">SERVER PUSAT</h3>
-				        				<div class="alert alert-success text-center">VlamSys aktif sebagai server pusat</div>
-		        					</div>
-		        				</div>
-		        			</div>
-		        		</div>
-		        	</div>
+		        <div class="row">
+		        	<div class="col-sm-6 col-md-4">
+				      	<h5 class="text-success">SERVER PUSAT</h5>
+						<div class="card text-white bg-success">
+							<div class="card-body">
+								Aplikasi berjalan sebagai server utama <br>
+							</div>
+						</div>
+					</div>
 		        </div>
             </div>
           </div>
