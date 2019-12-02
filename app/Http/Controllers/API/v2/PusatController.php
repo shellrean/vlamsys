@@ -61,4 +61,17 @@ class PusatController extends Controller
         }
         return response()->json(['data' => 'unregistered']);
     }
+
+    public function registerServer(Request $request) 
+    {
+        $server = Server::where(['server_name' => $request->server_name])->first();
+        if($server->serial_number != '-') {
+            return response()->json(['status' => 'error']);
+        }
+
+        $server->serial_number = $request->serial_number;
+        $server->save();
+
+        return response()->json(['status' => 'success']);
+    }   
 }
