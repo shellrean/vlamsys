@@ -47,6 +47,10 @@ class PusatController extends Controller
             'files'         => $files
     	];
 
+        $server = Server::where(['server_name' => $request->server_name])->first();
+        $server->sinkron = 1;
+        $server->save();
+
     	return response()->json(['data' => $data]);
     }
 
