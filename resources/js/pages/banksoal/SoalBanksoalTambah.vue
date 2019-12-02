@@ -498,7 +498,7 @@ export default {
     },
     pilihGambar(index) {
       const gambar = this.contentDirectory.data[index]
-      this.gambar_pilih = 'http://localhost:8000/storage/'+gambar.dirname+'/'+gambar.filename
+      this.gambar_pilih = 'http://192.168.1.200/storage/'+gambar.dirname+'/'+gambar.filename
     },
     masukGambar() {
       const command = this.command
