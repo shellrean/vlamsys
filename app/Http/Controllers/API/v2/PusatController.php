@@ -61,6 +61,9 @@ class PusatController extends Controller
         ])->first();
 
         if($server) {
+            if($server->serial_number != $request->serial_number) {
+                return response()->json(['data' => 'block']);
+            }
             return response()->json(['data' => $server]);
         }
         return response()->json(['data' => 'unregistered']);
