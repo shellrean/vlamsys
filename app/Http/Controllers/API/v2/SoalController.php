@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Soal;
 use App\JawabanSoal;
 
+use DB;
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
@@ -111,6 +112,25 @@ class SoalController extends Controller
         } 
 
         return response()->json(['data' => 'success']);
+    }
+
+    public function updateSoalBanksoal(Request $request) 
+    {
+        $soal = Soal::find($request->soal_id);
+        $soal->pertanyaan = $request->pertanyaan;
+        $soal->save();
+
+        if($request->tipe_soal == 1) {
+            DB::table('jawaban_soals')->where('soal_id',$request->soal_id)->delete();
+            foreach($request->pilihan as $key=>$pilihan) {
+                JawabanSoal::create([
+                    'soal_id'       => $soal->id,
+                    'text_jawaban'  => $pilihan,
+                    'correct'       => ($request->correct == $key ? '1' : '0')
+                ]);
+            }
+        }
+        return response()->json(['data' => 'updated']);
     }
 
     /**

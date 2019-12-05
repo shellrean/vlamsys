@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 	Route::resource('/soal', 'API\v2\SoalController');
 	Route::get('/soal/banksoal/{id}', 'API\v2\SoalController@getSoalByBanksoal');
 	Route::post('/soal/banksoal', 'API\v2\SoalController@storeSoalBanksoal');
+	Route::post('/soal/banksoal/edit', 'API\v2\SoalController@updateSoalBanksoal');
 	Route::delete('/soal/banksoal/{id}', 'API\v2\SoalController@destroySoalBanksoal');
 
 	Route::apiResource('/ujian', 'API\v2\UjianController');
