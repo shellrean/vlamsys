@@ -27,7 +27,7 @@
         				<template v-slot:row-details="row">
 					        <b-card>
 					          <div v-html="row.item.pertanyaan"></div>
-					          
+					          <div v-if="row.item.audio != null"><audio-player :file="'/storage/audio/'+row.item.audio"></audio-player></div>
 					          <table class="table">
 					          	<tr v-for="jawab in row.item.jawabans">
                                     <td width="20px">
@@ -73,9 +73,12 @@
 </template>
 <script>
 import { mapActions, mapState } from 'vuex'
-
+import AudioPlayer from '../../components/AudioPlayer.vue'
 export default {
 	name: 'SoalBanksoal',
+    components: {
+        AudioPlayer
+    },
 	created() {
 		this.getAllSoal()
 	},

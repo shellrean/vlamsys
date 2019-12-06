@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
 	Route::apiResource('/directory', 'API\v2\DirectoryController');
 	Route::post('/directory/filemedia', 'API\v2\DirectoryController@storeFilemedia');
+	Route::post('/upload/file-audio', 'API\v2\DirectoryController@uploadAudio');
 
 	Route::apiResource('/server','API\v2\ServerController');
 });

@@ -20,19 +20,25 @@
                         <option value="2">Essai</option>
                       </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" v-if="audio == ''">
                       <label>File audio</label>
                       <div class="input-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input">
-                          <label class="custom-file-label">Pilih File...</label>
+                          <input type="file" class="custom-file-input" @change="handleFileUpload">
+                          <label class="custom-file-label">{{ labelAudio ? labelAudio : 'Pilih File...' }}</label>
                         </div>
                         <div class="input-group-append">
-                          <button class="btn btn-outline-dark" type="button">Upload</button>
+                          <button class="btn btn-outline-dark" type="button" @click="submitFile">Upload</button>
                         </div>
-                       </div>
                       </div>
                     </div>
+                    <div class="form-group" v-if="audio != ''">
+                      <label>File audio</label>
+                      <div class="input-group">
+                        <b-button size="sm" variant="danger" @click="removeAudio"><font-awesome-icon icon="times" /></b-button><audio-player :file="'/storage/audio/'+audio"></audio-player>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-6">
                    
                   </div>
@@ -350,6 +356,7 @@ import {
   Placeholder,
   Image,
 } from 'tiptap-extensions'
+import AudioPlayer from '../../components/AudioPlayer.vue'
 export default {
   created() {
     this.getBanksoal(this.$route.params.banksoal_id)
@@ -360,7 +367,8 @@ export default {
   components: {
     EditorContent,
     EditorFloatingMenu,
-    EditorMenuBar
+    EditorMenuBar,
+    AudioPlayer
   },
   data() {
     return {
@@ -398,7 +406,10 @@ export default {
       command: '',
       direktory: '',
       tipe_soal: 1,
-      data_soal: ''
+      data_soal: '',
+      audio: '',
+      fileAudio: '',
+      labelAudio: ''
     }
   },
   computed: {
@@ -413,7 +424,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('filemedia', ['getContentFilemedia','getDirectories']),
+    ...mapActions('filemedia', ['getContentFilemedia','getDirectories','uploadFileAudio']),
     ...mapActions('soal',['editSoalBanksoal']),
     ...mapActions('banksoal',['updateSoalBanksoal','getBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
@@ -421,7 +432,8 @@ export default {
       this.editSoalBanksoal(this.$route.params.soal_id)
       .then((response) => {
         this.question.setContent(response.data.pertanyaan)
-        this.data_soal = response.data.jawabans
+        this.data_soal = response.data.jawabans,
+        this.audio = (response.data.audio != null ? response.data.audio : '')
       })
     },
     postSoalBanksoal() {
@@ -445,7 +457,8 @@ export default {
           pilihan: sender,
           correct: this.correct,
           tipe_soal: this.tipe_soal,
-          soal_id: this.$route.params.soal_id
+          soal_id: this.$route.params.soal_id,
+          audio: this.audio
         })
         .then((data) => {
           this.$notify({
@@ -521,6 +534,23 @@ export default {
       if(this.direktory != '') {
         this.getContentFilemedia(this.direktory)
       }
+    },
+    handleFileUpload(e) {
+      this.labelAudio = e.target.files[0].name
+      this.fileAudio = e.target.files[0];
+    },
+    submitFile(){
+      let formData = new FormData();
+      formData.append('file', this.fileAudio);
+      this.uploadFileAudio(formData)
+      .then((res) => {
+        this.audio = res.data
+        this.fileAudio = ''
+        this.labelAudio = ''
+      })
+    },
+    removeAudio() {
+      this.audio = ''
     }
   },
   watch: {

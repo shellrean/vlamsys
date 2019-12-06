@@ -98,7 +98,8 @@ class SoalController extends Controller
         $soal = Soal::create([
             'banksoal_id'   => $request->banksoal_id,
             'pertanyaan'    => $request->pertanyaan,
-            'tipe_soal'     => $request->tipe_soal
+            'tipe_soal'     => $request->tipe_soal,
+            'audio'         => $request->audio
         ]);
 
         if($request->tipe_soal == 1) {
@@ -118,6 +119,7 @@ class SoalController extends Controller
     {
         $soal = Soal::find($request->soal_id);
         $soal->pertanyaan = $request->pertanyaan;
+        $soal->audio = $request->audio;
         $soal->save();
 
         if($request->tipe_soal == 1) {

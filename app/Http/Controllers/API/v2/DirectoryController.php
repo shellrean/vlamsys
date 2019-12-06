@@ -70,9 +70,13 @@ class DirectoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function uploadAudio(Request $request)
     {
-        //
+        $file = $request->file('file');
+        $filename = date('Ymd').'-'.$file->getClientOriginalName();
+        $path = $file->storeAs('public/audio/',$filename);
+
+        return response()->json(['data' => $filename]);
     }
 
     /**

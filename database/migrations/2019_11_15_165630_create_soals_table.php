@@ -19,6 +19,7 @@ class CreateSoalsTable extends Migration
             $table->integer('tipe_soal');
             $table->foreign('banksoal_id')->references('id')->on('banksoals')->onDelete('cascade');
             $table->text('pertanyaan');
+            $table->string('audio');
             $table->timestamps();
         });
     }
