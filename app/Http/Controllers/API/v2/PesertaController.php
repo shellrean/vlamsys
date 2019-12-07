@@ -10,6 +10,9 @@ use App\Peserta;
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
+use App\Imports\PesertaImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class PesertaController extends Controller
 {
     /**
@@ -94,5 +97,17 @@ class PesertaController extends Controller
         $peserta->delete();
 
         return response()->json(['status' => 'deleted']);
+    }
+
+    /**
+     * Upload peserta by excel
+     *
+     * @param \Illuminate\Http\Request  $request
+     */
+    public function import(Request $request)
+    {
+        Excel::import(new PesertaImport,$request->file('file'));
+
+        return response()->json(['status' => 'OK']);
     }
 }

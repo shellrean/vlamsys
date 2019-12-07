@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 	Route::apiResource('/matpel', 'API\v2\MatpelController');
 
 	Route::apiResource('/peserta', 'API\v2\PesertaController');
+	Route::post('/peserta/upload', 'API\v2\PesertaController@import');
 
 	Route::apiResource('/banksoal', 'API\v2\BanksoalController');
 

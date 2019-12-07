@@ -8,7 +8,8 @@ const state = () => ({
 		nama: '',
 		password: ''
 	},
-	page: 1
+	page: 1,
+	uploadPercentage: 0
 })
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
 			nama: '',
 			password: ''
 		}
+	},
+	UPLOAD_PROGRESS_BAR(state, payload) {
+		state.uploadPercentage = payload
 	}
 }
 
@@ -68,6 +72,23 @@ const actions = {
 			$axios.delete(`/peserta/${payload}`)
 			.then((response) => {
 				dispatch('getPesertas').then(() => resolve())
+			})
+		})
+	},
+	uploadPeserta({ state, commit }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.post(`/peserta/upload`, payload, 
+				{
+			      headers: {
+			          'Content-Type': 'multipart/form-data'
+			      },
+			      onUploadProgress: function( progressEvent ) {
+			        commit('UPLOAD_PROGRESS_BAR',parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 )))
+			      }.bind(this)
+			    }
+			)
+			.then((response) => {
+				resolve(response.data)
 			})
 		})
 	}

@@ -4,6 +4,7 @@
 			<div class="card">
 				<div class="card-header">
 					<router-link :to="{ name: 'peserta.add' }" class="btn btn-primary btn-sm rounded-0">Tambah peserta</router-link>
+					<router-link :to="{ name: 'peserta.upload' }" class="btn btn-success btn-sm rounded-0">Upload peserta</router-link>
 					<div class="float-right">
                         <input type="text" class="form-control" placeholder="Cari nama..." v-model="search">
                     </div>
@@ -16,6 +17,22 @@
 							</b-button>
 						</template>
 					</b-table>
+					<div class="row">
+                        <div class="col-md-6">
+                            <p v-if="pesertas.data"><i class="fa fa-bars"></i> {{ pesertas.data.length }} item dari {{ pesertas.meta.total }} total data</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <b-pagination
+                                    v-model="page"
+                                    :total-rows="pesertas.meta.total"
+                                    :per-page="pesertas.meta.per_page"
+                                    aria-controls="pesertas"
+                                    v-if="pesertas.data && pesertas.data.length > 0"
+                                    ></b-pagination>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</div>

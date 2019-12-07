@@ -14,6 +14,7 @@ import AddMatpel from './pages/matpel/Add.vue'
 import PesertaIndex from './pages/peserta/Index.vue'
 import DataPeserta from './pages/peserta/Peserta.vue'
 import AddPeserta from './pages/peserta/Add.vue'
+import UploadPeserta from './pages/peserta/Upload.vue'
 
 import BanksoalIndex from './pages/banksoal/Index.vue'
 import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
@@ -99,6 +100,12 @@ const router = new Router({
 					name: 'peserta.add',
 					component: AddPeserta,
 					meta: { title: 'Tambah peserta' }
+				},
+				{
+					path: 'upload',
+					name: 'peserta.upload',
+					component: UploadPeserta,
+					meta: { title: 'Upload peserta' }
 				}
 			]
 		},
