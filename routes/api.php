@@ -52,8 +52,10 @@ Route::group(['middleware' => 'auth:api'], function() {
 	Route::post('/upload/file-audio', 'API\v2\DirectoryController@uploadAudio');
 
 	Route::apiResource('/server','API\v2\ServerController');
+
 });
 
 Route::post('/pusat/sinkron', 'API\v2\PusatController@sinkron');
 Route::post('/pusat/connect', 'API\v2\PusatController@connect');
 Route::post('/pusat/register-server', 'API\v2\PusatController@registerServer');
+Route::post('/pusat/upload-hasil', 'API\v2\PusatController@uploadHasil');

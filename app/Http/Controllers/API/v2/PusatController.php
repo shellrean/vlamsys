@@ -14,6 +14,7 @@ use App\Peserta;
 use App\Server;
 use App\Directory;
 use App\File;
+use App\Result;
 
 class PusatController extends Controller
 {
@@ -147,4 +148,22 @@ class PusatController extends Controller
 
         return response()->json(['status' => 'success']);
     }   
+
+    public function uploadHasil(Request $request)
+    {
+        $output = json_decode($request->req, true);
+
+        foreach($output as $o) {
+            Result::create([
+                'server_name'   => $request->server_name,
+                'jadwal_id'     => $o['jadwal_id'],
+                'salah'         => $o['hasil']['jumlah_salah'],
+                'benar'         => $o['hasil']['jumlah_benar'],
+                'kosong'        => $o['hasil']['tidak_diisi'],
+                'hasil'         => $o['hasil']['hasil']
+            ]);
+        }
+
+        return response()->json(['data' => 'OK']);
+    }
 }
