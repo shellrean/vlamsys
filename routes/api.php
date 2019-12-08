@@ -55,7 +55,9 @@ Route::group(['middleware' => 'auth:api'], function() {
 
 });
 
+Route::post('/pusat/test-sync', 'API\v2\PusatController@testSync');
 Route::post('/pusat/sinkron', 'API\v2\PusatController@sinkron');
 Route::post('/pusat/connect', 'API\v2\PusatController@connect');
 Route::post('/pusat/register-server', 'API\v2\PusatController@registerServer');
 Route::post('/pusat/upload-hasil', 'API\v2\PusatController@uploadHasil');
+Route::post('/pusat/cbt-sync', 'API\v2\PusatController@cbtSync');

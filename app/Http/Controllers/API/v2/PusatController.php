@@ -166,4 +166,92 @@ class PusatController extends Controller
 
         return response()->json(['data' => 'OK']);
     }
+
+    public function testSync(Request $request)
+    {
+        $peserta = Peserta::where([
+                    'name_server'   => $request->server_name
+                ])->get()->count();
+        $matpel = Matpel::all()->count();
+        $banksoal = Banksoal::where([
+            'server_name'   => $request->server_name
+        ])->get()->count();
+
+        $soal = Soal::all()->count();
+        $jawaban = JawabanSoal::all()->count();
+        $gambar = File::all()->count();
+
+        $data = [
+            'peserta'       => $peserta,
+            'matpel'        => $matpel,
+            'banksoal'      => $banksoal,
+            'soal'          => $soal,
+            'jawaban_soal'  => $jawaban,
+            'gambar'        => $gambar,
+        ];
+        return response()->json(['data' => $data]);
+    }
+
+    public function cbtSync(Request $request )
+    {
+        switch ($request->req) {
+            case 'peserta':
+                $peserta = Peserta::where([
+                    'name_server'   => $request->server_name
+                ])->get();
+                $data = [
+                    'table' => 'pesertas',
+                    'data'  => $peserta
+                ];
+                break;
+            case 'matpel':
+                $matpels = Matpel::all();
+                $data = [
+                    'table'  => 'matpels',
+                    'data'   => $matpels   
+                ];
+                break;
+            case 'banksoal':
+                $banksoal = Banksoal::where([
+                    'server_name'   => $request->server_name
+                ])->get();
+                $data = [
+                    'table'  => 'banksoals',
+                    'data'   => $banksoal   
+                ];
+                break;
+            case 'soal':
+                $soal = Soal::all();
+                $data = [
+                    'table'  => 'soals',
+                    'data'   => $soal   
+                ];
+                break;
+            case 'jawaban_soal':
+                $jawaban_soal = JawabanSoal::all();
+                $data = [
+                    'table'  => 'jawaban_soals',
+                    'data'   => $jawaban_soal   
+                ];
+                break;
+            case 'jadwal':
+                $jadwal = Jadwal::all();
+                $data = [
+                    'table'  => 'jadwals',
+                    'data'   => $jadwal   
+                ];
+                break;
+            case 'file': 
+                $files = File::all();
+                $data = [
+                    'files'  => $files,
+                ];
+                break;
+            default:
+                echo 'oke';
+
+        }
+
+        return response()->json($data);
+    }
 }
