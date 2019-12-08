@@ -45,9 +45,7 @@ const actions = {
 		return new Promise((resolve, reject) => {
 			$axios.post(`/server`, state.server)
 			.then((response) => {
-				dispatch('getServers').then(() => {
-					resolve(response.data)
-				})
+				resolve(response.data)
 			})
 			.catch((error) => {
 				if (error.response.status == 422) {

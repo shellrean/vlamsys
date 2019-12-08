@@ -8,6 +8,10 @@ import CoreuiVue from '@coreui/coreui'
 import Notifications from 'vue-notification'
 import VueSweetalert2 from 'vue-sweetalert2'
 
+import VueGoodTablePlugin from 'vue-good-table';
+import 'vue-good-table/dist/vue-good-table.css'
+Vue.use(VueGoodTablePlugin);
+
 import BootstrapVue from 'bootstrap-vue'
 
 import 'sweetalert2/dist/sweetalert2.min.css';

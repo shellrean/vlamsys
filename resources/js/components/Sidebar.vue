@@ -9,6 +9,11 @@
           </router-link>
         </li>
         <li class="c-sidebar-nav-title">Menu utama</li>
+        <li class="c-sidebar-nav-item" >
+          <router-link class="c-sidebar-nav-link" :to="{ name: 'sekolah.data' }">
+            <font-awesome-icon icon="server" class="c-sidebar-nav-icon" /> Sekolah
+          </router-link>
+        </li>
         <li class="c-sidebar-nav-item" v-if="$can('server')">
           <router-link class="c-sidebar-nav-link" :to="{ name: 'server.data' }">
             <font-awesome-icon icon="server" class="c-sidebar-nav-icon" /> Server lokal

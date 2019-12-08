@@ -32,6 +32,12 @@
 							<b-button variant="danger" squared size="sm" @click="deleteServer(row.item.id)">
 								<font-awesome-icon icon="trash" />
 							</b-button>
+							<b-button variant="info" squared size="sm" >
+								Aktifkan
+							</b-button>
+							<b-button variant="warning" squared size="sm">
+								Reset SN
+							</b-button>
 						</template>
 					</b-table>
 					<div class="row">

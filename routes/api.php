@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
 	Route::apiResource('/server','API\v2\ServerController');
 
+	Route::apiResource('/sekolah','API\v2\SekolahController');
+
 });
 
 Route::post('/pusat/test-sync', 'API\v2\PusatController@testSync');
