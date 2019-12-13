@@ -19,6 +19,7 @@ class CreateBanksoalsTable extends Migration
             $table->string('kode_banksoal',50);
             $table->integer('jumlah_soal');
             $table->integer('jumlah_pilihan');
+            $table->integer('jumlah_soal_esay');
             $table->unsignedBigInteger('matpel_id');
             $table->unsignedBigInteger('author');
             $table->foreign('author')->references('id')->on('users')->onDelete('cascade');

@@ -20,7 +20,6 @@ class CreateJadwalsTable extends Migration
             $table->time('mulai');
             $table->time('berakhir');
             $table->integer('lama');
-            $table->string('token',50);
             $table->char('status_ujian',1);
             $table->timestamps();
 

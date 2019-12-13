@@ -57,7 +57,6 @@ class UjianController extends Controller
             'berakhir'          => date('H:i:s',strtotime($request->berakhir)),
             'lama'              => $request->lama*60,
             'tanggal'           => date('Y-m-d',strtotime($request->tanggal)),
-            'token'             => strtoupper(Str::random(6)),
             'status_ujian'      => 0
         ];
 
