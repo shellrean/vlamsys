@@ -57,4 +57,18 @@ class ServerController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    /**
+     * Destroy all data
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $server = Server::find($id);
+        $server->delete();
+
+        return response()->json([]);
+    }
 }

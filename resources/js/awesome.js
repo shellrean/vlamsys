@@ -30,7 +30,8 @@ import {
 	faChevronCircleUp,
 	faServer,
 	faTimes,
-	faSync
+	faSync,
+	faDotCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
  
@@ -64,7 +65,8 @@ library.add({
 	faChevronCircleUp,
 	faServer,
 	faTimes,
-	faSync
+	faSync,
+	faDotCircle
 })
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

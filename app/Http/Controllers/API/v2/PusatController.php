@@ -18,42 +18,6 @@ use App\Result;
 
 class PusatController extends Controller
 {
-    // public function sinkron(Request $request)
-    // {
-    // 	$matpels = Matpel::all();
-
-    // 	$banksoal = Banksoal::where([
-    //         'server_name'   => $request->server_name
-    //     ])->get();
-    	
-    //     $soal = Soal::all();
-    // 	$jawaban = JawabanSoal::all();
-    //     $jadwal = Jadwal::all();
-    //     $directory = Directory::all();
-    //     $files = File::all();
-
-    //     $peserta = Peserta::where([
-    //         'name_server'   => $request->server_name
-    //     ])->get();
-
-    // 	$data = [
-    // 		'status'		=> 'oke',
-    // 		'matpels'		=> $matpels,
-    // 		'banksoal'		=> $banksoal,
-    // 		'soal'			=> $soal,
-    // 		'jawaban'		=> $jawaban,
-    //         'jadwal'        => $jadwal,
-    //         'peserta'       => $peserta,
-    //         'directory'     => $directory,
-    //         'files'         => $files
-    // 	];
-
-    //     $server = Server::where(['server_name' => $request->server_name])->first();
-    //     $server->sinkron = 1;
-    //     $server->save();
-
-    // 	return response()->json(['data' => $data]);
-    // }
     public function sinkron(Request $request)
     {
         $matpels = Matpel::all();
@@ -103,7 +67,7 @@ class PusatController extends Controller
                 ];
                 break;
             case 'jadwal':
-                $jadwal = Jadwal::all();
+                $jadwal = Jadwal::where('status_ujian',1)->get();
                 $data = [
                     'table'  => 'jadwals',
                     'data'   => $jadwal   
@@ -157,6 +121,7 @@ class PusatController extends Controller
             Result::create([
                 'server_name'   => $request->server_name,
                 'jadwal_id'     => $o['jadwal_id'],
+                'peserta_id'    => $o['peserta_id'],
                 'salah'         => $o['hasil']['jumlah_salah'],
                 'benar'         => $o['hasil']['jumlah_benar'],
                 'kosong'        => $o['hasil']['tidak_diisi'],
@@ -180,6 +145,7 @@ class PusatController extends Controller
         $soal = Soal::all()->count();
         $jawaban = JawabanSoal::all()->count();
         $gambar = File::all()->count();
+        $jadwal = Jadwal::where('status_ujian',1)->get()->count();
 
         $data = [
             'peserta'       => $peserta,
@@ -188,6 +154,7 @@ class PusatController extends Controller
             'soal'          => $soal,
             'jawaban_soal'  => $jawaban,
             'gambar'        => $gambar,
+            'jadwal'        => $jadwal,
         ];
         return response()->json(['data' => $data]);
     }
@@ -235,7 +202,7 @@ class PusatController extends Controller
                 ];
                 break;
             case 'jadwal':
-                $jadwal = Jadwal::all();
+                $jadwal = Jadwal::where('status_ujian',1)->get();
                 $data = [
                     'table'  => 'jadwals',
                     'data'   => $jadwal   

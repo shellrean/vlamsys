@@ -29,7 +29,13 @@
                             </b-card>
                         </template>
 						<template v-slot:cell(actions)="row">
-							<b-button variant="danger" squared size="sm" @click="deleteServer(row.item.id)">
+							<b-button variant="success" title="Aktif/Matikan server" squared size="sm">
+								<font-awesome-icon icon="dot-circle" />
+							</b-button>
+							<b-button variant="warning" title="Reset sync" squared size="sm">
+								<font-awesome-icon icon="sync" />
+							</b-button>
+							<b-button variant="danger" title="Hapus server" squared size="sm" @click="deleteServer(row.item.id)">
 								<font-awesome-icon icon="trash" />
 							</b-button>
 						</template>
@@ -101,7 +107,7 @@ export default {
                 confirmButtonText: 'Iya, Lanjutkan!'
             }).then((result) => {
                 if (result.value) {
-                    this.removePeserta(id)
+                    this.removeServer(id)
                 }
             })
 		}

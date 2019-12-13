@@ -23,7 +23,7 @@ const mutations = {
 		}
 	},
 	CLEAR_FORM(state) {
-		state.peserta = {
+		state.server = {
 			name_server : '',
 			description: '',
 		}
@@ -46,6 +46,7 @@ const actions = {
 			$axios.post(`/server`, state.server)
 			.then((response) => {
 				dispatch('getServers').then(() => {
+					commit('CLEAR_FORM')
 					resolve(response.data)
 				})
 			})
