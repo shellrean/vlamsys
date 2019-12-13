@@ -63,6 +63,20 @@ const actions = {
             })
         })
     },
+    getDataById({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            $axios.get(`/banksoal/${payload}`)
+            .then((response) => {
+                resolve(response.data)
+            })
+            .catch((error) => {
+                if(error.response.status == 422) {
+                    commit('SET_ERRORS', error.response.data.erros, { root: true })
+                }
+                reject(error)
+            })
+        })
+    },
     updateSoalBanksoal({ commit }, payload) {
         return new Promise((resolve, reject) => {
             $axios.post(`/soal/banksoal/edit`, payload) 
@@ -81,6 +95,14 @@ const actions = {
             $axios.delete(`/banksoal/${payload}`)
             .then((response) => {
                 resolve(response.data)
+            })
+        })
+    },
+    updateDataBanksoal({ commit, dispatch }, payload) {
+        return new Promise((resolve, reject) => {
+            $axios.put(`/banksoal/${payload.id}`, payload.data)
+            .then((response) => {
+                dispatch('getBanksoals').then(() => resolve())
             })
         })
     }

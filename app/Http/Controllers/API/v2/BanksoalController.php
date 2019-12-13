@@ -46,7 +46,7 @@ class BanksoalController extends Controller
             'kode_banksoal'     => 'required|unique:banksoals,kode_banksoal',
             'matpel_id'         => 'required|exists:matpels,id',
             'jumlah_soal'       => 'required|int',
-            'jumlah_pilihan'    => 'required|int'
+            'jumlah_pilihan'    => 'required|int',
         ]); 
 
         if($validator->fails()) {
@@ -60,6 +60,7 @@ class BanksoalController extends Controller
             'author'            => auth()->user()->id,
             'jumlah_soal'       => $request->jumlah_soal,
             'jumlah_pilihan'    => $request->jumlah_pilihan,
+            'jumlah_pilihan_esay'=> $request->jumlah_pilihan_esay
         ];
 
         $res = Banksoal::create($data);
@@ -75,7 +76,7 @@ class BanksoalController extends Controller
      */
     public function show($id)
     {
-        $banksoal = Banksoal::find($id);
+        $banksoal = Banksoal::where('id',$id)->with('matpel')->first();
 
         return response()->json(['data' => $banksoal]);
     }
@@ -89,7 +90,12 @@ class BanksoalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $banksoal = Banksoal::find($id);
+        $banksoal->jumlah_soal = $request->jumlah_soal;
+        $banksoal->jumlah_soal_esay = $request->jumlah_soal_esay;
+        $banksoal->save();
+
+        return response()->json(['data' => $banksoal]);
     }
 
     /**

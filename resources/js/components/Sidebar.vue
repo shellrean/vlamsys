@@ -35,15 +35,10 @@
             </li>
           </ul>
         </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown" v-if="$can('soal')">
-          <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <font-awesome-icon icon="briefcase" class="c-sidebar-nav-icon" />Soal
-          </a>
-          <ul class="c-sidebar-nav-dropdown-items">
-            <li class="c-sidebar-nav-item">
-              <router-link class="c-sidebar-nav-link" to="/banksoal"> <span class="c-sidebar-nav-icon"></span>Banksoal</router-link>
-            </li>
-          </ul>
+        <li class="c-sidebar-nav-item" v-if="$can('soal')">
+          <router-link class="c-sidebar-nav-link" to="/banksoal">
+            <font-awesome-icon icon="briefcase" class="c-sidebar-nav-icon" />Banksoal
+          </router-link>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown" v-if="$can('jadwal')" >
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">

@@ -6,13 +6,7 @@
                     <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary" squared>Tambah</b-button>
                 </div>
                 <div class="card-body">
-                    <b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="banksoals.data" show-empty>
-                        <template v-slot:table-busy>
-                            <div class="text-center text-warning my-2">
-                              <b-spinner class="align-middle"></b-spinner>
-                              <strong>Loading...</strong>
-                            </div>
-                        </template>
+                    <b-table striped hover bordered small :fields="fields" :items="banksoals.data" show-empty>
                          <template v-slot:cell(show_details)="row">
                             <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'success'" squared><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
                         </template>
@@ -29,12 +23,16 @@
                                     <tr>
                                         <td>Jumlah pilihan</td><td v-text="row.item.jumlah_pilihan"></td>
                                     </tr>
+                                    <tr>
+                                        <td>Jumlah esay</td><td v-text="row.item.jumlah_soal_esay"></td>
+                                    </tr>
                                 </table>
                             </b-card>
                         </template>
                        <template v-slot:cell(actions)="row">
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /></button>
                             <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm rounded-0"><font-awesome-icon icon="list" /></router-link>
+                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning" squared><font-awesome-icon icon="edit" /> </b-button>
+                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /></button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -56,15 +54,10 @@
                 </div> 
             </div>
         </div>
-        <b-modal id="modal-scoped" size="lg" hideBackdrop>
+        <b-modal id="modal-scoped" size="md" hideBackdrop>
             <template v-slot:modal-header="{ close }">
               <h5>Tambah banksoal</h5>
             </template>
-            <div class="form-group">
-                <label>Kode banksoal</label>
-                <input type="text" class="form-control" :class="{ 'is-invalid' : errors.kode_banksoal }"  placeholder="Kode banksoal" v-model="data.kode_banksoal">
-                <p class="text-danger" v-if="errors.kode_banksoal">{{ errors.kode_banksoal[0] }}</p>
-            </div>
             <div class="form-group">
                 <label>Name server</label>
                 <v-select label="server_name" :options="servers.data" v-model="data.server_name"></v-select>
@@ -76,19 +69,24 @@
                 <p class="text-danger" v-if="errors.matpel_id">{{ errors.matpel_id[0] }}</p>
             </div>
             <div class="form-group">
-                <label>Jumlah soal</label>
-                <input type="number" class="form-control" :class="{ 'is-invalid' : errors.jumlah_soal }" v-model="data.jumlah_soal" placeholder="Jumlah soal">
+                <label>Kode banksoal</label>
+                <input type="text" class="form-control" :class="{ 'is-invalid' : errors.kode_banksoal }"  placeholder="Kode banksoal" v-model="data.kode_banksoal">
+                <p class="text-danger" v-if="errors.kode_banksoal">{{ errors.kode_banksoal[0] }}</p>
+            </div>
+            <div class="form-group">
+                <label>Jumlah soal pilihan ganda</label>
+                <input type="number" class="form-control" :class="{ 'is-invalid' : errors.jumlah_soal }" v-model="data.jumlah_soal" placeholder="Jumlah soal pilihan ganda">
                 <p class="text-danger" v-if="errors.jumlah_soal">{{ errors.jumlah_soal[0] }}</p>
             </div>
             <div class="form-group">
-                <label>Jumlah pilihan</label>
-                <input type="number" class="form-control" :class="{ 'is-invalid' : errors.jumlah_pilihan }" v-model="data.jumlah_pilihan" placeholder="Jumlah pilihan">
-                <p class="text-danger" v-if="errors.jumlah_pilihan">{{ errors.jumlah_pilihan[0] }}</p>
+                <label>Jumlah soal esay</label>
+                <input type="number" class="form-control" :class="{ 'is-invalid' : errors.jumlah_soal_esay }" v-model="data.jumlah_soal_esay" placeholder="Jumlah soal esay">
+                <p class="text-danger" v-if="errors.jumlah_soal_esay">{{ errors.jumlah_soal_esay[0] }}</p>
             </div>
             <template v-slot:modal-footer="{ ok, cancel}">
 
-              <b-button variant="primary" @click="postBanksoal" squared>Simpan</b-button>
-              <b-button variant="secondary" @click="cancel()" squared>
+              <b-button variant="primary" size="sm" @click="!update ? postBanksoal() : updateBanksoal()" squared>Simpan</b-button>
+              <b-button variant="secondary" size="sm" @click="cancel()" squared>
                 Cancel
               </b-button>
             </template>
@@ -125,11 +123,13 @@ export default {
                 kode_banksoal: '',
                 matpel_id: '',
                 jumlah_soal : '',
-                jumlah_pilihan: '',
-                server_name: ''
+                jumlah_pilihan: 5,
+                server_name: '',
+                jumlah_soal_esay: ''
             },
             selected: '',
-            isBusy: true
+            isBusy: true,
+            update: 0
         }
     },
     computed: {
@@ -154,7 +154,7 @@ export default {
     },
     methods: {
         ...mapActions('server', ['getServers']),
-        ...mapActions('banksoal', ['getBanksoals','addBanksoal','removeBanksoal']),
+        ...mapActions('banksoal', ['getBanksoals','addBanksoal','removeBanksoal','getDataById','updateDataBanksoal']),
         ...mapActions('matpel',['getAllMatpels']),
         ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
         postBanksoal() {
@@ -175,6 +175,25 @@ export default {
                 this.clearForm()
                 this.CLEAR_ERRORS()
                 this.$bvModal.hide('modal-scoped')
+            })
+        },
+        updateBanksoal() {
+            this.updateDataBanksoal({
+                id: this.update,
+                data: this.data
+            })
+            .then(() => {
+               this.$notify({
+                  group: 'foo',
+                  title: 'Sukses',
+                  type: 'success',
+                  text: 'Banksoal berhasil diubah.'
+                })
+                this.getBanksoals()  
+                this.clearForm()
+                this.CLEAR_ERRORS()
+                this.$bvModal.hide('modal-scoped')
+                this.update = 0
             })
         },
         deleteBanksoal(id) {
@@ -198,6 +217,21 @@ export default {
                 kode_banksoal: ''
             }
         },
+        getDataId(id) {
+            this.getDataById(id)
+            .then((response) => {
+                this.data = {
+                    kode_banksoal: response.data.kode_banksoal,
+                    matpel_id: response.data.matpel.nama,
+                    jumlah_soal : response.data.jumlah_soal,
+                    jumlah_pilihan: response.data.jumlah_pilihan,
+                    server_name: response.data.server_name,
+                    jumlah_soal_esay: response.data.jumlah_soal_esay
+                }
+                this.update = response.data.id
+                this.$bvModal.show('modal-scoped')
+            })
+        }
     },
     watch: {
         page() {

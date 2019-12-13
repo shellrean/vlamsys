@@ -33,7 +33,7 @@ import {
 	faSync,
 	faDotCircle,
 	faBuilding,
-	faDatabase
+	faDatabase,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
  
