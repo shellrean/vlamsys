@@ -31,7 +31,9 @@ import {
 	faServer,
 	faTimes,
 	faSync,
-	faDotCircle
+	faDotCircle,
+	faBuilding,
+	faDatabase
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
  
@@ -66,7 +68,9 @@ library.add({
 	faServer,
 	faTimes,
 	faSync,
-	faDotCircle
+	faDotCircle,
+	faBuilding,
+	faDatabase
 })
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

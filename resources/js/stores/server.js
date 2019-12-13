@@ -49,6 +49,7 @@ const actions = {
 					commit('CLEAR_FORM')
 					resolve(response.data)
 				})
+				resolve(response.data)
 			})
 			.catch((error) => {
 				if (error.response.status == 422) {

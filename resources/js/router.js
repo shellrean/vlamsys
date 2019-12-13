@@ -36,6 +36,11 @@ import ServerIndex from './pages/server/Index.vue'
 import DataServer from './pages/server/Server.vue'
 import AddServer from './pages/server/Add.vue'
 
+import SekolahIndex from './pages/sekolah/Index.vue'
+import DataSekolah from './pages/sekolah/Sekolah.vue'
+import AddSekolah from './pages/sekolah/Add.vue'
+import EditSekolah from './pages/sekolah/Edit.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -206,6 +211,31 @@ const router = new Router({
 					name: 'server.add',
 					component: AddServer,
 					meta: { title: 'Tambah server' }
+				}
+			]
+		},
+		{
+			path: '/sekolah',
+			component: SekolahIndex,
+			meta: { requiresAuth: true },
+			children: [
+				{
+					path: '',
+					name: 'sekolah.data',
+					component: DataSekolah,
+					meta: { title: 'Manage sekolah' }
+				},
+				{
+					path: 'add',
+					name: 'sekolah.add',
+					component: AddSekolah,
+					meta: { title: 'Tambah sekolah' }
+				},
+				{
+					path: 'edit/:id',
+					name: 'sekolah.edit',
+					component: EditSekolah,
+					meta: { title: 'Edit sekolah' }
 				}
 			]
 		}
