@@ -53,7 +53,7 @@
 		    <div class="form-group">
 		    	<label>Banksoal</label>
 		    	<select class="form-control" :class="{ 'is-invalid' : errors.banksoal_id }" v-model="data.banksoal_id">
-		    		<option v-for="banksoal in banksoals" :value="banksoal.id">{{ banksoal.kode_banksoal}} - {{ banksoal.matpel.nama }}</option>
+		    		<option v-for="banksoal in banksoals" :value="banksoal.id" :key="banksoal.id">{{ banksoal.kode_banksoal}} - {{ banksoal.matpel.nama }}</option>
 		    	</select>
 		    	<div class="invalid-feedback" v-if="errors.banksoal_id">{{ errors.banksoal_id[0] }}</div>
 		    </div>

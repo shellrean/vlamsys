@@ -11,8 +11,7 @@
 					<b-table striped hover bordered small :fields="fields" :items="hasilUjian.data" :busy="isBusy" show-empty>
 						<template v-slot:table-busy>
                             <div class="text-center text-warning my-2">
-                              <b-spinner class="align-middle"></b-spinner>
-                              <strong>Loading...</strong>
+							  <img src="/img/loader.svg" width="50px" />
                             </div>
                         </template>
                         <template v-slot:cell(aksi)="row">
@@ -39,7 +38,7 @@ export default {
 			fields: [
 				{ key: 'peserta.no_ujian', label: 'No ujian'},
 				{ key: 'peserta.nama', label: 'Nama peserta'},
-				{ key: 'jumlah_benar', label: 'Jumlah benar'},
+				{ key: 'benar', label: 'Jumlah benar'},
 				{ key: 'hasil',label: 'Nilai akhir'},
 				{ key: 'aksi', label: 'Aksi' }
 			],

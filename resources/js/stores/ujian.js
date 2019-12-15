@@ -4,7 +4,8 @@ const state = () => ({
 	ujians: [],
 	pesertas: [],
 	page: 1,
-	hasilUjian: []
+	hasilUjian: [],
+	essies: []
 })
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
 	},
 	ASSIGN_HASIL_UJIAN(state, payload) {
 		state.hasilUjian = payload
+	},
+	ASSIGN_JAWABAN_ESAY(state, payload) {
+		state.essies = payload
 	}
 }
 
@@ -83,6 +87,25 @@ const actions = {
 			.then((response) => {
 				commit('ASSIGN_HASIL_UJIAN', response.data)
 				resolve(response.data)
+			})
+		})
+	},
+
+	getJawabanEsay({ commit, state }, payload) {
+		return new Promise((resolve,reject) => {
+			$axios.get(`/ujian/esay/get`)
+			.then((response) => {
+				commit('ASSIGN_JAWABAN_ESAY', response.data)
+				resolve(response.data)
+			})
+		})
+	},
+
+	submitNilaiEsay({ dispatch, state }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.post(`/ujian/esay/input`, payload)
+			.then((response) => {
+				dispatch('getJawabanEsay').then(() => resolve())
 			})
 		})
 	}

@@ -27,6 +27,7 @@ import DataUjian from './pages/ujian/Ujian.vue'
 import PesertaUjian from './pages/ujian/PesertaUjian.vue'
 import HasilUjian from './pages/ujian/HasilUjian.vue'
 import HasilListUjian from './pages/ujian/HasilListUjian.vue'
+import KoreksiUjian from './pages/ujian/KoreksiUjian.vue'
 
 import FilemediaIndex from './pages/filemedia/Index.vue'
 import DataFilemedia from './pages/filemedia/Filemedia.vue'
@@ -173,6 +174,12 @@ const router = new Router({
 					name: 'ujian.hasil.list',
 					component: HasilListUjian,
 					meta: { title: 'Hasil ujian list' }
+				},
+				{
+					path: 'hasil/koreksi',
+					name: 'ujian.koreksi',
+					component: KoreksiUjian,
+					meta: { tiel: 'Koreksi jawaban peserta' }
 				}
 			]
 		},

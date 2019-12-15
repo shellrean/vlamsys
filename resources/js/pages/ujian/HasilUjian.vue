@@ -9,8 +9,7 @@
 					<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="ujians.data" show-empty>
 						<template v-slot:table-busy>
                             <div class="text-center text-warning my-2">
-                              <b-spinner class="align-middle"></b-spinner>
-                              <strong>Loading...</strong>
+							  <img src="/img/loader.svg" width="50px" />
                             </div>
                         </template>
 						<template v-slot:cell(action)="row">

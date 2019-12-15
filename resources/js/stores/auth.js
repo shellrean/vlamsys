@@ -17,12 +17,12 @@ const actions = {
 			$axios.post('/login', payload)
 			.then((response) => {
 				if (response.data.status == 'success') {
-					localStorage.setItem('token',response.data.data)
-					commit('SET_TOKEN',response.data.data, { root: true })
+					localStorage.setItem('token',response.data.token)
+					commit('SET_TOKEN',response.data.token, { root: true })
 					commit('SET_LOADING',false, { root: true })
 				}
 				else {
-					commit('SET_ERRORS', { invalid: 'Email/password salah' } , { root: true })
+					commit('SET_ERRORS', { invalid: 'Username/password salah' } , { root: true })
 					commit('SET_LOADING',false, { root: true })
 				}
 				resolve(response.data)
@@ -33,6 +33,12 @@ const actions = {
 					commit('SET_LOADING',false, { root: true })
 				}
 			})
+		})
+	},
+	loggedOut({ commit }, payload) {
+		$axios.get('logout')
+		.then((response) => {
+			resolve(response.message)
 		})
 	}
 }

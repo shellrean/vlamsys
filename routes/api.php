@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 Route::post('/login', 'Auth\LoginController@login');
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'auth.api'], function() {
 
 	Route::get('roles', 'API\v2\RolePermissionController@getAllRole')->name('roles');
 	Route::get('permissions', 'API\v2\RolePermissionController@getallPermission')->name('permission');
@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 	Route::post('/ujian/change-token', 'API\v2\UjianController@changeToken');
 	Route::get('/ujian/get-peserta/{id}', 'API\v2\UjianController@getPeserta');
 	Route::get('/ujian/hasil/{id}', 'API\v2\UjianController@getHasil');
+	Route::get('/ujian/esay/get', 'API\v2\UjianController@getEsay');
+	Route::post('/ujian/esay/input', 'API\v2\UjianController@inputEsay');
 
 	Route::apiResource('/directory', 'API\v2\DirectoryController');
 	Route::post('/directory/filemedia', 'API\v2\DirectoryController@storeFilemedia');

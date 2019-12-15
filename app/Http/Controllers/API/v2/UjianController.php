@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 use App\Jadwal;
 use App\SiswaUjian;
 use App\HasilUjian;
+use App\Result;
+use App\ResultEsay;
 
+use DB;
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -109,8 +112,25 @@ class UjianController extends Controller
 
     public function getHasil($id)
     {
-        $hasilPeserta = HasilUjian::with('peserta')->where(['jadwal_id' => $id])->get();
+        $hasilPeserta = Result::with('peserta')->where(['jadwal_id' => $id])->get();
 
         return response()->json(['data' => $hasilPeserta]);
+    }
+
+    public function getEsay()
+    {
+        $esay = ResultEsay::with('pertanyaan')->where('see',0)->get();
+
+        return response()->json(['data' => $esay]);
+    }
+
+    public function inputEsay(Request $request)
+    {
+        $jawab = ResultEsay::find($request->id);
+        $jawab->nilai = $request->nilai;
+        $jawab->see = 1;
+        $jawab->save();
+
+        return response()->json(['data' => 'OK']);
     }
 }

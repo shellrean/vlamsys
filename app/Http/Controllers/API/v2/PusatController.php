@@ -16,6 +16,8 @@ use App\Directory;
 use App\File;
 use App\Result;
 
+use DB;
+
 class PusatController extends Controller
 {
     public function sinkron(Request $request)
@@ -116,6 +118,7 @@ class PusatController extends Controller
     public function uploadHasil(Request $request)
     {
         $output = json_decode($request->req, true);
+        $esay = json_decode($request->esay, true);
 
         foreach($output as $o) {
             Result::create([
@@ -126,6 +129,16 @@ class PusatController extends Controller
                 'benar'         => $o['hasil']['jumlah_benar'],
                 'kosong'        => $o['hasil']['tidak_diisi'],
                 'hasil'         => $o['hasil']['hasil']
+            ]);
+        }
+
+        foreach($esay as $e) {
+            DB::table('result_esay')->insert([
+                'banksoal_id'   => $e['banksoal_id'], 
+                'soal_id'       => $e['soal_id'],
+                'peserta_id'    => $e['peserta_id'],
+                'jadwal_id'     => $e['jadwal_id'],
+                'txt_jawaban'   => $e['jawab_essy']
             ]);
         }
 

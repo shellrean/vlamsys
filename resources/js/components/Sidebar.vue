@@ -55,6 +55,11 @@
                 <span class="c-sidebar-nav-icon"></span> Hasil ujian
               </router-link>
             </li>
+            <li class="c-sidebar-nav-item">
+              <router-link class="c-sidebar-nav-link" :to="{ name: 'ujian.koreksi' }">
+                <span class="c-sidebar-nav-icon"></span> Koreksi esay
+              </router-link>
+            </li>
           </ul>
         </li>
         <li class="c-sidebar-nav-item" v-if="$can('filemedia')">
@@ -72,25 +77,26 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState('user', {
       authenticated: state => state.authenticated
     })
   },
-  methods: {
-    logout() {
-      return new Promise((resolve, reject) => {
-        localStorage.removeItem('token')
-        resolve()
-      })
-      .then(() => {
-        this.$store.state.token = localStorage.getItem('token')
-        this.$router.push('/login')
-      })
-    }
-  }
+  methods: {  
+      ...mapActions('auth',['loggedOut']),
+      logout() { 
+        return new Promise((resolve, reject) => {
+            this.loggedOut()
+            localStorage.removeItem('token')
+            resolve()
+        }).then(() => {
+            this.$store.state.token = localStorage.getItem('token')
+            this.$router.push('/login')
+        })
+      }
+    },
 }
 </script>
 <style>

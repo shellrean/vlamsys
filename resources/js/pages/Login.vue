@@ -16,11 +16,11 @@
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text rounded-0">
-                  <font-awesome-icon icon="envelope" />
+                  <font-awesome-icon icon="user" />
                 </span>
               </div>
-              <input class="form-control" :class="{ 'is-invalid' : errors.email }" type="email" placeholder="Email" v-model="data.email" @keyup="clearError">
-              <div class="invalid-feedback" v-if="errors.email">{{ errors.email[0] }}</div>
+              <input class="form-control" :class="{ 'is-invalid' : errors.username }" type="username" placeholder="Username" v-model="data.username" @keyup="clearError">
+              <div class="invalid-feedback" v-if="errors.username">{{ errors.username[0] }}</div>
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend rounded-0">
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       data: {
-        email: '',
+        username: '',
         password: ''
       }
     }
