@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Peserta;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class PesertaImport implements ToModel
+class PesertaImport implements ToModel, WithStartRow
 {
     /**
     * @param array $row
