@@ -22,4 +22,9 @@ class PesertaImport implements ToModel
             'password'        => $row[4],
         ]);
     }
+
+    public function startRow(): int
+    {
+        return 2;
+    }
 }
