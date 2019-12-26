@@ -60,7 +60,7 @@ class BanksoalController extends Controller
             'author'            => auth()->user()->id,
             'jumlah_soal'       => $request->jumlah_soal,
             'jumlah_pilihan'    => $request->jumlah_pilihan,
-            'jumlah_pilihan_esay'=> $request->jumlah_pilihan_esay
+            'jumlah_soal_esay'=> $request->jumlah_soal_esay
         ];
 
         $res = Banksoal::create($data);

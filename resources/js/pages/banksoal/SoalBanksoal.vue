@@ -3,10 +3,25 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <router-link :to="{ name: 'banksoal.data' }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
-                    <router-link :to="{ name: 'banksoal.soal.tambah', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-primary btn-sm rounded-0">Tambah</router-link>
+                    <router-link :to="{ name: 'banksoal.data' }" class="btn btn-light btn-sm rounded-0">Kembali</router-link>
+                    <router-link :to="{ name: 'banksoal.soal.tambah', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-primary btn-sm rounded-0">Tambah pertanyaan</router-link>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h4 id="traffic" class="card-title mb-0">Manage Soal</h4>
+                            <div class="small text-muted">TRY OUT 1</div>
+                        </div>
+                        <div class="d-none d-md-block col-sm-7">
+                            <button type="button" class="btn float-right btn-primary btn-sm">
+                                <font-awesome-icon icon="file-word" />
+                            </button>
+                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
+                                <i class="cil-print"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <br>
                     <b-table striped hover bordered small :fields="fields" :items="soals.data" show-empty>
                     	<template v-slot:cell(index)="data">
 				        	{{ data.index + 1 }}
@@ -16,7 +31,7 @@
                             {{ row.item.created_at }}
                         </template>
                         <template v-slot:cell(show_details)="row">
-                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'success'" squared><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><i :class="row.detailsShowing ? 'cil-chevron-top' : 'cil-chevron-bottom'" /></b-button>
                         </template>
         				<template v-slot:row-details="row">
 					        <b-card>
@@ -36,10 +51,10 @@
 					    </template>
 
                        <template v-slot:cell(actions)="row">
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /></button>
-                            <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-success rounded-0">
-                            	<font-awesome-icon icon="edit" />
+                            <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-warning rounded-0">
+                            	<f<i class="cil-pencil"></i> Edit
                             </router-link>
+                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><i class="cil-trash"></i>Hapus</button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -49,6 +64,7 @@
                         <div class="col-md-6">
                             <div class="float-right">
                                 <b-pagination
+                                    size="sm"
                                     v-model="page"
                                     :total-rows="soals.meta.total"
                                     :per-page="soals.meta.per_page"

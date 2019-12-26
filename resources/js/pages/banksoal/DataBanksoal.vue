@@ -30,9 +30,9 @@
                             </b-card>
                         </template>
                        <template v-slot:cell(actions)="row">
-                            <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm rounded-0"><font-awesome-icon icon="list" /></router-link>
-                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning" squared><font-awesome-icon icon="edit" /> </b-button>
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /></button>
+                            <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm rounded-0"><font-awesome-icon icon="list" /> Soal</router-link>
+                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning" squared><font-awesome-icon icon="edit" /> Edit</b-button>
+                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /> Hapus</button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -163,7 +163,8 @@ export default {
                 kode_banksoal : this.data.kode_banksoal,
                 matpel_id : this.data.matpel_id.id,
                 jumlah_soal: this.data.jumlah_soal,
-                jumlah_pilihan: this.data.jumlah_pilihan
+                jumlah_pilihan: this.data.jumlah_pilihan,
+                jumlah_soal_esay: this.data.jumlah_soal_esay
             }).then( (data) => {
                 this.$notify({
                   group: 'foo',
