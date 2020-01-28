@@ -10,12 +10,29 @@
 			<input type="text" class="form-control" :class="{ 'is-invalid' : errors.nama }" placeholder="Nama matpel" v-model="matpel.nama">
 			<p class="text-danger" v-if="errors.nama">{{ errors.nama[0] }}</p>
 		</div>
+		<div class="form-group">
+			<b-form-checkbox size="lg" v-model="produktif" value="1">Produktif</b-form-checkbox>
+		</div>
+		<div class="form-group" v-show="produktif">
+			<label>Jurusan</label>
+			<select class="form-control" v-model="matpel.jurusan_id">
+				<option value="0">Pilih</option>
+				<option value="1">Teknik Komputer & Jaringan</option>
+				<option value="2">Akuntansi Keuangan Lembaga</option>
+			</select>
+		</div>
 	</div>
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
 	name: 'FormMatpel',
+	data() {
+		return {
+			produktif: false,
+			jurusan_id: 0
+		}
+	},
 	computed: {
 		...mapState(['errors']),
 		...mapState('matpel', {

@@ -43,7 +43,9 @@ class PesertaController extends Controller
             'server_name'   => 'required',
             'no_ujian'      => 'required|unique:pesertas,no_ujian',
             'nama'          => 'required',
-            'password'      => 'required'
+            'password'      => 'required',
+            'sesi'          => 'required',
+            'jurusan_id'    => 'required'
         ]);
 
         if($validator->fails()) {
@@ -54,7 +56,9 @@ class PesertaController extends Controller
             'name_server'   => $request->server_name,
             'no_ujian'      => $request->no_ujian,
             'nama'          => $request->nama,
-            'password'      => $request->password
+            'password'      => $request->password,
+            'sesi'          => $request->sesi,
+            'jurusan_id'    => $request->jurusan_id
         ];
 
         $data = Peserta::create($data);

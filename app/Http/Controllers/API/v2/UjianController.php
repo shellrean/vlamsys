@@ -44,7 +44,7 @@ class UjianController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'banksoal_id'       => 'required|exists:banksoals,id',
+            // 'banksoal_id'       => 'nullable|exists:banksoals,id',
             'tanggal'           => 'required',
             'mulai'             => 'required',
             'berakhir'          => 'required',
@@ -55,7 +55,7 @@ class UjianController extends Controller
             return response()->json(['errors' => $validator->errors()],422);
         }
         $data = [
-            'banksoal_id'       => $request->banksoal_id,
+            'banksoal_id'       => ($request->banksoal_id != '' ? $request->banksoal_id : '0' ),
             'mulai'             => date('H:i:s', strtotime($request->mulai)),
             'berakhir'          => date('H:i:s',strtotime($request->berakhir)),
             'lama'              => $request->lama*60,

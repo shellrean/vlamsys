@@ -50,7 +50,10 @@
 		    <template v-slot:modal-header="{ close }">
 		      <h5>Setting ujian</h5>
 		    </template>
-		    <div class="form-group">
+			<div class="form-group">
+				<b-form-checkbox size="lg" v-model="produktif" value="1">Produktif</b-form-checkbox>
+			</div>
+		    <div class="form-group" v-show="!produktif">
 		    	<label>Banksoal</label>
 		    	<select class="form-control" :class="{ 'is-invalid' : errors.banksoal_id }" v-model="data.banksoal_id">
 		    		<option v-for="banksoal in banksoals" :value="banksoal.id" :key="banksoal.id">{{ banksoal.kode_banksoal}} - {{ banksoal.matpel.nama }}</option>
@@ -131,7 +134,8 @@ export default {
 			},
 			isActive: '',
 			isBusy: true,
-			timeout: 0
+			timeout: 0,
+			produktif: ''
 		}
 	},
 	computed: {

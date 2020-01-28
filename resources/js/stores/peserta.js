@@ -6,7 +6,9 @@ const state = () => ({
 		server_name: '',
 		no_ujian: '',
 		nama: '',
-		password: ''
+		password: '',
+		jurusan_id: '',
+		sesi: ''
 	},
 	page: 1,
 	uploadPercentage: 0
@@ -24,7 +26,9 @@ const mutations = {
 			server_name: payload.server_name,
 			no_ujian: payload.no_ujian,
 			nama: payload.nama,
-			password: payload.password
+			password: payload.password,
+			jurusan_id: payload.jurusan_id,
+			sesi: payload.sesi
 		}
 	},
 	CLEAR_FORM(state) {
@@ -32,7 +36,9 @@ const mutations = {
 			server_name: '',
 			no_ujian : '',
 			nama: '',
-			password: ''
+			password: '',
+			jurusan_id: '',
+			sesi: ''
 		}
 	},
 	UPLOAD_PROGRESS_BAR(state, payload) {

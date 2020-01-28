@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Matpel extends Model
 {
     protected $fillable = [
-    	'kode_mapel','nama'
+    	'kode_mapel','nama','jurusan_id'
     ];    
 }

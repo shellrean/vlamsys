@@ -7,6 +7,12 @@
 			</p>
 		</div>
 		<div class="form-group">
+			<label>Sesi</label>
+			<input type="number" min="1" class="form-control" :class="{'is-invalid' : errors.sesi }" placeholder="Sesi ujian" v-model="peserta.sesi">
+			<p class="text-danger" v-if="errors.sesi">{{ errors.sesi[0] }}
+			</p>
+		</div>
+		<div class="form-group">
 			<label>No ujian</label>
 			<input type="text" class="form-control" :class="{'is-invalid' : errors.no_ujian }" placeholder="No ujian" v-model="peserta.no_ujian">
 			<p class="text-danger" v-if="errors.no_ujian">{{ errors.no_ujian[0] }}
@@ -19,6 +25,14 @@
 		<div class="form-group">
 			<label>Password</label>
 			<input type="text" class="form-control" :class="{ 'is-invalid' : errors.password }" placeholder="Password" v-model="peserta.password">
+		</div>
+		<div class="form-group">
+			<label>Jurusan</label>
+			<select class="form-control" v-model="peserta.jurusan_id">
+				<option value="0">Pilih</option>
+				<option value="1">Teknik Komputer & Jaringan</option>
+				<option value="2">Akuntansi Keuangan Lembaga</option>
+			</select>
 		</div>
 	</div>
 </template>

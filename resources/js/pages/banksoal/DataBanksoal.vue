@@ -59,11 +59,6 @@
               <h5>Tambah banksoal</h5>
             </template>
             <div class="form-group">
-                <label>Name server</label>
-                <v-select label="server_name" :options="servers.data" v-model="data.server_name"></v-select>
-                <p class="text-danger" v-if="errors.server_name">{{ errors.server_name[0] }}</p>
-            </div>
-            <div class="form-group">
                 <label>Mata pelajaran</label>
                 <v-select label="nama" :options="matpels.data" v-model="data.matpel_id"></v-select>
                 <p class="text-danger" v-if="errors.matpel_id">{{ errors.matpel_id[0] }}</p>
@@ -113,7 +108,6 @@ export default {
         return {
             fields: [
                 { key: 'show_details', label: 'Detail' },
-                { key: 'server_name', label: 'Nama server' },
                 { key: 'kode_banksoal', label: 'Kode banksoal'},
                 { key: 'matpel.nama', label: 'Mata pelajaran'},
                 { key: 'actions', label: 'Aksi' }

@@ -5,7 +5,8 @@ const state = () => ({
     allMatpels: [],
     matpel: {
         kode_mapel: '',
-        nama: ''
+        nama: '',
+        jurusan_id: '',
     },
 	page: 1
 })
@@ -29,7 +30,8 @@ const mutations = {
     CLEAR_FORM(state) {
         state.matpel = {
             kode_mapel: '',
-            nama: ''
+            nama: '',
+            jurusan_id: ''
         }
     }
 }
