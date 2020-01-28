@@ -54,11 +54,16 @@ const actions = {
         return new Promise((resolve, reject) => {
             $axios.post(`/soal/banksoal`, payload) 
             .then((response) => {
+                commit('SET_LOADING', false, { root: true})
                 resolve(response.data)
             })
             .catch((error) => {
+                commit('SET_LOADING', false, { root: true })
                 if (error.response.status == 422) {
                     commit('SET_ERRORS', error.response.data.errors, { root: true })
+                }
+                else {
+                    reject()
                 }
             })
         })

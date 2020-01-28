@@ -426,7 +426,7 @@ export default {
     ...mapActions('banksoal',['addSoalBanksoal','getBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
     postSoalBanksoal() {
-      if (this.correct == null) {
+      if (this.correct === '') {
         this.$swal({
           title: 'Kunci jawaban kosong',
           text: "Pilih jawaban yang benar",
@@ -453,10 +453,17 @@ export default {
             group: 'foo',
             title: 'Sukses',
             type: 'success',
-            text: 'Soal berhasil ditambah.'
+            text: 'Soal berhasil disimpan.'
           }),
           this.clearForm()
-          this.SET_LOADING(false)
+        })
+        .catch(() => {
+          this.$notify({
+            group: 'foo',
+            title: 'Error',
+            type: 'error',
+            text: 'Terjadi kesalahan saat menyimpan soal'
+          })
         })
       }
     },

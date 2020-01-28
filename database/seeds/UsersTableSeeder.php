@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
     {
         User::create([
             'name' 		=> 'Shellrean Co',
+            'username'  => 'Shellrean',
             'email' 	=> 'admin@shellrean.xyz',
             'email_verified_at' => now(),
             'password' 	=> bcrypt('secret'),
@@ -23,6 +24,7 @@ class UsersTableSeeder extends Seeder
         ]);
         User::create([
             'name'      => 'Uji coba admin',
+            'username'  => 'ujicobaadmin',
             'email'     => 'ujicobaadmin@coba.com',
             'email_verified_at' => now(),
             'password'  => bcrypt('123'),
@@ -31,6 +33,7 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'name'      => 'Uji coba guru',
+            'username'  => 'ujicobaguru',
             'email'     => 'ujicobaguru@coba.com',
             'email_verified_at' => now(),
             'password'  => bcrypt('123'),

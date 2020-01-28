@@ -4,24 +4,24 @@
       <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
           <router-link class="c-sidebar-nav-link" to="/">
-            <font-awesome-icon icon="tachometer-alt" class="c-sidebar-nav-icon" />
+            <i class="c-sidebar-nav-icon cil-speedometer"></i>
             Dashboard
           </router-link>
         </li>
         <li class="c-sidebar-nav-title">Menu utama</li>
         <li class="c-sidebar-nav-item" >
           <router-link class="c-sidebar-nav-link" :to="{ name: 'sekolah.data' }">
-            <font-awesome-icon icon="building" class="c-sidebar-nav-icon" /> Sekolah
+            <i class="c-sidebar-nav-icon cil-building"></i> Sekolah
           </router-link>
         </li>
         <li class="c-sidebar-nav-item" v-if="$can('server')">
           <router-link class="c-sidebar-nav-link" :to="{ name: 'server.data' }">
-            <font-awesome-icon icon="server" class="c-sidebar-nav-icon" /> Server lokal
+            <i class="c-sidebar-nav-icon cil-storage"></i>  Server lokal
           </router-link>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"  v-if="$can('akademik')">
-            <font-awesome-icon icon="database" class="c-sidebar-nav-icon" /> Data master
+            <i class="c-sidebar-nav-icon cil-layers"></i> Data master
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item" v-if="$can('peserta')">
@@ -37,12 +37,12 @@
         </li>
         <li class="c-sidebar-nav-item" v-if="$can('soal')">
           <router-link class="c-sidebar-nav-link" to="/banksoal">
-            <font-awesome-icon icon="briefcase" class="c-sidebar-nav-icon" />Banksoal
+            <i class="c-sidebar-nav-icon cil-briefcase"></i>Banksoal
           </router-link>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown" v-if="$can('jadwal')" >
           <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <font-awesome-icon icon="clipboard-list" class="c-sidebar-nav-icon"/>Ujian
+            <i class="c-sidebar-nav-icon cil-notes"></i>Ujian
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
@@ -64,12 +64,12 @@
         </li>
         <li class="c-sidebar-nav-item" v-if="$can('filemedia')">
           <router-link class="c-sidebar-nav-link" to="/filemedia">
-            <font-awesome-icon icon="folder" class="c-sidebar-nav-icon" /> File media
+            <i class="c-sidebar-nav-icon cil-folder"></i>File media
           </router-link>
         </li>
         <li class="c-sidebar-nav-item" v-if="$can('setting')">
           <router-link class="c-sidebar-nav-link" :to="{ name: 'role.permissions' }">
-            <font-awesome-icon icon="user-secret" class="c-sidebar-nav-icon" /> Setting role
+            <i class="c-sidebar-nav-icon cil-snowflake"></i>Setting role
           </router-link>
         </li>
       </ul>
