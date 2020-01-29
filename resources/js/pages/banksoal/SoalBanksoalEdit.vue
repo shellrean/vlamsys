@@ -314,7 +314,7 @@
               <tr v-for="(content,index) in contentDirectory.data">
                 <td><a class="text-info" v-text="content.filename"></a></td>
                 <td>
-                  <img :src="'http://192.168.1.200/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail rounded-0" style="max-width: 100px">
+                  <img :src="'http://192.168.0.200/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail rounded-0" style="max-width: 100px">
                 </td>
                 <td>
                   <b-button variant="light" squared @click="pilihGambar(index)">
@@ -523,7 +523,7 @@ export default {
     },
     pilihGambar(index) {
       const gambar = this.contentDirectory.data[index]
-      this.gambar_pilih = 'http://192.168.1.200/storage/'+gambar.dirname+'/'+gambar.filename
+      this.gambar_pilih = 'http://192.168.0.200/storage/'+gambar.dirname+'/'+gambar.filename
     },
     masukGambar() {
       const command = this.command

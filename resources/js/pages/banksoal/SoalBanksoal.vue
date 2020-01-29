@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <h4 id="traffic" class="card-title mb-0">Manage Soal</h4>
-                            <div class="small text-muted">TRY OUT 1</div>
+                            <div class="small text-muted">Manage soal from banksoal</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
                             <button type="button" class="btn float-right btn-primary btn-sm">

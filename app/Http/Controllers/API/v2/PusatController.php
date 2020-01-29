@@ -22,12 +22,26 @@ class PusatController extends Controller
 {
     public function sinkron(Request $request)
     {
-        $matpels = Matpel::all();
+        $vokasi = Peserta::where([
+            'name_server' => $request->server_name
+        ])->groupBy('jurusan_id')->pluck('jurusan_id');
 
-        $banksoal = Banksoal::where([
-            'server_name'   => $request->server_name
-        ])->get();
+        $banksoals = Banksoal::with(['matpel' => function($q) use($vokasi) {
+            $q->whereIn('jurusan_id', $vokasi)
+            ->orWhere('jurusan_id', 0);
+        }])
+        ->get();
 
+        $banksoal = 0;
+        $useBanksoal = array();
+        foreach($banksoals as $b) {
+            if($b->matpel != null) {
+                $banksoal++;
+                array_push($useBanksoal,$b->id);
+            }
+        }
+
+        $soal = Soal::whereIn('banksoal_id', $useBanksoal);
         switch ($request->req) {
             case 'peserta':
                 $peserta = Peserta::where([
@@ -39,30 +53,30 @@ class PusatController extends Controller
                 ];
                 break;
             case 'matpel':
-                $matpels = Matpel::all();
+                $matpels = DB::table('matpels')
+                ->where('jurusan_id',0)
+                ->orWhereIn('jurusan_id', $vokasi)
+                ->get();
                 $data = [
                     'table'  => 'matpels',
                     'data'   => $matpels   
                 ];
                 break;
             case 'banksoal':
-                $banksoal = Banksoal::where([
-                    'server_name'   => $request->server_name
-                ])->get();
                 $data = [
                     'table'  => 'banksoals',
-                    'data'   => $banksoal   
+                    'data'   => $banksoals   
                 ];
                 break;
             case 'soal':
-                $soal = Soal::all();
+                $soals = $soal->get();
                 $data = [
                     'table'  => 'soals',
-                    'data'   => $soal   
+                    'data'   => $soals
                 ];
                 break;
             case 'jawaban_soal':
-                $jawaban_soal = JawabanSoal::all();
+                $jawaban_soal = JawabanSoal::whereIn('soal_id', $soal->pluck('id'))->count();
                 $data = [
                     'table'  => 'jawaban_soals',
                     'data'   => $jawaban_soal   
@@ -147,16 +161,38 @@ class PusatController extends Controller
 
     public function testSync(Request $request)
     {
+        $vokasi = Peserta::where([
+            'name_server' => $request->server_name
+        ])->groupBy('jurusan_id')->pluck('jurusan_id');
+
         $peserta = Peserta::where([
-                    'name_server'   => $request->server_name
-                ])->get()->count();
-        $matpel = Matpel::all()->count();
-        $banksoal = Banksoal::where([
-            'server_name'   => $request->server_name
+            'name_server'   => $request->server_name
         ])->get()->count();
 
-        $soal = Soal::all()->count();
-        $jawaban = JawabanSoal::all()->count();
+        $matpel = DB::table('matpels')
+        ->where('jurusan_id',0)
+        ->orWhereIn('jurusan_id', $vokasi)
+        ->get()->count();
+
+        $banksoals = Banksoal::with(['matpel' => function($q) use($vokasi) {
+            $q->whereIn('jurusan_id', $vokasi)
+            ->orWhere('jurusan_id', 0);
+        }])
+        ->get();
+
+        $banksoal = 0;
+        $useBanksoal = array();
+        foreach($banksoals as $b) {
+            if($b->matpel != null) {
+                $banksoal++;
+                array_push($useBanksoal,$b->id);
+            }
+        }
+        
+        $soal = Soal::whereIn('banksoal_id', $useBanksoal);
+        $countSoal = $soal->count();
+        $jawaban = JawabanSoal::whereIn('soal_id', $soal->pluck('id'))->count();
+        
         $gambar = File::all()->count();
         $jadwal = Jadwal::where('status_ujian',1)->get()->count();
 
@@ -164,7 +200,7 @@ class PusatController extends Controller
             'peserta'       => $peserta,
             'matpel'        => $matpel,
             'banksoal'      => $banksoal,
-            'soal'          => $soal,
+            'soal'          => $countSoal,
             'jawaban_soal'  => $jawaban,
             'gambar'        => $gambar,
             'jadwal'        => $jadwal,
@@ -174,6 +210,29 @@ class PusatController extends Controller
 
     public function cbtSync(Request $request )
     {
+        $vokasi = Peserta::where([
+            'name_server' => $request->server_name
+        ])->groupBy('jurusan_id')->pluck('jurusan_id');
+        
+        $banksoals = Banksoal::with(['matpel' => function($q) use($vokasi) {
+            $q->whereIn('jurusan_id', $vokasi)
+            ->orWhere('jurusan_id', 0);
+        }])
+        ->get();
+
+        $banksoal = 0;
+        $useBanksoal = array();
+        foreach($banksoals as $b) {
+            if($b->matpel != null) {
+                $banksoal++;
+                array_push($useBanksoal,$b->id);
+            }
+        }
+
+        $banksoaler = Banksoal::whereIn('id',$useBanksoal)->get();
+
+        $soal = Soal::whereIn('banksoal_id', $useBanksoal);
+
         switch ($request->req) {
             case 'peserta':
                 $peserta = Peserta::where([
@@ -185,30 +244,30 @@ class PusatController extends Controller
                 ];
                 break;
             case 'matpel':
-                $matpels = Matpel::all();
+                $matpels = DB::table('matpels')
+                ->where('jurusan_id',0)
+                ->orWhereIn('jurusan_id', $vokasi)
+                ->get();
                 $data = [
                     'table'  => 'matpels',
                     'data'   => $matpels   
                 ];
                 break;
             case 'banksoal':
-                $banksoal = Banksoal::where([
-                    'server_name'   => $request->server_name
-                ])->get();
                 $data = [
                     'table'  => 'banksoals',
-                    'data'   => $banksoal   
+                    'data'   => $banksoaler
                 ];
                 break;
             case 'soal':
-                $soal = Soal::all();
+                $soals = $soal->get();
                 $data = [
                     'table'  => 'soals',
-                    'data'   => $soal   
+                    'data'   => $soals
                 ];
                 break;
             case 'jawaban_soal':
-                $jawaban_soal = JawabanSoal::all();
+                $jawaban_soal = JawabanSoal::whereIn('soal_id', $soal->pluck('id'))->get();
                 $data = [
                     'table'  => 'jawaban_soals',
                     'data'   => $jawaban_soal   
@@ -228,8 +287,6 @@ class PusatController extends Controller
                 ];
                 break;
             default:
-                echo 'oke';
-
         }
 
         return response()->json($data);

@@ -16,13 +16,11 @@
 						<template v-slot:cell(lama)="row">
 							{{ parseInt(row.item.lama)/60+ " Menit" }}
 						</template>
+						<template v-slot:cell(banksoals)="row">
+							{{ row.item.banksoal_id == 0 ? 'Produktif' : row.item.banksoal.id }}
+						</template>
 						<template v-slot:cell(status)="row">
 							<b-form-checkbox size="lg" v-model="row.item.status_ujian" @change="seterStatus(row.item.id,row.item.status_ujian)" value="1">Aktif</b-form-checkbox>
-						</template>
-						<template v-slot:cell(action)="row">
-							<router-link :to="{ name: 'ujian.peserta', params: { ujian_id: row.item.id } }" class="btn btn-sm btn-success rounded-0">
-								<font-awesome-icon icon="list" />
-							</router-link>
 						</template>
                     </b-table>
                     <div class="row">
@@ -116,13 +114,11 @@ export default {
 	data() {
 		return {
 			fields: [
-				{ key: 'banksoal.kode_banksoal', label: 'Kode banksoal' },
+				{ key: 'banksoals', label: 'Kode banksoal' },
 				{ key: 'tanggal', label: 'Tanggal' },
 				{ key: 'mulai', label: 'Waktu mulai' },
 				{ key: 'lama', label: 'Durasi' },
-				{ key: 'token', label: 'Token' },
-				{ key: 'status', label: 'Status ujian' },
-				{ key: 'action', label: 'Aksi' }
+				{ key: 'status', label: 'Status ujian' }
 			],
 			search: '',
 			data: {
