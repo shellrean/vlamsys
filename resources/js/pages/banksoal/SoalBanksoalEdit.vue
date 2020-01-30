@@ -166,7 +166,7 @@
               <table class="table table-borderless">
                 <tr v-for="(pilih, index) in pilihan">
                   <td width="10px">
-                    <b-form-radio name="correct" size="lg" :value="index" v-model="correct"></b-form-radio>
+                    <b-form-radio name="correct" size="lg" :value="index" v-model="correct"><span class="text-uppercase">{{ index | charIndex }}</span></b-form-radio>
                   </td>
                   <td>
                     <editor-menu-bar :editor="pilihan[index]" v-slot="{ commands, isActive }">
@@ -412,6 +412,11 @@ export default {
       labelAudio: ''
     }
   },
+  filters: {
+		charIndex(i) {
+			return String.fromCharCode(97 + i)
+		}
+	},
   computed: {
     ...mapGetters(['isLoading']),
     ...mapState(['errors']),

@@ -24,6 +24,10 @@ class ServerController extends Controller
             $server = $server->where('name_server', 'LIKE', '%'.request()->q.'%');
         }
 
+        if (request()->s != '') {
+            $server = $server->where('sekolah_id', request()->s);
+        }
+
         $server = $server->paginate(10);
         return new AppCollection($server);
     }
@@ -38,7 +42,8 @@ class ServerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'server_name'           => 'required|unique:servers,server_name',
-            'description'            => 'required'
+            'description'            => 'required',
+            'sekolah_id'            => 'required'
         ]);
 
         if($validator->fails()) {
@@ -48,6 +53,7 @@ class ServerController extends Controller
         $data = [
             'server_name'           => $request->server_name,
             'description'           => $request->description,
+            'sekolah_id'            => $request->sekolah_id,
             'serial_number'         => '-',
             'sinkron'               => '0',
             'status'                => '0'
@@ -68,6 +74,24 @@ class ServerController extends Controller
     {
         $server = Server::find($id);
         $server->delete();
+
+        return response()->json([]);
+    }
+
+    public function changeStatus($id)
+    {
+        $server = Server::find($id);
+        $server->status = ($server->status == 0 ? '1' : '0');
+        $server->save();
+
+        return response()->json([]);
+    }
+
+    public function resetSerial($id)
+    {
+        $server = Server::find($id);
+        $server->serial_number = '-';
+        $server->save();
 
         return response()->json([]);
     }

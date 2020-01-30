@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Peserta;
+use App\Server;
 
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +26,11 @@ class PesertaController extends Controller
         $peserta = Peserta::orderBy('no_ujian');
         if (request()->q != '') {
             $peserta = $peserta->where('nama', 'LIKE', '%'.request()->q.'%');
+        }
+
+        if (request()->s != '') {
+            $server = Server::where('sekolah_id',request()->s)->pluck('server_name');
+            $peserta = $peserta->whereIn('name_server', $server);
         }
 
         $peserta = $peserta->paginate(10);

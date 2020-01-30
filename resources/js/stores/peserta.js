@@ -48,9 +48,11 @@ const mutations = {
 
 const actions = {
 	getPesertas({ commit, state }, payload) {
-		let search = typeof payload != 'undefined' ? payload : ''
+		let search = typeof payload != 'undefined' ? (typeof payload.search != 'undefined' ? payload.search : '') : ''
+		let sekolah = typeof payload != 'undefined' ? (typeof payload.sekolah != 'undefined' ? payload.sekolah : '') : ''
+		
 		return new Promise(( resolve, reject ) => {
-			$axios.get(`/peserta?page=${state.page}&q=${search}`)
+			$axios.get(`/peserta?page=${state.page}&q=${search}&s=${sekolah}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
 				resolve(response.data)

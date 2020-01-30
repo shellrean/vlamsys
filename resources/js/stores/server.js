@@ -4,7 +4,8 @@ const state = () => ({
 	servers: [],
 	server: {
 		name_server: '',
-		description: ''
+		description: '',
+		sekolah_id: ''
 	},
 	page: 1
 })
@@ -20,6 +21,7 @@ const mutations = {
 		state.server = {
 			name_server: payload.name_server,
 			description: payload.description,
+			sekolah_id: payload.sekolah_id
 		}
 	},
 	CLEAR_FORM(state) {
@@ -33,8 +35,10 @@ const mutations = {
 const actions = {
 	getServers({ commit, state }, payload) {
 		return new Promise(( resolve, reject) => {
-			let search = typeof payload != 'undefined' ? payload : ''
-			$axios.get(`/server?page=${state.page}&q=${search}`)
+			let search = typeof payload != 'undefined' ? (typeof payload.search != 'undefined' ? payload.search : '') : ''
+			let sekolah = typeof payload != 'undefined' ? (typeof payload.sekolah != 'undefined' ? payload.sekolah : '') : ''
+		
+			$axios.get(`/server?page=${state.page}&q=${search}&s=${sekolah}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
 				resolve(response.data)
@@ -62,6 +66,22 @@ const actions = {
 	removeServer({ dispatch }, payload) {
 		return new Promise((resolve, reject) => {
 			$axios.delete(`/server/${payload}`)
+			.then((response) => {
+				dispatch('getServers').then(() => resolve())
+			})
+		})
+	},
+	revertServer({ dispatch }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.post(`/server/changed/${payload}`)
+			.then((response) => {
+				dispatch('getServers').then(() => resolve())
+			})
+		})
+	},
+	resetSerial({ dispatch }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.post(`/server/reset-serial/${payload}`)
 			.then((response) => {
 				dispatch('getServers').then(() => resolve())
 			})

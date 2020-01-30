@@ -28,6 +28,12 @@ class SekolahController extends Controller
         return new AppCollection($sekolah);
     }
 
+    public function allSekolah()
+    {
+        $sekolah = Sekolah::orderBy('nama')->get();
+        return new AppCollection($sekolah);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

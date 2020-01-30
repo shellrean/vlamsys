@@ -118,15 +118,28 @@ class PusatController extends Controller
 
     public function registerServer(Request $request) 
     {
-        $server = Server::where(['server_name' => $request->server_name])->first();
-        if($server->serial_number != '-') {
-            return response()->json(['status' => 'error']);
+        $server = DB::table('servers')
+        ->join('passwords', fn($q) => 
+            $q->on('passwords.server_name','=', 'servers.server_name')
+        )
+        ->where('servers.server_name', $request->server_name)
+        ->where('passwords.password', $request->password)
+        ->select('servers.id','servers.server_name','passwords.password')
+        ->first();
+
+        if($server) {
+            $serverc = Server::find($server->id);
+            if($serverc->serial_number != '-') {
+                return response()->json(['status' => 'error']);
+            }
+    
+            $serverc->serial_number = $request->serial_number;
+            $serverc->save();
+    
+            return response()->json(['status' => 'success', 'data' => $serverc, 'password' => $server->password]);
         }
-
-        $server->serial_number = $request->serial_number;
-        $server->save();
-
-        return response()->json(['status' => 'success']);
+        
+        return response()->json(['status' => 'notfound']);
     }   
 
     public function uploadHasil(Request $request)

@@ -7,23 +7,36 @@
 			</p>
 		</div>
 		<div class="form-group">
+			<label>Sekolah</label>
+			<select class="form-control" v-model="server.sekolah_id">
+				<option v-for="sekolah in sekolahs.data" :value="sekolah.id" v-text="sekolah.nama"></option>
+			</select>
+		</div>
+		<div class="form-group">
 			<label>Desripsi</label>
 			<input type="text" class="form-control" :class="{ 'is-invalid' : errors.description }" placeholder="Deskripsi" v-model="server.description">
 		</div>
 	</div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
 	name: 'FormServer',
+	created() {
+		this.getSekolah()
+	},
 	computed: {
 		...mapState(['errors']),
 		...mapState('server', {
 			server: state => state.server
-		})
+		}),
+		...mapState('sekolah', {
+			sekolahs: state => state.sekolah
+		}),
 	},
 	methods: {
-		...mapMutations('server',['CLEAR_FORM'])
+		...mapMutations('server',['CLEAR_FORM']),
+		...mapActions('sekolah', ['getSekolah', ]),
 	},
 	destroyed() {
 		this.CLEAR_FORM()

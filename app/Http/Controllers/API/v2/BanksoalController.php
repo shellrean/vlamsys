@@ -90,6 +90,12 @@ class BanksoalController extends Controller
     public function update(Request $request, $id)
     {
         $banksoal = Banksoal::find($id);
+        $banksoal->kode_banksoal = $request->kode_banksoal;
+        
+        if(gettype($request->matpel_id) == 'array') {
+            $banksoal->matpel_id = $request->matpel_id['id'];
+        }
+
         $banksoal->jumlah_soal = $request->jumlah_soal;
         $banksoal->jumlah_soal_esay = $request->jumlah_soal_esay;
         $banksoal->save();

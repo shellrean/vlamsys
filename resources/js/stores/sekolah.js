@@ -14,6 +14,9 @@ const mutations = {
 	ASSIGN_DATA(state, payload) {
 		state.sekolah = payload
 	},
+	ASSIGN_ALL_DATA(state, payload) {
+		state.sekolah = payload
+	},
 	SET_PAGE(state, payload) {
 		state.page = payload
 	},
@@ -40,6 +43,15 @@ const actions = {
 			$axios.get(`/sekolah?page=${state.page}&q=${search}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
+				resolve(response.data)
+			})
+		})
+	},
+	getAllSekolah({ commit, state }, payload) {
+		return new Promise(( resolve, reject) => {
+			$axios.get(`/all-sekolah`)
+			.then((response) => {
+				commit('ASSIGN_ALL_DATA', response.data)
 				resolve(response.data)
 			})
 		})

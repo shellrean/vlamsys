@@ -10,14 +10,41 @@
                     </div>
 				</div>
 				<div class="card-body">
-					<b-table striped hover bordered small :fields="fields" :items="pesertas.data" :busy="isBusy" show-empty>
+					<div class="row">
+                        <div class="col-sm-5">
+                            <h4 id="traffic" class="card-title mb-0">Manage Peserta</h4>
+                            <div class="small text-muted">Manage soal from banksoal</div>
+                        </div>
+                        <div class="d-none d-md-block col-sm-7">
+                            <button type="button" class="btn float-right btn-primary btn-sm">
+                                <font-awesome-icon icon="file-word" />
+                            </button>
+                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
+                                <i class="cil-print"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="input-group mb-3">
+								<select class="form-control" v-model="sekolah">
+									<option v-for="sekolah in sekolahs.data" :value="sekolah.id" v-text="sekolah.nama"></option>
+								</select>
+								<div class="input-group-append">
+									<button class="btn btn-outline-primary" type="button" @click="getDataPesertas">Tampilkan</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<b-table striped hover bordered small :fields="fields" :items="pesertas.data" :busy="isBusy" show-empty v-show="pesertas.data">
 						<template v-slot:cell(actions)="row">
 							<b-button variant="danger" squared size="sm" @click="deletePeserta(row.item.id)">
 								<font-awesome-icon icon="trash" />
 							</b-button>
 						</template>
 					</b-table>
-					<div class="row">
+					<div class="row" v-show="pesertas.data">
                         <div class="col-md-6">
                             <p v-if="pesertas.data"><i class="fa fa-bars"></i> {{ pesertas.data.length }} item dari {{ pesertas.meta.total }} total data</p>
                         </div>
@@ -44,7 +71,8 @@ import { mapActions, mapState } from 'vuex'
 export default {
 	name: 'DataPeserat',
 	created() {
-		this.getPesertas()
+		// 
+		this.getSekolah()
 	},
 	data() {
 		return {
@@ -55,12 +83,16 @@ export default {
 				{ key: 'actions', label: 'Aksi' }
 			],
 			search: '',
-			isBusy: true
+			isBusy: true,
+			sekolah: ''
 		}
 	},
 	computed: {
 		...mapState('peserta', {
 			pesertas: state => state.pesertas
+		}),
+		...mapState('sekolah', {
+			sekolahs: state => state.sekolah
 		}),
 		page: {
 			get() {
@@ -73,6 +105,7 @@ export default {
 	},
 	methods: {
 		...mapActions('peserta', ['getPesertas','removePeserta']),
+		...mapActions('sekolah', ['getSekolah', ]),
 		deletePeserta(id) {
 			this.$swal({
 				title: 'Kamu Yakin?',
@@ -87,6 +120,11 @@ export default {
                     this.removePeserta(id)
                 }
             })
+		},
+		getDataPesertas() {
+			this.getPesertas({
+				sekolah: this.sekolah
+			})
 		}
 	},
 	watch: {
@@ -94,7 +132,9 @@ export default {
 			this.getPesertas()
 		},
 		search() {
-			this.getPesertas(this.search)
+			this.getPesertas({
+				search: this.search
+			})
 		},
 		pesertas() {
 			this.isBusy = false

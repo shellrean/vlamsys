@@ -54,9 +54,11 @@ Route::group(['middleware' => 'auth.api'], function() {
 	Route::post('/upload/file-audio', 'API\v2\DirectoryController@uploadAudio');
 
 	Route::apiResource('/server','API\v2\ServerController');
+	Route::post('/server/changed/{id}', 'API\v2\ServerController@changeStatus');
+	Route::post('/server/reset-serial/{id}', 'API\v2\ServerController@resetSerial');
 
 	Route::apiResource('/sekolah','API\v2\SekolahController');
-
+	Route::get('/all-sekolah', 'API\v2\SekolahController@allSekolah');
 });
 
 Route::post('/pusat/test-sync', 'API\v2\PusatController@testSync');

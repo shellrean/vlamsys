@@ -12,10 +12,10 @@
 					<b-table striped hover bordered small :fields="fields" :items="sekolah.data" show-empty>
 						<template v-slot:cell(actions)="row">
 							<router-link :to="{ name: 'sekolah.edit', params: { id: row.item.id } }" class="btn btn-warning btn-sm rounded-0">
-								<font-awesome-icon icon="edit" />
+								<font-awesome-icon icon="edit" /> Edit
 							</router-link>
 							<b-button variant="danger" squared size="sm" @click="deleteSekolah(row.item.id)">
-								<font-awesome-icon icon="trash" />
+								<font-awesome-icon icon="trash" /> Hapus
 							</b-button>
 						</template>
 					</b-table>
