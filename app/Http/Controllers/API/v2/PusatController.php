@@ -118,10 +118,9 @@ class PusatController extends Controller
 
     public function registerServer(Request $request) 
     {
-        $server = DB::table('servers')
-        ->join('passwords', fn($q) => 
-            $q->on('passwords.server_name','=', 'servers.server_name')
-        )
+        $server = DB::table('servers')->join('passwords', function($q)  { 
+            $q->on('passwords.server_name','=', 'servers.server_name');
+        })
         ->where('servers.server_name', $request->server_name)
         ->where('passwords.password', $request->password)
         ->select('servers.id','servers.server_name','passwords.password')
@@ -146,27 +145,46 @@ class PusatController extends Controller
     {
         $output = json_decode($request->req, true);
         $esay = json_decode($request->esay, true);
+        $data = json_decode($request->datad,true);
+        
+        // if($output != null) {
+        //     foreach($output as $o) {
+        //         Result::create([
+        //             'server_name'   => $request->server_name,
+        //             'jadwal_id'     => $o['jadwal_id'],
+        //             'peserta_id'    => $o['peserta_id'],
+        //             'salah'         => $o['hasil']['jumlah_salah'],
+        //             'benar'         => $o['hasil']['jumlah_benar'],
+        //             'kosong'        => $o['hasil']['tidak_diisi'],
+        //             'hasil'         => $o['hasil']['hasil']
+        //         ]);
+        //     }
+        // }
 
-        foreach($output as $o) {
-            Result::create([
-                'server_name'   => $request->server_name,
-                'jadwal_id'     => $o['jadwal_id'],
-                'peserta_id'    => $o['peserta_id'],
-                'salah'         => $o['hasil']['jumlah_salah'],
-                'benar'         => $o['hasil']['jumlah_benar'],
-                'kosong'        => $o['hasil']['tidak_diisi'],
-                'hasil'         => $o['hasil']['hasil']
+        // if($esay != null) {
+        //     foreach($esay as $e) {
+        //         DB::table('result_esay')->insert([
+        //             'banksoal_id'   => $e['banksoal_id'], 
+        //             'soal_id'       => $e['soal_id'],
+        //             'peserta_id'    => $e['peserta_id'],
+        //             'jadwal_id'     => $e['jadwal_id'],
+        //             'txt_jawaban'   => $e['jawab_essy']
+        //         ]);
+        //     }
+        // }
+        
+        foreach($data as $d) {
+           
+            DB::table('jawaban_pesertas')->insert([
+                'banksoal_id'   => $d['banksoal_id'],
+                'soal_id'       => $d['soal_id'],
+                'peserta_id'    => $d['peserta_id'],
+                'jadwal_id'     => $d['jadwal_id'],
+                'jawab'         => $d['jawab'],
+                'ragu_ragu'     => $d['ragu_ragu'],
+                'iscorrect'     => $d['iscorrect']
             ]);
-        }
-
-        foreach($esay as $e) {
-            DB::table('result_esay')->insert([
-                'banksoal_id'   => $e['banksoal_id'], 
-                'soal_id'       => $e['soal_id'],
-                'peserta_id'    => $e['peserta_id'],
-                'jadwal_id'     => $e['jadwal_id'],
-                'txt_jawaban'   => $e['jawab_essy']
-            ]);
+            
         }
 
         return response()->json(['data' => 'OK']);

@@ -16,9 +16,9 @@
                             <button type="button" class="btn float-right btn-primary btn-sm">
                                 <font-awesome-icon icon="file-word" />
                             </button>
-                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
+                            <a :href="'/prev/banksoal/'+$route.params.banksoal_id" target="_blank" class="btn float-right btn-primary btn-sm mx-1">
                                 <i class="cil-print"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <br>

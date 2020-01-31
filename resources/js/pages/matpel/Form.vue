@@ -15,32 +15,41 @@
 		</div>
 		<div class="form-group" v-show="produktif">
 			<label>Jurusan</label>
-			<select class="form-control" v-model="matpel.jurusan_id">
-				<option value="0">Pilih</option>
-				<option value="1">Teknik Komputer & Jaringan</option>
-				<option value="2">Akuntansi Keuangan Lembaga</option>
-			</select>
+			<v-select label="nama" :options="jurusans.data" v-model="matpel.jurusan_id"></v-select>
 		</div>
 	</div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+
 export default {
 	name: 'FormMatpel',
+	created() {
+		this.getJurusans()
+	},
 	data() {
 		return {
 			produktif: false,
 			jurusan_id: 0
 		}
 	},
+	components: {
+    'v-select': vSelect
+  },
 	computed: {
 		...mapState(['errors']),
 		...mapState('matpel', {
 			matpel : state => state.matpel
+		}),
+		...mapState('sekolah', {
+			jurusans: state => state.jurusan
 		})
 	},
 	methods: {
-		...mapMutations('matpel', ['CLEAR_FORM'])
+		...mapMutations('matpel', ['CLEAR_FORM']),
+		...mapActions('sekolah',['getJurusans'])
 	},
 	destroyed() {
 		this.$notify({

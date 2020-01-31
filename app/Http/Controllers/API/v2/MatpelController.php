@@ -50,6 +50,7 @@ class MatpelController extends Controller
         $validator = Validator::make($request->all(), [
             'kode_mapel'    => 'required|unique:matpels,kode_mapel',
             'nama'          => 'required',
+            'jurusan_id'    => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -59,11 +60,12 @@ class MatpelController extends Controller
         $data = [
             'kode_mapel'    => $request->kode_mapel,
             'nama'          => $request->nama,
-            'jurusan_id' => ($request->jurusan_id != '' ? $request->jurusan_id : 0 ),
+            'jurusan_id' => ($request->jurusan_id != '' ? $request->jurusan_id['id'] : 0 ),
         ];
         
 
         $data = Matpel::create($data);
+
 
         return response()->json(['data' => $data]);
     }

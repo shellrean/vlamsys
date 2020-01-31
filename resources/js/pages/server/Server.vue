@@ -28,7 +28,7 @@
 						<div class="col-sm-5">
 							<div class="input-group mb-3">
 								<select class="form-control" v-model="sekolah">
-									<option v-for="sekolah in sekolahs.data" :value="sekolah.id" v-text="sekolah.nama"></option>
+									<option v-for="sekolah in sekolahs.data" :key="sekolah.id" :value="sekolah.id" v-text="sekolah.nama"></option>
 								</select>
 								<div class="input-group-append">
 									<button class="btn btn-outline-primary" type="button" @click="getDataServers">Tampilkan</button>
@@ -105,6 +105,7 @@ export default {
 				{ key: 'show_details', label: 'Detail' },
 				{ key: 'server_name', label: 'Server name' },
 				{ key: 'description', label: 'Keterangan' },
+				{ key: 'password.password', label: 'Password'},
 				{ key: 'actions', label: 'Aksi' }
 			],
 			search: '',

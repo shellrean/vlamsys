@@ -28,7 +28,7 @@ class ServerController extends Controller
             $server = $server->where('sekolah_id', request()->s);
         }
 
-        $server = $server->paginate(10);
+        $server = $server->with(['password'])->paginate(10);
         return new AppCollection($server);
     }
 

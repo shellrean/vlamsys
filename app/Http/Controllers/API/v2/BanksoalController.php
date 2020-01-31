@@ -10,6 +10,8 @@ use App\Banksoal;
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
+use PDF;
+
 class BanksoalController extends Controller
 {
     /**
@@ -114,5 +116,18 @@ class BanksoalController extends Controller
         $laundry = Banksoal::find($id);
         $laundry->delete();
         return response()->json(['status' => 'success']);
+    }
+
+    /**
+     *
+     *
+     * @param int $id
+     */
+    public function preBanksoal($id)
+    {
+        $banksoals = Banksoal::with(['pertanyaans','pertanyaans.jawabans'])->where('id', $id)->first();
+
+        $pdf = PDF::loadview('prev.banksoal',compact('banksoals'));
+        return $pdf->stream('laporan-pegawai.pdf');
     }
 }

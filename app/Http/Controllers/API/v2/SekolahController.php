@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Sekolah;
+use DB;
 
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
@@ -108,5 +109,12 @@ class SekolahController extends Controller
         $sekolah->delete();
 
         return response()->json([],200);
+    }
+
+    public function allJurusan()
+    {
+        $data = DB::table('jurusans')->get();
+
+        return response()->json(['data' => $data]);
     }
 }
