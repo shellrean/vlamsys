@@ -24,4 +24,9 @@ class Banksoal extends Model
     {
     	return $this->belongsTo('App\User','author');
     }
+
+    public function ujian()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 }

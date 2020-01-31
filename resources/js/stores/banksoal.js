@@ -1,7 +1,8 @@
 import $axios from '../api.js'
 
 const state = () => ({
-	banksoals: [],
+    banksoals: [],
+    allBanksoals: [],
     banksoal: '',
 	page: 1
 })
@@ -9,7 +10,10 @@ const state = () => ({
 const mutations = {
 	ASSIGN_DATA(state, payload) {
 		state.banksoals = payload
-	},
+    },
+    ASSIGN_ALL_DATA(state, payload){ 
+        state.allBanksoals = payload
+    },
 	SET_PAGE(state, payload) {
         state.page = payload
     },
@@ -28,7 +32,17 @@ const actions = {
 				resolve(response.data)
 			})
 		}) 
-	},
+    },
+    getAllBanksoals({ commit, state }, payload) {
+		let search = typeof payload != 'undefined' ? payload : ''
+		return new Promise(( resolve, reject ) =>  {
+			$axios.get(`/banksoal/get-all`)
+			.then((response) => {
+				commit('ASSIGN_ALL_DATA', response.data)
+				resolve(response.data)
+			})
+		}) 
+    },
     getBanksoal({ commit, state }, payload) {
         return new Promise(( resolve, reject ) => {
             $axios.get(`/banksoal/${payload}`)

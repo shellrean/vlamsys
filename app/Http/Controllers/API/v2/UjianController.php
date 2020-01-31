@@ -11,6 +11,7 @@ use App\SiswaUjian;
 use App\HasilUjian;
 use App\Result;
 use App\ResultEsay;
+use App\Banksoal;
 
 use DB;
 use App\Http\Resources\AppCollection;
@@ -33,6 +34,22 @@ class UjianController extends Controller
 
         $ujian = $ujian->paginate(10);
         return new AppCollection($ujian);
+    }
+
+    public function getByBanksoal($id)
+    {
+        $rest = DB::table('jawaban_pesertas')
+        ->where('jawaban_pesertas.banksoal_id', $id)
+        ->join('jadwals', function($j) {
+            $j->on('jawaban_pesertas.jadwal_id', 'jadwals.id');
+        })
+        ->groupBy('jadwals.id')
+        ->select('jadwals.id')
+        ->pluck('id');
+
+        $ujian = Jadwal::whereIn('id', $rest)->paginate(10);
+
+        return response()->json(['data' => $ujian]);
     }
 
     /**

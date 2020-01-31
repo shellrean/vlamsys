@@ -66,21 +66,21 @@
 		    	<div class="col-md-4">
 		    		<div class="form-group">
 				    	<label>Jam mulai</label>
-				    	<datetime v-model="data.mulai" input-class="form-control" :class="{ 'is-invalid' : errors.mulai }" type="time"></datetime>
+				    	<datetime id="mulai" v-model="data.mulai" input-class="form-control" :class="{ 'is-invalid' : errors.mulai }" type="time"></datetime>
 				    	<div class="invalid-feedback" v-if="errors.mulai">{{ errors.mulai[0] }}</div>
 				    </div>
 		    	</div>
 		    	<div class="col-md-4">
 					<div class="form-group">
 				    	<label>Jam ditutup</label>
-				    	<datetime v-model="data.berakhir" input-class="form-control" :class="{ 'is-invalid' : errors.berakhir }" type="time"></datetime>
+				    	<datetime id="tutup" v-model="data.berakhir" input-class="form-control" :class="{ 'is-invalid' : errors.berakhir }" type="time"></datetime>
 				    	<div class="invalid-feedback" v-if="errors.berakhir">{{ errors.berakhir[0] }}</div>
 				    </div>
 		    	</div>
 		    	<div class="col-md-4">
 					<div class="form-gorup">
 				    	<label>Durasi</label>
-				    	<input type="number" class="form-control" :class="{ 'is-invalid' : errors.lama }" name="" placeholder="Menit" v-model="data.lama">
+				    	<input id="durasi" type="number" class="form-control" :class="{ 'is-invalid' : errors.lama }" name="" placeholder="Menit" v-model="data.lama">
 				    	<div class="invalid-feedback" v-if="errors.lama">{{ errors.lama[0] }}</div>
 				    </div>
 		    	</div>
@@ -108,7 +108,7 @@ export default {
 	},
 	created() {
 		this.getUjians()
-		this.getBanksoals()
+		this.getAllBanksoals()
 	},
 	data() {
 		return {
@@ -139,7 +139,7 @@ export default {
 			ujians: state => state.ujians
 		}),
 		...mapState('banksoal', {
-			banksoals: state => state.banksoals.data
+			banksoals: state => state.allBanksoals.data
 		}),
 		page: {
 			get() {
@@ -152,7 +152,7 @@ export default {
 	},
 	methods: {
 		...mapActions('ujian', ['getUjians','addUjian','setStatus','changeToken']),
-		...mapActions('banksoal', ['getBanksoals']),
+		...mapActions('banksoal', ['getAllBanksoals']),
 		...mapMutations(['CLEAR_ERROR', 'SET_LOADING']),
 		postUjian() {
 			this.addUjian({
