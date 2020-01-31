@@ -147,19 +147,19 @@ class PusatController extends Controller
         $esay = json_decode($request->esay, true);
         $data = json_decode($request->datad,true);
         
-        // if($output != null) {
-        //     foreach($output as $o) {
-        //         Result::create([
-        //             'server_name'   => $request->server_name,
-        //             'jadwal_id'     => $o['jadwal_id'],
-        //             'peserta_id'    => $o['peserta_id'],
-        //             'salah'         => $o['hasil']['jumlah_salah'],
-        //             'benar'         => $o['hasil']['jumlah_benar'],
-        //             'kosong'        => $o['hasil']['tidak_diisi'],
-        //             'hasil'         => $o['hasil']['hasil']
-        //         ]);
-        //     }
-        // }
+        if($output != null) {
+            foreach($output as $o) {
+                Result::create([
+                    'server_name'   => $request->server_name,
+                    'jadwal_id'     => $o['jadwal_id'],
+                    'peserta_id'    => $o['peserta_id'],
+                    'salah'         => $o['hasil']['jumlah_salah'],
+                    'benar'         => $o['hasil']['jumlah_benar'],
+                    'kosong'        => $o['hasil']['tidak_diisi'],
+                    'hasil'         => $o['hasil']['hasil']
+                ]);
+            }
+        }
 
         // if($esay != null) {
         //     foreach($esay as $e) {
@@ -173,18 +173,20 @@ class PusatController extends Controller
         //     }
         // }
         
-        foreach($data as $d) {
-           
-            DB::table('jawaban_pesertas')->insert([
-                'banksoal_id'   => $d['banksoal_id'],
-                'soal_id'       => $d['soal_id'],
-                'peserta_id'    => $d['peserta_id'],
-                'jadwal_id'     => $d['jadwal_id'],
-                'jawab'         => $d['jawab'],
-                'ragu_ragu'     => $d['ragu_ragu'],
-                'iscorrect'     => $d['iscorrect']
-            ]);
-            
+        if($data != null) {
+            foreach($data as $d) {
+               
+                DB::table('jawaban_pesertas')->insert([
+                    'banksoal_id'   => $d['banksoal_id'],
+                    'soal_id'       => $d['soal_id'],
+                    'peserta_id'    => $d['peserta_id'],
+                    'jadwal_id'     => $d['jadwal_id'],
+                    'jawab'         => $d['jawab'],
+                    'ragu_ragu'     => $d['ragu_ragu'],
+                    'iscorrect'     => $d['iscorrect']
+                ]);
+                
+            }
         }
 
         return response()->json(['data' => 'OK']);
