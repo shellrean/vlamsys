@@ -6,14 +6,18 @@
 					<router-link to="/filemedia" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
 				</div>
 				<div class="card-body">
-					<div class="input-group">
-					  <div class="custom-file">
-					    <input type="file" class="custom-file-input" @change="onFileChange">
-					    <label class="custom-file-label">{{ label ? label : 'Pilih File...' }}</label>
-					  </div>
-					  <div class="input-group-append">
-					    <button class="btn btn-outline-primary" type="button" @click="uploadFile">Upload</button>
-					  </div>
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="input-group">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" @change="onFileChange">
+								<label class="custom-file-label">{{ label ? label : 'Pilih File...' }}</label>
+							</div>
+							<div class="input-group-append">
+								<button class="btn btn-outline-primary" type="button" @click="uploadFile">Upload</button>
+							</div>
+							</div>
+						</div>
 					</div>
 					<div class="row mt-2">
   						<div class="col-md-12">
@@ -31,7 +35,7 @@
   										<img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail" style="max-width: 50px">
   									</td>
   									<td>
-  										<b-button variant="danger" squared><font-awesome-icon icon="trash" /></b-button>
+  										<b-button variant="danger" squared size="sm" ><font-awesome-icon icon="trash" /> Hapus</b-button>
   									</td>
   								</tr>
   							</table>

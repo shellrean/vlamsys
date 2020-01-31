@@ -28,6 +28,15 @@ const actions = {
 			})
 		})
 	},
+	getDirectory({ commit, state }, payload) {
+		return new Promise(( resolve, reject) => {
+			$axios.get(`/directory/banksoal/`, payload)
+			.then((response) => {
+				commit('ASSIGN_DIRECTORY_DATA',response.data)
+				resolve(response.data)
+			})
+		})
+	},
 	addDirectory({ commit, state }, payload) {
 		return new Promise(( resolve, reject) => {
 			$axios.post(`/directory`, payload)
@@ -43,7 +52,7 @@ const actions = {
 	},
 	getContentFilemedia({ commit, state }, payload) {
 		return new Promise(( resolve, reject) => {
-			$axios.get(`/directory/${payload}?page=${state.page}`)
+			$axios.get(`/directory/banksoal/${payload}?page=${state.page}`)
 			.then((response) => {
 				commit('ASSIGN_CONTENT_DIRECTORY', response.data)
 				resolve(response.data)

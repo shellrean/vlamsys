@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Banksoal;
+use App\Directory;
+use App\File;
 
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 use PDF;
 
@@ -55,16 +58,23 @@ class BanksoalController extends Controller
             return response()->json(['errors' => $validator->errors()],422);
         }
 
+        $direk = Directory::create([
+            'name'      => $request->kode_banksoal,
+            'slug'      => Str::slug($request->kode_banksoal, '-')
+        ]);
+
         $data = [
             'kode_banksoal'     => $request->kode_banksoal,
             'matpel_id'         => $request->matpel_id,
             'author'            => auth()->user()->id,
             'jumlah_soal'       => $request->jumlah_soal,
             'jumlah_pilihan'    => $request->jumlah_pilihan,
-            'jumlah_soal_esay'  => $request->jumlah_soal_esay
+            'jumlah_soal_esay'  => $request->jumlah_soal_esay,
+            'directory_id'      => $direk->id
         ];
 
         $res = Banksoal::create($data);
+
 
         return response()->json(['data' => $res]);
     }
@@ -113,8 +123,13 @@ class BanksoalController extends Controller
      */
     public function destroy($id)
     {
-        $laundry = Banksoal::find($id);
-        $laundry->delete();
+        $banksoal = Banksoal::find($id);
+        
+        File::where('directory_id', $banksoal->directory_id)->delete();
+        Directory::find($banksoal->directory_id)->delete();
+        
+        $banksoal->delete();
+
         return response()->json(['status' => 'success']);
     }
 

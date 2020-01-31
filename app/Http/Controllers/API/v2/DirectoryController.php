@@ -21,7 +21,7 @@ class DirectoryController extends Controller
      */
     public function index()
     {
-        $directories = Directory::all();
+        $directories = Directory::withCount(['file'])->latest()->get();
 
         return response()->json(['data' => $directories]);
     }
@@ -118,5 +118,12 @@ class DirectoryController extends Controller
         $logo = File::create($data);
 
         return response()->json(['data' => $logo]);
+    }
+
+    public function getDirectoryBanksoal($id)
+    {
+        $contentDirectory = File::where(['directory_id' => $id]);
+        $contentDirectory = $contentDirectory->paginate(10);
+        return new AppCollection($contentDirectory);
     }
 }

@@ -3,12 +3,13 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-header">
-					<b-button @click="$bvModal.show('modal-scoped')" variant="primary" squared>Buat direktori</b-button>
+					Daftar direktori tersedia
 				</div>
 				<div class="card-body">
 					<b-list-group>
 					  <b-list-group-item class="d-flex justify-content-between align-items-center" v-for="(directory,index) in directories" :key="index">
-					    <router-link :to="{ name: 'filemedia.directory', params: { 'directory_id' : directory.id } }">{{ directory.name }}</router-link>
+					    <router-link :to="{ name: 'filemedia.directory', params: { 'directory_id' : directory.id } }">{{ directory.name }}</router-link> 
+						<b-badge>{{ directory.file_count }}</b-badge>
 					  </b-list-group-item>
 					</b-list-group>
 				</div>
