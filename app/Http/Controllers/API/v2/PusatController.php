@@ -147,7 +147,7 @@ class PusatController extends Controller
         $esay = json_decode($request->esay, true);
         $data = json_decode($request->datad,true);
         
-        if($output != null) {
+        if($output != '') {
             foreach($output as $o) {
                 Result::create([
                     'server_name'   => $request->server_name,
@@ -173,7 +173,7 @@ class PusatController extends Controller
         //     }
         // }
         
-        if($data != null) {
+        if($data != '') {
             foreach($data as $d) {
                
                 DB::table('jawaban_pesertas')->insert([

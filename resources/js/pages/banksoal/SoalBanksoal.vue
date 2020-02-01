@@ -18,6 +18,7 @@
                             </button>
                             <a :href="'/prev/banksoal/'+$route.params.banksoal_id" target="_blank" class="btn float-right btn-primary btn-sm mx-1">
                                 <i class="cil-print"></i>
+                                Preview soal
                             </a>
                         </div>
                     </div>

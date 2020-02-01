@@ -57,6 +57,9 @@
 		.table-mx {
 			width: 100%;
 		}
+		.yellow {
+			background-color: #eee;
+		}
 	</style>
 </head>
 <body>
@@ -81,9 +84,16 @@
 						<td colspan="2">
 							<table class="table-sm">
 								@php $a = 'a';
+
 								@endphp
 								@foreach($p->jawabans as $j)
-								<tr>
+								@php 
+								$class = '';
+								if($j->correct) {
+									$class = 'yellow';
+								}
+								@endphp
+								<tr class="<?= $class ?>">
 									<td>{{ strtoupper(chr(ord($a))) }}. </td>
 									<td>{!! $j->text_jawaban !!}</td>
 								</tr>
