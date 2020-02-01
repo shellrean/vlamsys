@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth.api'], function() {
 	Route::apiResource('/peserta', 'API\v2\PesertaController');
 	Route::post('/peserta/upload', 'API\v2\PesertaController@import');
 
+	Route::get('/banksoal/get-all', 'API\v2\BanksoalController@getAll');
 	Route::apiResource('/banksoal', 'API\v2\BanksoalController');
 
 	Route::resource('/soal', 'API\v2\SoalController');
@@ -48,6 +49,7 @@ Route::group(['middleware' => 'auth.api'], function() {
 	Route::get('/ujian/hasil/{id}', 'API\v2\UjianController@getHasil');
 	Route::get('/ujian/esay/get', 'API\v2\UjianController@getEsay');
 	Route::post('/ujian/esay/input', 'API\v2\UjianController@inputEsay');
+	Route::get('/ujian/banksoal/{id}', 'API\v2\UjianController@getByBanksoal');
 
 	Route::apiResource('/directory', 'API\v2\DirectoryController');
 	Route::post('/directory/filemedia', 'API\v2\DirectoryController@storeFilemedia');

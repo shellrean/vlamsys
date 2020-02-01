@@ -46,7 +46,7 @@
           </a>
           <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
-              <router-link class="c-sidebar-nav-link" to="/ujian">
+              <router-link class="c-sidebar-nav-link" :to="{ name: 'ujian.data' }">
                 <span class="c-sidebar-nav-icon"></span> Jadwal
               </router-link>
             </li>
@@ -55,7 +55,7 @@
                 <span class="c-sidebar-nav-icon"></span> Hasil ujian
               </router-link>
             </li>
-            <li class="c-sidebar-nav-item">
+            <li class="c-sidebar-nav-item" v-if="$can('koreksi_esay')">
               <router-link class="c-sidebar-nav-link" :to="{ name: 'ujian.koreksi' }">
                 <span class="c-sidebar-nav-icon"></span> Koreksi esay
               </router-link>

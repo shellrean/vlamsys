@@ -37,6 +37,15 @@ const actions = {
 			})
 		})
 	},
+	getUjianByBanksoal({ commit, state }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.get(`/ujian/banksoal/${payload}`)
+			.then((response) => {
+				commit('ASSIGN_DATA', response.data)
+				resolve(response.data)
+			})
+		})
+	},
 	addUjian({ commit, state }, payload) {
 		return new Promise((resolve, reject) => {
 			$axios.post(`/ujian`, payload) 

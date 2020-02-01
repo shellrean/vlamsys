@@ -39,6 +39,20 @@ class BanksoalController extends Controller
         return new AppCollection($banksoal);
     }
 
+    public function getAll()
+    {
+        $user = request()->user('api'); 
+
+        $banksoal = Banksoal::with(['matpel'])->orderBy('created_at', 'DESC');
+
+        if ($user->role != 0) {
+            $banksoal = $banksoal->where('author',$user->id);
+        }
+
+        $banksoal = $banksoal->get();
+        return new AppCollection($banksoal);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
