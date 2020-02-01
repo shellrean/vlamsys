@@ -207,11 +207,11 @@ class PusatController extends Controller
         ->orWhereIn('jurusan_id', $vokasi)
         ->get()->count();
 
-        $banksoals = Banksoal::with(['matpel' => function($q) use($vokasi) {
+        $bks = Banksoal::with(['matpel' => function($q) use($vokasi) {
             $q->whereIn('jurusan_id', $vokasi)
             ->orWhere('jurusan_id', 0);
-        }])
-        ->get();
+        }]);
+        $banksoals = $bks->get();
 
         $banksoal = 0;
         $useBanksoal = array();
@@ -226,7 +226,9 @@ class PusatController extends Controller
         $countSoal = $soal->count();
         $jawaban = JawabanSoal::whereIn('soal_id', $soal->pluck('id'))->count();
         
-        $gambar = File::all()->count();
+        $c_dir = Banksoal::whereIn('id', $useBanksoal)->pluck('directory_id');
+        $gambar = File::whereIn('directory_id', $c_dir)->count();
+
         $jadwal = Jadwal::where('status_ujian',1)->get()->count();
 
         $data = [
@@ -314,7 +316,8 @@ class PusatController extends Controller
                 ];
                 break;
             case 'file': 
-                $files = File::all();
+                $c_dir = Banksoal::whereIn('id', $useBanksoal)->pluck('directory_id');
+                $files = File::whereIn('directory_id', $c_dir)->get();
                 $data = [
                     'files'  => $files,
                 ];
