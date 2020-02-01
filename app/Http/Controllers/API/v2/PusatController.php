@@ -270,6 +270,10 @@ class PusatController extends Controller
 
         switch ($request->req) {
             case 'peserta':
+                $server = Server::where('server_name', $request->server_name)->first();
+                $server->sinkron = 1;
+                $server->save();
+                
                 $peserta = Peserta::where([
                     'name_server'   => $request->server_name
                 ])->get();
