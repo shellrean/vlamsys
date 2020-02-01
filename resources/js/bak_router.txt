@@ -1,0 +1,40 @@
+import Setting from './pages/setting/Index.vue'
+import SetPermission from './pages/setting/SetPermission.vue'
+lazyLoad('')
+// import Login from './pages/Login.vue'
+// import Home from './pages/Home.vue'
+
+// import MatpelIndex from './pages/matpel/Index.vue'
+// import DataMatpel from './pages/matpel/Matpel.vue'
+// import AddMatpel from './pages/matpel/Add.vue'
+
+// import PesertaIndex from './pages/peserta/Index.vue'
+// import DataPeserta from './pages/peserta/Peserta.vue'
+// import AddPeserta from './pages/peserta/Add.vue'
+// import UploadPeserta from './pages/peserta/Upload.vue'
+
+// import BanksoalIndex from './pages/banksoal/Index.vue'
+// import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
+// import SoalBanksoal from './pages/banksoal/SoalBanksoal.vue'
+// import SoalBanksoalTambah from './pages/banksoal/SoalBanksoalTambah.vue'
+// import SoalBanksoalEdit from './pages/banksoal/SoalBanksoalEdit.vue'
+
+// import UjianIndex from './pages/ujian/Index.vue'
+// import DataUjian from './pages/ujian/Ujian.vue'
+// import PesertaUjian from './pages/ujian/PesertaUjian.vue'
+// import HasilUjian from './pages/ujian/HasilUjian.vue'
+// import HasilListUjian from './pages/ujian/HasilListUjian.vue'
+// import KoreksiUjian from './pages/ujian/KoreksiUjian.vue'
+
+// import FilemediaIndex from './pages/filemedia/Index.vue'
+// import DataFilemedia from './pages/filemedia/Filemedia.vue'
+// import DataDirFilemedia from './pages/filemedia/DirFilemedia.vue'
+
+// import ServerIndex from './pages/server/Index.vue'
+// import DataServer from './pages/server/Server.vue'
+// import AddServer from './pages/server/Add.vue'
+
+// import SekolahIndex from './pages/sekolah/Index.vue'
+// import DataSekolah from './pages/sekolah/Sekolah.vue'
+// import AddSekolah from './pages/sekolah/Add.vue'
+// import EditSekolah from './pages/sekolah/Edit.vue'
