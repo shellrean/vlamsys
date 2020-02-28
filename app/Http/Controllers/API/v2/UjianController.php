@@ -12,6 +12,7 @@ use App\HasilUjian;
 use App\Result;
 use App\ResultEsay;
 use App\Banksoal;
+use App\Peserta;
 
 use DB;
 use App\Http\Resources\AppCollection;
@@ -149,5 +150,83 @@ class UjianController extends Controller
         $jawab->save();
 
         return response()->json(['data' => 'OK']);
+    }
+
+    public function getByFilter(Request $request)
+    {
+        $reslt = Result::count();
+        if($reslt == 0) {
+            $ujian = Jadwal::where('status_ujian', 1)->first();
+            $peserta = Peserta::all();
+            foreach($peserta as $p) {
+                $resl = DB::table('jawaban_pesertas')
+                ->where('peserta_id', $p->id)
+                ->count();
+                if($resl == 0) {
+                    continue;
+                }
+                $salah = DB::table('jawaban_pesertas')
+                ->where([
+                    'iscorrect' => 0,
+                    'jadwal_id' => $ujian->id,
+                    'peserta_id' => $p->id
+                ])->get()->count();
+
+                $benar = DB::table('jawaban_pesertas')
+                ->where([
+                    'iscorrect' => 1,
+                    'jadwal_id' => $ujian->id,
+                    'peserta_id' => $p->id
+                ])->get()->count();
+
+                $kosong = DB::table('jawaban_pesertas')
+                ->where([
+                    'jadwal_id' => $ujian->id,
+                    'peserta_id' => $p->id,
+                    'jawab'     => 0
+                ])->get()->count();
+
+                $jml = DB::table('jawaban_pesertas')
+                ->where([
+                    'jadwal_id' => $ujian->id,
+                    'peserta_id' => $p->id
+                ])->get()->count();
+                
+
+                $hasil = ($benar/$jml)*100;
+
+                DB::table('results')
+                ->insert([
+                    'server_name'       => $p->name_server,
+                    'peserta_id'        => $p->id,
+                    'jadwal_id'         => $ujian->id,
+                    'salah'             => $salah,
+                    'benar'             => $benar,
+                    'kosong'            => $kosong,
+                    'hasil'             => $hasil
+                ]);
+            }
+        }
+        $banksoal_id = $request->banksoal;
+        $results = DB::table('results')
+        ->join('pesertas', function($j) {
+            $j->on('pesertas.id','results.peserta_id');
+        })
+        ->join('servers', function($j) {
+            $j->on('servers.server_name','pesertas.name_server');
+        })
+        ->where('servers.sekolah_id', $request->sekolah)
+        ->join('matpels', function($j) {
+            $j->on('matpels.jurusan_id', 'pesertas.jurusan_id');
+        })
+        ->join('banksoals', function($j) use ($banksoal_id) {  
+            $j->where('banksoals.id','=',$banksoal_id)
+            ->on('banksoals.matpel_id', 'matpels.id');
+        })
+        ->select('pesertas.nama','results.hasil','results.salah','results.benar','results.kosong')
+        ->orderBy('pesertas.id')
+        ->get();
+
+        return response()->json(['data' => $results]);
     }
 }

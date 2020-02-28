@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 use App\Banksoal;
 use App\Directory;
 use App\File;
+use App\Sekolah;
 
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 use PDF;
+use Excel;
+use App\Exports\HasilUjianExport;
 
 class BanksoalController extends Controller
 {
@@ -158,5 +161,13 @@ class BanksoalController extends Controller
 
         $pdf = PDF::loadview('prev.banksoal',compact('banksoals'));
         return $pdf->stream('laporan-pegawai.pdf');
+    }
+
+    public function resUjian($sekolah, $banksoal)
+    {
+        $sekolaher = Sekolah::find($sekolah);
+        $banksoaler = Banksoal::find($banksoal);
+
+        return Excel::download(new HasilUjianExport($sekolah, $banksoal), $sekolaher->nis.'.xlsx');
     }
 }

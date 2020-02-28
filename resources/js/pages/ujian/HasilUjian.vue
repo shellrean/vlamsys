@@ -12,35 +12,21 @@
 								<select class="form-control" v-model="banksoal">
 									<option v-for="banksoal in banksoals" :key="banksoal.id" :value="banksoal.id" v-text="banksoal.kode_banksoal+'-'+banksoal.matpel.nama"></option>
 								</select>
-								<div class="input-group-append">
-									<button class="btn btn-outline-primary" type="button" @click="getDataJadwals">Tampilkan</button>
-								</div>
+							</div>
+							<div class="input-group mb-3">
+								<select class="form-control" v-model="sekolah">
+									<option v-for="sekolah in sekolahs.data" :key="sekolah.id" :value="sekolah.id" v-text="sekolah.nama"></option>
+								</select>
+							</div>
+							<div class="input-group mb-3">
+								<button class="btn btn-primary btn-sm rounded-0 mr-1" type="button" @click="getDataJadwals">Tampilkan</button>
+								<a :href="'/prev/ujian/hasil/'+sekolah+'/'+banksoal" class="btn btn-success btn-sm rounded-0 mr-1" target="_blank">Download excel</a>
+								<a href="" class="btn btn-success btn-sm rounded-0">Analisis data</a>
 							</div>
 						</div>
 					</div>
 					<b-table v-if="ujians && ujians.data" striped hover bordered :busy="isBusy" small :fields="fields" :items="ujians.data" show-empty>
-						<template v-slot:cell(action)="row">
-							<router-link :to="{ name: 'ujian.hasil.list', params: {'jadwal_id' : row.item.id} }" class="btn btn-sm btn-success rounded-0">
-								Preview
-							</router-link>
-						</template>
-                    </b-table>
-					<div class="row" v-if="ujians && ujians.data">
-                        <div class="col-md-6">
-                            <p v-if="ujians.data"><i class="fa fa-bars"></i> {{ ujians.data.length }} item dari {{ ujians.total }} total data</p>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="float-right">
-                                <b-pagination
-                                    v-model="page"
-                                    :total-rows="ujians.total"
-                                    :per-page="ujians.per_page"
-                                    aria-controls="products"
-                                    v-if="ujians.data && ujians.data.length > 0"
-                                    ></b-pagination>
-                            </div>
-                        </div>
-                    </div>
+          </b-table>
 				</div>
 				<div class="card-footer">
 				</div>
@@ -60,25 +46,33 @@ export default {
 	},
 	created() {
 		this.getAllBanksoals()
+		this.getSekolah()
 	},
 	data() {
 		return {
 			fields: [
-				{ key: 'tanggal', label: 'Tanggal' },
-				{ key: 'action', label: 'Aksi' }
+				{ key: 'nama', label: 'Nama' },
+				{ key: 'salah', label: 'Salah' },
+				{ key: 'benar', label: 'Benar'},
+				{ key: 'kosong', label: 'Kosong' },
+				{ key: 'hasil', label: 'Hasil'}
 			],
 			search: '',
 			isBusy: true,
-			banksoal: ''
+			banksoal: '',
+			sekolah: ''
 		}
 	},
 	computed: {
 		...mapState(['errors']),
 		...mapState('ujian', {
-			ujians: state => state.ujians.data
+			ujians: state => state.ujians
 		}),
 		...mapState('banksoal', {
 			banksoals: state => state.allBanksoals.data
+		}),
+		...mapState('sekolah', {
+			sekolahs: state => state.sekolah
 		}),
 		page: {
 			get() {
@@ -90,14 +84,15 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions('ujian', ['getUjianByBanksoal']),
+		...mapActions('ujian', ['getHasilUjianByFilter']),
 		...mapActions('banksoal', ['getAllBanksoals']),
 		...mapMutations(['CLEAR_ERROR', 'SET_LOADING']),
+		...mapActions('sekolah', ['getSekolah', ]),
 		getDataJadwals() {
 			this.isBusy = true
-			this.getUjianByBanksoal(this.banksoal)
-			.then(() => {
-				this.isBusy = false
+			this.getHasilUjianByFilter({
+				banksoal: this.banksoal,
+				sekolah: this.sekolah
 			})
 		}
 	},

@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth.api'], function() {
 	Route::post('/ujian/change-token', 'API\v2\UjianController@changeToken');
 	Route::get('/ujian/get-peserta/{id}', 'API\v2\UjianController@getPeserta');
 	Route::get('/ujian/hasil/{id}', 'API\v2\UjianController@getHasil');
+	Route::post('/hasil/filter', 'API\v2\UjianController@getByFilter');
 	Route::get('/ujian/esay/get', 'API\v2\UjianController@getEsay');
 	Route::post('/ujian/esay/input', 'API\v2\UjianController@inputEsay');
 	Route::get('/ujian/banksoal/{id}', 'API\v2\UjianController@getByBanksoal');

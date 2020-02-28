@@ -12,5 +12,6 @@
 */
 
 Route::get('prev/banksoal/{id}', 'API\v2\BanksoalController@preBanksoal');
+Route::get('prev/ujian/hasil/{sekolah_id}/{banksoal_id}', 'API\v2\BanksoalController@resUjian');
 
 Route::view('/{any}', 'index')->where('any','.*');

@@ -13,7 +13,7 @@
 					<div class="row">
                         <div class="col-sm-5">
                             <h4 id="traffic" class="card-title mb-0">Manage Peserta</h4>
-                            <div class="small text-muted">Manage soal from banksoal</div>
+                            <div class="small text-muted">Manage data peserta</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
                             <button type="button" class="btn float-right btn-primary btn-sm">

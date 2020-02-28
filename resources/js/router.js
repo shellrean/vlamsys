@@ -61,7 +61,7 @@ const router = new Router({
 				{
 					path: '',
 					name: 'peserta.data',
-					component: lazyLoad('pages/matpel/Matpel'),
+					component: lazyLoad('pages/peserta/Peserta'),
 					meta: { title: 'Manage peserta' }
 				},
 				{
