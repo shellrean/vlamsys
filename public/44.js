@@ -1,1 +1,150 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[44],{119:function(a,t,e){"use strict";e.r(t);var s=e(1),i=e(37);e(50);function n(a,t){var e=Object.keys(a);if(Object.getOwnPropertySymbols){var s=Object.getOwnPropertySymbols(a);t&&(s=s.filter((function(t){return Object.getOwnPropertyDescriptor(a,t).enumerable}))),e.push.apply(e,s)}return e}function r(a){for(var t=1;t<arguments.length;t++){var e=null!=arguments[t]?arguments[t]:{};t%2?n(e,!0).forEach((function(t){l(a,t,e[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(a,Object.getOwnPropertyDescriptors(e)):n(e).forEach((function(t){Object.defineProperty(a,t,Object.getOwnPropertyDescriptor(e,t))}))}return a}function l(a,t,e){return t in a?Object.defineProperty(a,t,{value:e,enumerable:!0,configurable:!0,writable:!0}):a[t]=e,a}var o={name:"DataUjian",components:{datetime:i.Datetime},created:function(){this.getUjians(),this.getAllBanksoals()},data:function(){return{fields:[{key:"banksoals",label:"Kode banksoal"},{key:"tanggal",label:"Tanggal"},{key:"mulai",label:"Waktu mulai"},{key:"lama",label:"Durasi"},{key:"status",label:"Status ujian"}],search:"",data:{mulai:"",berakhir:"",lama:"",tanggal:"",banksoal_id:""},isActive:"",isBusy:!0,timeout:0,produktif:""}},computed:r({},Object(s.e)(["errors"]),{},Object(s.e)("ujian",{ujians:function(a){return a.ujians}}),{},Object(s.e)("banksoal",{banksoals:function(a){return a.allBanksoals.data}}),{page:{get:function(){return this.$store.state.ujian.page},set:function(a){this.$store.commit("ujian/SET_PAGE",a)}}}),methods:r({},Object(s.b)("ujian",["getUjians","addUjian","setStatus","changeToken"]),{},Object(s.b)("banksoal",["getAllBanksoals"]),{},Object(s.d)(["CLEAR_ERROR","SET_LOADING"]),{postUjian:function(){var a=this;this.addUjian({banksoal_id:this.data.banksoal_id,mulai:this.data.mulai,berakhir:this.data.berakhir,lama:this.data.lama,tanggal:this.data.tanggal}).then((function(t){a.$notify({group:"foo",title:"Sukses",type:"success",text:"Jadwal berhasil ditambahkan."}),a.getUjians(),a.clearForm(),a.$bvModal.hide("modal-scoped")}))},clearForm:function(){this.data.banksoal_id="",this.data.mulai="",this.data.berakhir="",this.data.lama="",this.data.tanggal=""},seterStatus:function(a,t){var e=this;this.setStatus({id:a,status:0==t?1:0}).then((function(a){e.$notify({group:"foo",title:"Sukses",type:"success",text:"Status ujian diubah"})}))}}),watch:{page:function(){this.getUjians()},search:function(){this.getUjians(this.search)},ujians:function(){this.isBusy=!1},timeout:function(){var a=this;this.ujians.data.filter((function(a){return 1==a.status_ujian})).forEach((function(t){a.changeToken({id:t.id})})),this.getUjians()}},mounted:function(){var a=this;setInterval((function(){a.timeout++}),9e5)}},u=e(4),c=Object(u.a)(o,(function(){var a=this,t=a.$createElement,e=a._self._c||t;return e("div",{staticClass:"row"},[e("div",{staticClass:"col-lg-12"},[e("div",{staticClass:"card"},[e("div",{staticClass:"card-header"},[e("button",{staticClass:"btn btn-sm btn-primary rounded-0",on:{click:function(t){return a.$bvModal.show("modal-scoped")}}},[a._v("Tambah jadwal")])]),a._v(" "),e("div",{staticClass:"card-body"},[e("b-table",{attrs:{striped:"",hover:"",bordered:"",busy:a.isBusy,small:"",fields:a.fields,items:a.ujians.data,"show-empty":""},scopedSlots:a._u([{key:"table-busy",fn:function(){return[e("div",{staticClass:"text-center text-warning my-2"},[e("img",{attrs:{src:"/img/loader.svg",width:"50px"}})])]},proxy:!0},{key:"cell(lama)",fn:function(t){return[a._v("\n\t\t\t\t\t\t\t"+a._s(parseInt(t.item.lama)/60+" Menit")+"\n\t\t\t\t\t\t")]}},{key:"cell(banksoals)",fn:function(t){return[a._v("\n\t\t\t\t\t\t\t"+a._s(0==t.item.banksoal_id?"Produktif":t.item.banksoal.id)+"\n\t\t\t\t\t\t")]}},{key:"cell(status)",fn:function(t){return[e("b-form-checkbox",{attrs:{size:"lg",value:"1"},on:{change:function(e){return a.seterStatus(t.item.id,t.item.status_ujian)}},model:{value:t.item.status_ujian,callback:function(e){a.$set(t.item,"status_ujian",e)},expression:"row.item.status_ujian"}},[a._v("Aktif")])]}}])}),a._v(" "),e("div",{staticClass:"row"},[e("div",{staticClass:"col-md-6"},[a.ujians.data?e("p",[e("i",{staticClass:"fa fa-bars"}),a._v(" "+a._s(a.ujians.data.length)+" item dari "+a._s(a.ujians.meta.total)+" total data")]):a._e()]),a._v(" "),e("div",{staticClass:"col-md-6"},[e("div",{staticClass:"float-right"},[a.ujians.data&&a.ujians.data.length>0?e("b-pagination",{attrs:{"total-rows":a.ujians.meta.total,"per-page":a.ujians.meta.per_page,"aria-controls":"products"},model:{value:a.page,callback:function(t){a.page=t},expression:"page"}}):a._e()],1)])])],1),a._v(" "),e("div",{staticClass:"card-footer"})])]),a._v(" "),e("b-modal",{attrs:{id:"modal-scoped",size:"lg","hide-backdrop":""},scopedSlots:a._u([{key:"modal-header",fn:function(t){t.close;return[e("h5",[a._v("Setting ujian")])]}},{key:"modal-footer",fn:function(t){var s=t.cancel;return[e("b-button",{attrs:{size:"sm",variant:"success",squared:""},on:{click:a.postUjian}},[a._v("\n\t\t        Submit\n\t\t      ")]),a._v(" "),e("b-button",{attrs:{size:"sm",variant:"secondary",squared:""},on:{click:function(a){return s()}}},[a._v("\n\t\t        Cancel\n\t\t      ")])]}}])},[a._v(" "),e("div",{staticClass:"form-group"},[e("b-form-checkbox",{attrs:{size:"lg",value:"1"},model:{value:a.produktif,callback:function(t){a.produktif=t},expression:"produktif"}},[a._v("Produktif")])],1),a._v(" "),e("div",{directives:[{name:"show",rawName:"v-show",value:!a.produktif,expression:"!produktif"}],staticClass:"form-group"},[e("label",[a._v("Banksoal")]),a._v(" "),e("select",{directives:[{name:"model",rawName:"v-model",value:a.data.banksoal_id,expression:"data.banksoal_id"}],staticClass:"form-control",class:{"is-invalid":a.errors.banksoal_id},on:{change:function(t){var e=Array.prototype.filter.call(t.target.options,(function(a){return a.selected})).map((function(a){return"_value"in a?a._value:a.value}));a.$set(a.data,"banksoal_id",t.target.multiple?e:e[0])}}},a._l(a.banksoals,(function(t){return e("option",{key:t.id,domProps:{value:t.id}},[a._v(a._s(t.kode_banksoal)+" - "+a._s(t.matpel.nama))])})),0),a._v(" "),a.errors.banksoal_id?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.banksoal_id[0]))]):a._e()]),a._v(" "),e("div",{staticClass:"form-group"},[e("label",[a._v("Tanggal ujian")]),a._v(" "),e("datetime",{class:{"is-invalid":a.errors.tanggal},attrs:{"input-class":"form-control"},model:{value:a.data.tanggal,callback:function(t){a.$set(a.data,"tanggal",t)},expression:"data.tanggal"}}),a._v(" "),a.errors.tanggal?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.tanggal[0]))]):a._e()],1),a._v(" "),e("div",{staticClass:"row"},[e("div",{staticClass:"col-md-4"},[e("div",{staticClass:"form-group"},[e("label",[a._v("Jam mulai")]),a._v(" "),e("datetime",{class:{"is-invalid":a.errors.mulai},attrs:{id:"mulai","input-class":"form-control",type:"time"},model:{value:a.data.mulai,callback:function(t){a.$set(a.data,"mulai",t)},expression:"data.mulai"}}),a._v(" "),a.errors.mulai?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.mulai[0]))]):a._e()],1)]),a._v(" "),e("div",{staticClass:"col-md-4"},[e("div",{staticClass:"form-group"},[e("label",[a._v("Jam ditutup")]),a._v(" "),e("datetime",{class:{"is-invalid":a.errors.berakhir},attrs:{id:"tutup","input-class":"form-control",type:"time"},model:{value:a.data.berakhir,callback:function(t){a.$set(a.data,"berakhir",t)},expression:"data.berakhir"}}),a._v(" "),a.errors.berakhir?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.berakhir[0]))]):a._e()],1)]),a._v(" "),e("div",{staticClass:"col-md-4"},[e("div",{staticClass:"form-gorup"},[e("label",[a._v("Durasi")]),a._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:a.data.lama,expression:"data.lama"}],staticClass:"form-control",class:{"is-invalid":a.errors.lama},attrs:{id:"durasi",type:"number",name:"",placeholder:"Menit"},domProps:{value:a.data.lama},on:{input:function(t){t.target.composing||a.$set(a.data,"lama",t.target.value)}}}),a._v(" "),a.errors.lama?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.lama[0]))]):a._e()])])])])],1)}),[],!1,null,null,null);t.default=c.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[44],{
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Home.vue?vue&type=template&id=b3c5cf30&":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Home.vue?vue&type=template&id=b3c5cf30& ***!
+  \**************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "c-body" }, [
+    _c("main", { staticClass: "c-main" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "fade-in" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-6 col-lg-3" }, [
+                  _c("div", { staticClass: "card" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-footer px-3 py-2" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass:
+                              "btn-block text-muted d-flex justify-content-between align-items-center",
+                            attrs: { to: { name: "server.data" }, href: "#" }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "small font-weight-bold" },
+                              [_vm._v("View More")]
+                            ),
+                            _vm._v(" "),
+                            _c("i", { staticClass: "c-icon cil-chevron-right" })
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-body p-3 d-flex align-items-center" },
+      [
+        _c("div", { staticClass: "bg-gradient-primary p-3 mfe-3" }, [
+          _c("i", { staticClass: "c-icon c-icon-xl cil-storage" })
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", { staticClass: "text-value text-primary" }, [
+            _c("i", { staticClass: "c-icon cil-infinity" })
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "text-muted text-uppercase font-weight-bold small" },
+            [_vm._v("Server sekolah")]
+          )
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/Home.vue":
+/*!*************************************!*\
+  !*** ./resources/js/pages/Home.vue ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Home_vue_vue_type_template_id_b3c5cf30___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=b3c5cf30& */ "./resources/js/pages/Home.vue?vue&type=template&id=b3c5cf30&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _Home_vue_vue_type_template_id_b3c5cf30___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Home_vue_vue_type_template_id_b3c5cf30___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/Home.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Home.vue?vue&type=template&id=b3c5cf30&":
+/*!********************************************************************!*\
+  !*** ./resources/js/pages/Home.vue?vue&type=template&id=b3c5cf30& ***!
+  \********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_b3c5cf30___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Home.vue?vue&type=template&id=b3c5cf30& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Home.vue?vue&type=template&id=b3c5cf30&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_b3c5cf30___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_b3c5cf30___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

@@ -21,7 +21,7 @@ class PasswordSeeder extends Seeder
             if(!$db) {
                 DB::table('passwords')->insert([
                     'server_name'   => $server->server_name,
-                    'password'      => Str::random(6)
+                    'password'      => strtoupper(Str::random(6))
                 ]);
             }
         }

@@ -297,14 +297,6 @@
             <b-button size="sm" v-show="gambar_pilih != ''" variant="primary" squared @click="masukGambar">Masukkan gambar</b-button>
           </div>
           <div class="col-md-8">
-            <div class="form-group">
-              <label>Direktori</label>
-              <select class="form-control" v-model="direktory">
-                <option value="">Pilih direktori</option>
-                <option :value="directorie.id" v-for="directorie in directories" v-text="directorie.name"></option>
-              </select>
-            </div>
-            
             <table class="table table-striped table-hover table-bordered">
               <tr>
                 <td>Nama file</td>
@@ -323,6 +315,13 @@
                 </td>
               </tr>
             </table>
+            <b-pagination
+              v-model="page"
+              :total-rows="contentDirectory.meta.total"
+              :per-page="contentDirectory.meta.per_page"
+              aria-controls="products"
+              v-if="contentDirectory.data && contentDirectory.data.length > 0"
+              ></b-pagination>
           </div>
         </div>
         <template v-slot:modal-footer="{cancel}">
@@ -360,8 +359,8 @@ import AudioPlayer from '../../components/AudioPlayer.vue'
 export default {
   created() {
     this.getBanksoal(this.$route.params.banksoal_id)
-    this.getDirectories()
-    this.getContentFile()
+    // this.getDirectories()
+    // this.getContentFile()
     this.getDataSoal()
   },
   components: {
@@ -426,7 +425,15 @@ export default {
     ...mapState('filemedia', {
       contentDirectory: state => state.contentFilemedia,
       directories: state => state.directories.data
-    })
+    }),
+    page: {
+      get() {
+        return this.$store.state.filemedia.page
+      },
+      set(val) {
+        this.$store.commit('filemedia/SET_PAGE', val)
+      }
+    }
   },
   methods: {
     ...mapActions('filemedia', ['getContentFilemedia','getDirectories','uploadFileAudio']),
@@ -561,6 +568,8 @@ export default {
   watch: {
     banksoal(val) {
       this.jmlh_pilihan = val.jumlah_pilihan
+      this.initEditor()
+      this.getContentFilemedia(val.directory_id)
     },
     data_soal() {
       this.initEditor()
@@ -569,6 +578,9 @@ export default {
       if(val != '') {
         this.getContentFilemedia(val)
       }
+    },
+    page() {
+      this.getContentFilemedia(this.banksoal.directory_id)
     }
   }
 }
