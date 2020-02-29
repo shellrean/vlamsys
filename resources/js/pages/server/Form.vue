@@ -23,7 +23,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
 	name: 'FormServer',
 	created() {
-		this.getSekolah()
+		this.getAllSekolah()
 	},
 	computed: {
 		...mapState(['errors']),
@@ -36,7 +36,7 @@ export default {
 	},
 	methods: {
 		...mapMutations('server',['CLEAR_FORM']),
-		...mapActions('sekolah', ['getSekolah', ]),
+		...mapActions('sekolah', ['getAllSekolah', ]),
 	},
 	destroyed() {
 		this.CLEAR_FORM()

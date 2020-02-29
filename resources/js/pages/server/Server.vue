@@ -89,7 +89,7 @@ import { mapActions, mapState } from 'vuex'
 export default {
 	name: 'DataServer',
 	created() {
-		this.getSekolah()
+		this.getAllSekolah()
 	},
 	data() {
 		return {
@@ -123,7 +123,7 @@ export default {
 	},
 	methods: {
 		...mapActions('server', ['getServers','removeServer','revertServer','resetSerial']),
-		...mapActions('sekolah', ['getSekolah', ]),
+		...mapActions('sekolah', ['getAllSekolah', ]),
 		deleteServer(id) {
 			this.$swal({
 				title: 'Kamu Yakin?',
