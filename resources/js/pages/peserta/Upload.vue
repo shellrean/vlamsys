@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link :to="{ name: 'peserta.data' }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
+					<router-link :to="{ name: 'peserta.data' }" class="btn btn-warning btn-sm">Kembali</router-link>
 				</div>
 				<div class="card-body">
 					<div class="input-group">
@@ -16,6 +16,9 @@
 					  </div>
 					</div> <br>
 					<b-progress :value="percent" show-progress animated></b-progress>
+				</div>
+				<div class="card-footer">
+					
 				</div>
 			</div>
 		</div>

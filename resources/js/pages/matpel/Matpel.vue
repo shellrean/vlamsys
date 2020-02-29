@@ -3,18 +3,31 @@
     	<div class="col-md-12">
     		<div class="card">
     			<div class="card-header">
-                    <router-link :to="{ name: 'matpel.add' }" class="btn btn-primary btn-sm rounded-0">Tambah matpel</router-link>
+                    <router-link :to="{ name: 'matpel.add' }" class="btn btn-primary btn-sm">Tambah matpel</router-link>
     			</div>
     			<div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h4 id="traffic" class="card-title mb-0">Manage Matpel</h4>
+                            <div class="small text-muted">Buat dan hapus matpel</div>
+                        </div>
+                        <div class="d-none d-md-block col-sm-7">
+                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
+                                <i class="cil-print"></i> Cetak data matpel
+                            </button>
+                        </div>
+                    </div>
+                    <br>
     				<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="matpels.data" show-empty>
                         <template v-slot:table-busy>
                             <div class="text-center text-warning my-2">
-                              <b-spinner class="align-middle"></b-spinner>
-                              <strong>Loading...</strong>
+							  <img src="/img/loader.svg" width="50px" />
                             </div>
                         </template>
                        <template v-slot:cell(actions)="row">
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteMatpel(row.item.id)"><font-awesome-icon icon="trash" /></button>
+                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteMatpel(row.item.id)">
+                                <font-awesome-icon icon="trash" /> Hapus
+                            </button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -24,6 +37,7 @@
                         <div class="col-md-6">
                             <div class="float-right">
                                 <b-pagination
+                                    size="sm"
                                     v-model="page"
                                     :total-rows="matpels.meta.total"
                                     :per-page="matpels.meta.per_page"

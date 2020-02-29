@@ -51,6 +51,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.$router.push({
           name: 'matpel.data'
         });
+
+        _this.$notify({
+          group: 'foo',
+          title: 'Sukses',
+          type: 'success',
+          text: 'Data mapel berhasil disimpan.'
+        });
       });
     }
   }),
@@ -130,12 +137,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   })),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])('matpel', ['CLEAR_FORM']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('sekolah', ['getJurusans'])),
   destroyed: function destroyed() {
-    this.$notify({
-      group: 'foo',
-      title: 'Sukses',
-      type: 'success',
-      text: 'Data mapel berhasil disimpan.'
-    });
     this.CLEAR_FORM();
   }
 });

@@ -3,29 +3,30 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <router-link :to="{ name: 'banksoal.data' }" class="btn btn-light btn-sm rounded-0">Kembali</router-link>
-                    <router-link :to="{ name: 'banksoal.soal.tambah', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-primary btn-sm rounded-0">Tambah pertanyaan</router-link>
+                    <router-link :to="{ name: 'banksoal.data' }" class="btn btn-light btn-sm  ">Kembali</router-link>
+                    <router-link :to="{ name: 'banksoal.soal.tambah', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-primary btn-sm  ">Tambah pertanyaan</router-link>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-5">
                             <h4 id="traffic" class="card-title mb-0">Manage Soal</h4>
-                            <div class="small text-muted">Manage soal from banksoal</div>
+                            <div class="small text-muted">Tambah lihat edit dan hapus soal pada banksoal dipilih </div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
-                            <button type="button" class="btn float-right btn-primary btn-sm">
+                            <!-- <button type="button" class="btn float-right btn-primary btn-sm">
                                 <font-awesome-icon icon="file-word" />
-                            </button>
+                                Download soal (.doc)
+                            </button> -->
                             <a :href="'/prev/banksoal/'+$route.params.banksoal_id" target="_blank" class="btn float-right btn-primary btn-sm mx-1">
                                 <i class="cil-print"></i>
-                                Preview soal
+                                Preview banksoal
                             </a>
                         </div>
                     </div>
                     <br>
                     <b-table striped hover bordered small :fields="fields" :items="soals.data" show-empty>
                     	<template v-slot:cell(index)="data">
-				        	{{ data.index + 1 }}
+				        	{{ from+data.index }}
 				      	</template>
 
                     	<template v-slot:cell(dibuat)="row">
@@ -39,7 +40,7 @@
 					          <div v-html="row.item.pertanyaan"></div>
 					          <div v-if="row.item.audio != null"><audio-player :file="'/storage/audio/'+row.item.audio"></audio-player></div>
 					          <table class="table">
-					          	<tr v-for="jawab in row.item.jawabans">
+					          	<tr v-for="(jawab, index) in row.item.jawabans" :key="index">
                                     <td width="20px">
                                         <font-awesome-icon v-show="jawab.correct == '1'" icon="star" class="text-warning" />
                                     </td>
@@ -52,10 +53,10 @@
 					    </template>
 
                        <template v-slot:cell(actions)="row">
-                            <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-warning rounded-0">
+                            <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-warning ">
                             	<f<i class="cil-pencil"></i> Edit
                             </router-link>
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><i class="cil-trash"></i>Hapus</button>
+                            <button class="btn btn-danger btn-sm  " @click="deleteBanksoal(row.item.id)"><i class="cil-trash"></i>Hapus</button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -107,7 +108,8 @@ export default {
 	},
 	computed: {
 		...mapState('soal', {
-			soals: state => state.soals
+            soals: state => state.soals,
+            from: state => state.from
 		}),
 		page: {
 			get() {

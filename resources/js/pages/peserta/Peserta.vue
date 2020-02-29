@@ -3,8 +3,8 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link :to="{ name: 'peserta.add' }" class="btn btn-primary btn-sm rounded-0">Tambah peserta</router-link>
-					<router-link :to="{ name: 'peserta.upload' }" class="btn btn-success btn-sm rounded-0">Upload peserta</router-link>
+					<router-link :to="{ name: 'peserta.add' }" class="btn btn-primary btn-sm">Tambah peserta</router-link>
+					<router-link :to="{ name: 'peserta.upload' }" class="btn btn-success btn-sm">Upload peserta</router-link>
 					<div class="float-right">
                         <input type="text" class="form-control" placeholder="Cari nama..." v-model="search">
                     </div>
@@ -16,11 +16,8 @@
                             <div class="small text-muted">Manage data peserta</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
-                            <button type="button" class="btn float-right btn-primary btn-sm">
-                                <font-awesome-icon icon="file-word" />
-                            </button>
                             <button type="button" class="btn float-right btn-primary btn-sm mx-1">
-                                <i class="cil-print"></i>
+                                <i class="cil-print"></i> Cetak data peserta
                             </button>
                         </div>
                     </div>
@@ -29,7 +26,7 @@
 						<div class="col-sm-5">
 							<div class="input-group mb-3">
 								<select class="form-control" v-model="sekolah">
-									<option v-for="sekolah in sekolahs.data" :value="sekolah.id" v-text="sekolah.nama"></option>
+									<option v-for="sekolah in sekolahs.data" :value="sekolah.id" v-text="sekolah.nama" :key="sekolah.id"></option>
 								</select>
 								<div class="input-group-append">
 									<button class="btn btn-outline-primary" type="button" @click="getDataPesertas">Tampilkan</button>
@@ -40,7 +37,7 @@
 					<b-table striped hover bordered small :fields="fields" :items="pesertas.data" :busy="isBusy" show-empty v-show="pesertas.data">
 						<template v-slot:cell(actions)="row">
 							<b-button variant="danger" squared size="sm" @click="deletePeserta(row.item.id)">
-								<font-awesome-icon icon="trash" />
+								<font-awesome-icon icon="trash" /> Hapus
 							</b-button>
 						</template>
 					</b-table>
@@ -51,6 +48,7 @@
                         <div class="col-md-6">
                             <div class="float-right">
                                 <b-pagination
+								   size="sm"
                                     v-model="page"
                                     :total-rows="pesertas.meta.total"
                                     :per-page="pesertas.meta.per_page"
@@ -60,6 +58,9 @@
                             </div>
                         </div>
                     </div>
+				</div>
+				<div class="card-footer">
+					
 				</div>
 			</div>
 		</div>

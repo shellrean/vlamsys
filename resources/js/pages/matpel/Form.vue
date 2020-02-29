@@ -52,12 +52,6 @@ export default {
 		...mapActions('sekolah',['getJurusans'])
 	},
 	destroyed() {
-		this.$notify({
-          group: 'foo',
-          title: 'Sukses',
-          type: 'success',
-          text: 'Data mapel berhasil disimpan.'
-        })
 		this.CLEAR_FORM()
 	}
 }

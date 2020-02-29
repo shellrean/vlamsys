@@ -3,18 +3,38 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link :to="{ name: 'sekolah.add' }" class="btn btn-primary btn-sm rounded-0">Tambah sekolah</router-link>
+					<router-link :to="{ name: 'sekolah.add' }" class="btn btn-primary btn-sm">Tambah sekolah</router-link>
 					<div class="float-right">
 						<input type="text" class="form-control" placeholder="Cari sekolah..." v-model="search">
 					</div>
 				</div>
 				<div class="card-body">
+					<div class="row">
+                        <div class="col-sm-5">
+                            <h4 id="traffic" class="card-title mb-0">Manage Sekolah</h4>
+                            <div class="small text-muted">Buat edit dan hapus sekolah</div>
+                        </div>
+                        <div class="d-none d-md-block col-sm-7">
+                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
+                                <i class="cil-print"></i>&nbsp; Cetak data sekolah
+                            </button>
+                        </div>
+                    </div>
+                    <br>
 					<b-table striped hover bordered small :fields="fields" :items="sekolah.data" show-empty>
+						<template v-slot:cell(show_details)="row">
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                        </template>
+						<template v-slot:row-details="row">
+                            <b-card>
+                                {{ row.item.alamat}}
+                            </b-card>
+                        </template>
 						<template v-slot:cell(actions)="row">
-							<router-link :to="{ name: 'sekolah.edit', params: { id: row.item.id } }" class="btn btn-warning btn-sm rounded-0">
+							<router-link :to="{ name: 'sekolah.edit', params: { id: row.item.id } }" class="btn btn-warning btn-sm">
 								<font-awesome-icon icon="edit" /> Edit
 							</router-link>
-							<b-button variant="danger" squared size="sm" @click="deleteSekolah(row.item.id)">
+							<b-button variant="danger" size="sm" @click="deleteSekolah(row.item.id)">
 								<font-awesome-icon icon="trash" /> Hapus
 							</b-button>
 						</template>
@@ -26,6 +46,7 @@
                         <div class="col-md-6">
                             <div class="float-right">
                                 <b-pagination
+								    size="sm"
                                     v-model="page"
                                     :total-rows="sekolah.meta.total"
                                     :per-page="sekolah.meta.per_page"
@@ -51,9 +72,9 @@ export default {
 	data() {
 		return {
 			fields: [
+				{ key: 'show_details', label: 'Detail' },
 				{ key: 'nis',label: 'No Induk sekolah' },
 				{ key: 'nama', label: 'Nama sekolah' },
-				{ key: 'alamat', label: 'Alamat' },
 				{ key: 'actions', label: 'Aksi'}
 			],
 			search: '',
@@ -66,7 +87,7 @@ export default {
 		}),
 		page: {
 			get() {
-				return this.$store.state.server.page
+				return this.$store.state.sekolah.page
 			},
 			set(val) {
 				this.$store.commit('sekolah/SET_PAGE', val)

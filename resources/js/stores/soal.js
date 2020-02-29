@@ -3,7 +3,8 @@ import $axios from '../api.js'
 const state = () => ({
 	soals: [],
 	soal: '',
-	page: 1
+	page: 1,
+	from: 1
 })
 
 const mutations = {
@@ -15,7 +16,10 @@ const mutations = {
     },
     ASSIGN_FORM(state, payload) {
         state.soal = payload
-    },
+	},
+	SET_FROM_DATA(state, payload) {
+		state.from = payload
+	}
 }
 
 const actions = {
@@ -24,7 +28,11 @@ const actions = {
 			$axios.get(`/soal/banksoal/${payload.banksoal_id}?page=${state.page}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
+				commit('SET_FROM_DATA', response.data.meta.from)
 				resolve(response.data)
+			})
+			.catch((err) => {
+				reject()
 			})
 		}) 
 	},

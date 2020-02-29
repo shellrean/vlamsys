@@ -35,6 +35,12 @@ export default {
 			this.submitMatpel()
 			.then(() => {
 				this.$router.push({ name: 'matpel.data' })
+				this.$notify({
+				group: 'foo',
+				title: 'Sukses',
+				type: 'success',
+				text: 'Data mapel berhasil disimpan.'
+				})
 			})
 		}
 	},

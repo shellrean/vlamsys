@@ -3,12 +3,19 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary" squared>Tambah</b-button>
+                    <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary">Tambah</b-button>
                 </div>
                 <div class="card-body">
+                     <div class="row">
+                        <div class="col-sm-5">
+                            <h4 id="traffic" class="card-title mb-0">Manage Banksoal</h4>
+                            <div class="small text-muted">Buat hapus dan edit banksoal</div>
+                        </div>
+                    </div>
+                    <br>
                     <b-table striped hover bordered small :fields="fields" :items="banksoals.data" show-empty>
                          <template v-slot:cell(show_details)="row">
-                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'success'" squared><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
                         </template>
 
                         <template v-slot:row-details="row">
@@ -30,9 +37,9 @@
                             </b-card>
                         </template>
                        <template v-slot:cell(actions)="row">
-                            <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm rounded-0"><font-awesome-icon icon="list" /> Soal</router-link>
-                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning" squared><font-awesome-icon icon="edit" /> Edit</b-button>
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /> Hapus</button>
+                            <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm"><font-awesome-icon icon="list" /> Soal</router-link>
+                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning"><font-awesome-icon icon="edit" /> Edit</b-button>
+                            <button class="btn btn-danger btn-sm" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /> Hapus</button>
                         </template>
                     </b-table>
                     <div class="row">
@@ -42,6 +49,7 @@
                         <div class="col-md-6">
                             <div class="float-right">
                                 <b-pagination
+                                    size="sm"
                                     v-model="page"
                                     :total-rows="banksoals.meta.total"
                                     :per-page="banksoals.meta.per_page"

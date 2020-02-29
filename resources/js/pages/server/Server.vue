@@ -3,10 +3,7 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link :to="{ name: 'server.add' }" class="btn btn-primary btn-sm rounded-0">Tambah server</router-link>
-					<div class="float-right">
-                        <input type="text" class="form-control" placeholder="Cari nama..." v-model="search">
-                    </div>
+					<router-link :to="{ name: 'server.add' }" class="btn btn-primary btn-sm">Tambah server</router-link>
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -15,11 +12,8 @@
                             <div class="small text-muted">Manage servers</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
-                            <button type="button" class="btn float-right btn-primary btn-sm">
-                                <font-awesome-icon icon="file-word" />
-                            </button>
                             <button type="button" class="btn float-right btn-primary btn-sm mx-1">
-                                <i class="cil-print"></i>
+                                <i class="cil-print"></i>&nbsp; Cetak data servers
                             </button>
                         </div>
                     </div>
@@ -38,7 +32,7 @@
 					</div>
 					<b-table striped hover bordered small :fields="fields" :items="servers.data" :busy="isBusy" show-empty v-show="servers.data">
 						<template v-slot:cell(show_details)="row">
-                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'success'" squared><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
                         </template>
                         <template v-slot:row-details="row">
                             <b-card>
@@ -56,16 +50,13 @@
                             </b-card>
                         </template>
 						<template v-slot:cell(actions)="row">
-							<b-button variant="success" title="Aktif/Matikan server" squared size="sm" @click="reserveServer(row.item.id)">
+							<b-button variant="success" title="Aktif/Matikan server" size="sm" @click="reserveServer(row.item.id)">
 								<font-awesome-icon icon="dot-circle" /> Aktif/Matikan
 							</b-button>
-							<b-button variant="warning" title="Reset sync" squared size="sm">
-								<font-awesome-icon icon="sync" /> Reset sync
-							</b-button>
-							<b-button variant="danger" title="Hapus Serial" squared size="sm" @click="resetSerial(row.item.id)">
+							<b-button variant="warning" title="Hapus Serial" size="sm" @click="resetSerial(row.item.id)">
 								<font-awesome-icon icon="sync" /> Reset UUID
 							</b-button>
-							<b-button variant="danger" title="Hapus server" squared size="sm" @click="deleteServer(row.item.id)">
+							<b-button variant="danger" title="Hapus server" size="sm" @click="deleteServer(row.item.id)">
 								<font-awesome-icon icon="trash" /> Hapus
 							</b-button>
 						</template>
@@ -77,6 +68,7 @@
                         <div class="col-md-6">
                             <div class="float-right">
                                 <b-pagination
+								   size="sm"
                                     v-model="page"
                                     :total-rows="servers.meta.total"
                                     :per-page="servers.meta.per_page"

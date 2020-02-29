@@ -84,6 +84,14 @@ class SoalController extends Controller
         }
 
         $soal = $soal->paginate(10);
+
+        // $soal = Soal::with('jawabans')->where('banksoal_id',$id)
+        // ->orderBy(request()->sortby, request()->sortbydesc)
+        // ->when(request()->q, function($soal) {
+        //     $soal = $soal->where('pertanyaan', 'LIKE', '%' . request()->q . '%')
+        //             ->orWhere('created_at', 'LIKE', '%' . request()->q . '%');
+        // })->paginate(request()->per_page);
+
         return new AppCollection($soal);
     }
 
