@@ -1,5 +1,5 @@
 <template>
-    <div class="c-body" v-if="$can('setting')">
+    <div class="c-body">
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
@@ -13,9 +13,9 @@
     export default {
         name: 'Setting',
         created() {
-            if(!this.$can('setting')) {
-                this.$router.push('/')
-            }
+            // if(!this.$can('setting')) {
+            //     this.$router.push('/')
+            // }
         }
     }
 </script>
