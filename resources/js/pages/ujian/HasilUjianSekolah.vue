@@ -23,7 +23,11 @@
                                     </div>
                                 </div>
                                 <b-table v-if="ujians && ujians.data" striped hover bordered :busy="isBusy" small :fields="fields" :items="ujians.data" show-empty></b-table>
+								<a :href="'/prev/ujian/hasil/'+sekolah+'/'+banksoal" class="btn btn-success btn-sm mr-1" target="_blank" v-if="ujians && ujians.data && ujians.data != ''">Download excel</a>
                             </div>
+							<div class="card-footer">
+
+							</div>
                         </div>
                     </div>
                 </div>

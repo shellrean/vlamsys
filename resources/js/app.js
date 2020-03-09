@@ -14,7 +14,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import Permissions from './mixins/Permission.js'
 Vue.mixin(Permissions)
-
 import { mapActions, mapGetters } from 'vuex'
 
 if (process.env.MIX_APP_ENV === 'production') {

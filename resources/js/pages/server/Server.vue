@@ -91,7 +91,7 @@
                             <div class="small text-muted">Manage servers</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
-                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
+                            <button type="button" class="btn float-right btn-primary btn-sm mx-1" @click="printServer">
                                 <i class="cil-print"></i>&nbsp; Cetak data servers
                             </button>
                         </div>
@@ -217,6 +217,14 @@ export default {
 			this.getServers({
 				sekolah: this.sekolah
 			})
+		},
+		printServer() {
+			this.$notify({
+                  group: 'foo',
+                  title: 'Information',
+                  type: 'info',
+                  text: 'This is future.'
+            })
 		}
 	},
 	watch: {

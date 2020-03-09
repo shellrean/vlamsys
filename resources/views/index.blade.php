@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="theme-color" content="#317EFB">
     <meta name="description" content="This an exam system application for education future">
-
-
-    <title>VLam System</title>
+    <link rel="shortcut icon" href="{{ asset('img/brand/dki.png') }}">
+    <title>VLam system</title>
     
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
