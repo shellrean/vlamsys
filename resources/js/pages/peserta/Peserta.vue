@@ -63,7 +63,7 @@
 					
 				</div>
 			</div>
-			<div class="card">
+			<div class="card" v-if="$role('school')">
 				<div class="card-header">
 					Daftar peserta yang terdaftar
 				</div>
