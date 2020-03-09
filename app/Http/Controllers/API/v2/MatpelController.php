@@ -49,8 +49,7 @@ class MatpelController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'kode_mapel'    => 'required|unique:matpels,kode_mapel',
-            'nama'          => 'required',
-            'jurusan_id'    => 'required'
+            'nama'          => 'required'
         ]);
 
         if ($validator->fails()) {

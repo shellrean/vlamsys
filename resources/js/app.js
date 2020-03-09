@@ -17,6 +17,12 @@ Vue.mixin(Permissions)
 
 import { mapActions, mapGetters } from 'vuex'
 
+if (process.env.MIX_APP_ENV === 'production') {
+	Vue.config.devtools = false;
+	Vue.config.debug = false;
+	Vue.config.silent = true; 
+}
+
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(Notifications)
