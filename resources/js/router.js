@@ -3,22 +3,61 @@ import Router from 'vue-router'
 import store from './store.js'
 
 Vue.use(Router)
-function lazyLoad(view){
-	return() => import(`./${view}.vue`)
-}
+import Login from './pages/Login.vue'
+import Home from './pages/Home.vue'
+
+import MatpelIndex from './pages/matpel/Index.vue'
+import DataMatpel from './pages/matpel/Matpel.vue'
+import AddMatpel from './pages/matpel/Add.vue'
+
+import PesertaIndex from './pages/peserta/Index.vue'
+import DataPeserta from './pages/peserta/Peserta.vue'
+import AddPeserta from './pages/peserta/Add.vue'
+import UploadPeserta from './pages/peserta/Upload.vue'
+
+import BanksoalIndex from './pages/banksoal/Index.vue'
+import DataBanksoal from './pages/banksoal/DataBanksoal.vue'
+import SoalBanksoal from './pages/banksoal/SoalBanksoal.vue'
+import SoalBanksoalTambah from './pages/banksoal/SoalBanksoalTambah.vue'
+import SoalBanksoalEdit from './pages/banksoal/SoalBanksoalEdit.vue'
+
+import UjianIndex from './pages/ujian/Index.vue'
+import DataUjian from './pages/ujian/Ujian.vue'
+import PesertaUjian from './pages/ujian/PesertaUjian.vue'
+import HasilUjian from './pages/ujian/HasilUjian.vue'
+import HasilListUjian from './pages/ujian/HasilListUjian.vue'
+import KoreksiUjian from './pages/ujian/KoreksiUjian.vue'
+
+import FilemediaIndex from './pages/filemedia/Index.vue'
+import DataFilemedia from './pages/filemedia/Filemedia.vue'
+import DataDirFilemedia from './pages/filemedia/DirFilemedia.vue'
+
+import ServerIndex from './pages/server/Index.vue'
+import DataServer from './pages/server/Server.vue'
+import AddServer from './pages/server/Add.vue'
+
+import SekolahIndex from './pages/sekolah/Index.vue'
+import DataSekolah from './pages/sekolah/Sekolah.vue'
+import AddSekolah from './pages/sekolah/Add.vue'
+import EditSekolah from './pages/sekolah/Edit.vue'
+import HasilUjianSekolah from './pages/ujian/HasilUjianSekolah.vue'
+
+import SettingIndex from './pages/setting/Index'
+import SetPermission from './pages/setting/SetPermission'
+
 
 const router = new Router({
 	mode: 'history',
 	routes: [
 		{
 		    path: '/setting',
-		    component: lazyLoad('pages/setting/Index'),
+		    component: SettingIndex,
 		    meta: { requiresAuth: true },
 		    children: [
 		        {
 		            path: 'role-permission',
 		            name: 'role.permissions',
-		            component: lazyLoad('pages/setting/SetPermission'),
+		            component: SetPermission,
 		            meta: { title: 'Set Permissions' }
 		        },
 		    ]
@@ -26,185 +65,185 @@ const router = new Router({
 		{
 			path: '/login',
 			name: 'login',
-			component: lazyLoad('pages/Login'),
+			component: Login,
 		},
 		{
 			path: '/',
 			name: 'home',
-			component: lazyLoad('pages/Home'),
+			component: Home,
 			meta: { requiresAuth: true }
 		},
 		{
 			path: '/matpel',
-			component: lazyLoad('pages/matpel/Index'),
+			component: MatpelIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
                     path: '',
                     name: 'matpel.data',
-                    component: lazyLoad('pages/matpel/Matpel'),
+                    component: DataMatpel,
                     meta: { title: 'Manage mata pelajaran' }
                 },
                 {
                 	path: 'add',
                 	name: 'matpel.add',
-                	component: lazyLoad('pages/matpel/Add'),
+                	component: AddMatpel,
                 	meta: { title: 'Tambah mata pelajara' }
                 }
 			]
 		},
 		{
 			path: '/peserta',
-			component: lazyLoad('pages/peserta/Index'),
+			component: PesertaIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
 					path: '',
 					name: 'peserta.data',
-					component: lazyLoad('pages/peserta/Peserta'),
+					component: DataPeserta,
 					meta: { title: 'Manage peserta' }
 				},
 				{
 					path: 'add',
 					name: 'peserta.add',
-					component: lazyLoad('pages/peserta/Add'),
+					component: AddPeserta,
 					meta: { title: 'Tambah peserta' }
 				},
 				{
 					path: 'upload',
 					name: 'peserta.upload',
-					component: lazyLoad('pages/peserta/Upload'),
+					component: UploadPeserta,
 					meta: { title: 'Upload peserta' }
 				}
 			]
 		},
 		{
 			path: '/banksoal',
-			component: lazyLoad('pages/banksoal/Index'),
+			component: BanksoalIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
 					path: '',
 					name: 'banksoal.data',
-					component: lazyLoad('pages/banksoal/DataBanksoal'),
+					component: DataBanksoal,
 					meta: { title: 'Manage banksoal' }
 				},
 				{
 					path: '/soal/:banksoal_id',
 					name: 'banksoal.soal',
-					component: lazyLoad('pages/banksoal/SoalBanksoal'),
+					component: SoalBanksoal,
 					meta: { title: 'Manage soal' }
 				},
 				{
 					path: '/soal/:banksoal_id/tambah',
 					name: 'banksoal.soal.tambah',
-					component: lazyLoad('pages/banksoal/SoalBanksoalTambah'),
+					component: SoalBanksoalTambah,
 					meta: { title: 'Tambah soal' }
 				},
 				{
 					path: '/soal/:banksoal_id/:soal_id',
 					name: 'banksoal.soal.edit',
-					component : lazyLoad('pages/banksoal/SoalBanksoalEdit'),
+					component : SoalBanksoalEdit,
 					meta: { title: 'Edit soal' }
 				}
 			]
 		},
 		{
 			path: '/ujian',
-			component: lazyLoad('pages/ujian/Index'),
+			component: UjianIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
 					path: '',
 					name: 'ujian.data',
-					component: lazyLoad('pages/ujian/Ujian'),
+					component: DataUjian,
 					meta: { title: 'Manage ujian' }
 				},
 				{
 					path: '/peserta/:ujian_id',
 					name: 'ujian.peserta',
-					component: lazyLoad('pages/ujian/PesertaUjian'),
+					component: PesertaUjian,
 					meta: { title: 'Lihat peserta ujian' }
 				},
 				{
 					path: 'hasil',
 					name: 'ujian.hasil',
-					component: lazyLoad('pages/ujian/HasilUjian'),
+					component: HasilUjian,
 					meta: { title: 'Hasil ujian' }
 				},
 				{
 					path: 'hasil/:jadwal_id/list',
 					name: 'ujian.hasil.list',
-					component: lazyLoad('pages/ujian/HasilListUjian'),
+					component: HasilListUjian,
 					meta: { title: 'Hasil ujian list' }
 				},
 				{
 					path: 'hasil/koreksi',
 					name: 'ujian.koreksi',
-					component: lazyLoad('pages/ujian/KoreksiUjian'),
+					component: KoreksiUjian,
 					meta: { tiel: 'Koreksi jawaban peserta' }
 				}
 			]
 		},
 		{
 			path: '/filemedia',
-			component: lazyLoad('pages/filemedia/Index'),
+			component: FilemediaIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
 					path: '',
 					name: 'filemedia.data',
-					component: lazyLoad('pages/filemedia/Filemedia'),
+					component: DataFilemedia,
 					meta: { title: 'Manage filemedia' }
 				},
 				{
 					path: '/filemedia/directory/:directory_id',
 					name: 'filemedia.directory',
-					component: lazyLoad('pages/filemedia/DirFilemedia'),
+					component: DataDirFilemedia,
 					meta: { title: 'Manage directory filemedia' }
 				}
 			]
 		},
 		{
 			path: '/server',
-			component: lazyLoad('pages/server/Index'),
+			component: ServerIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
 					path: '',
 					name: 'server.data',
-					component: lazyLoad('pages/server/Server'),
+					component: DataServer,
 					meta: { title: 'Manage server' }
 				},
 				{
 					path: 'add',
 					name: 'server.add',
-					component: lazyLoad('pages/server/Add'),
+					component: AddServer,
 					meta: { title: 'Tambah server' }
 				}
 			]
 		},
 		{
 			path: '/sekolah',
-			component: lazyLoad('pages/sekolah/Index'),
+			component: SekolahIndex,
 			meta: { requiresAuth: true },
 			children: [
 				{
 					path: '',
 					name: 'sekolah.data',
-					component: lazyLoad('pages/sekolah/Sekolah'),
+					component: DataSekolah,
 					meta: { title: 'Manage sekolah' }
 				},
 				{
 					path: 'add',
 					name: 'sekolah.add',
-					component: lazyLoad('pages/sekolah/Add'),
+					component: AddSekolah,
 					meta: { title: 'Tambah sekolah' }
 				},
 				{
 					path: 'edit/:id',
 					name: 'sekolah.edit',
-					component: lazyLoad('pages/sekolah/Edit'),
+					component: EditSekolah,
 					meta: { title: 'Edit sekolah' }
 				}
 			]
@@ -212,7 +251,7 @@ const router = new Router({
 		{
 			path: '/hasil-ujian',
 			name: 'hasil-ujian',
-			component: lazyLoad('pages/ujian/HasilUjianSekolah'),
+			component: HasilUjianSekolah,
 			meta: { title: 'Hasil ujian' }
 		},
 	]
