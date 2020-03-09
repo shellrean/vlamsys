@@ -9,7 +9,7 @@
           </router-link>
         </li>
         <li class="c-sidebar-nav-title">Menu utama</li>
-        <li class="c-sidebar-nav-item" >
+        <li class="c-sidebar-nav-item" v-if="!$role('school')" >
           <router-link class="c-sidebar-nav-link" :to="{ name: 'sekolah.data' }">
             <i class="c-sidebar-nav-icon cil-building"></i> Sekolah
           </router-link>

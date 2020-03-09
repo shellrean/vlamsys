@@ -44,14 +44,14 @@
                             <p v-if="sekolah.data"><i class="fa fa-bars"></i> {{ sekolah.data.length }} item dari {{ sekolah.meta.total }} total data</p>
                         </div>
                         <div class="col-md-6">
-                            <div class="float-right">
+                            <div class="float-right" v-if="sekolah">
                                 <b-pagination
 								    size="sm"
                                     v-model="page"
                                     :total-rows="sekolah.meta.total"
                                     :per-page="sekolah.meta.per_page"
                                     aria-controls="products"
-                                    v-if="sekolah.data && sekolah.data.length > 0"
+                                    v-if="sekolah.data && sekolah.data.length > 0 && sekolah.meta"
                                     ></b-pagination>
                             </div>
                         </div>

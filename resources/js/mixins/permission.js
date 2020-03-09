@@ -5,6 +5,15 @@ export default {
 			if (typeof Permission != 'undefined') {
                 return Permission.indexOf(permissionName) !== -1;
             }
+		},
+		$role(namerole) {
+			let roles = this.$store.state.user.authenticated.roles
+			if(roles) {
+				if(roles[0].name == namerole) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

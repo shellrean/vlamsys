@@ -1,5 +1,5 @@
 <template>
-    <div class="c-body">
+    <div class="c-body" v-if="$can('server')">
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
@@ -11,6 +11,11 @@
 </template>
 <script>
     export default {
-        name: 'IndexServer'
+        name: 'IndexServer',
+        created() {
+            if(!this.$can('server')) {
+                this.$router.push('/')
+            }
+        }
     }
 </script>

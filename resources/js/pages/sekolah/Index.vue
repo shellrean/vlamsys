@@ -1,5 +1,5 @@
 <template>
-    <div class="c-body">
+    <div class="c-body" v-if="!$role('school')">
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
@@ -11,6 +11,11 @@
 </template>
 <script>
     export default {
-        name: 'IndexSekolah'
+        name: 'IndexSekolah',
+        created() {
+            if(this.$role('school')){
+                this.$router.push('/')
+            }
+        }
     }
 </script>

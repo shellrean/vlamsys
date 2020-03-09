@@ -1,5 +1,5 @@
 <template>
-    <div class="c-body">
+    <div class="c-body" v-if="$can('jadwal')">
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
@@ -11,6 +11,11 @@
 </template>
 <script>
     export default {
-        name: 'IndexUjian'
+        name: 'IndexUjian',
+        created() {
+            if(!this.$can('jadwal')) {
+                this.$router.push('/')
+            }
+        }
     }
 </script>
