@@ -72,6 +72,11 @@
             <i class="c-sidebar-nav-icon cil-snowflake"></i>Setting role
           </router-link>
         </li>
+        <li class="c-sidebar-nav-item" v-if="$role('school')">
+          <router-link class="c-sidebar-nav-link" :to="{ name: 'hasil-ujian' }">
+            <i class="c-sidebar-nav-icon cil-chart"></i>Hasil Ujian
+          </router-link>
+        </li>
       </ul>
       <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
     </div>

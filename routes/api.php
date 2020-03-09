@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth.api'], function() {
 	Route::post('/peserta/upload', 'API\v2\PesertaController@import');
 
 	Route::get('/banksoal/get-all', 'API\v2\BanksoalController@getAll');
+	Route::get('/banksoal/active', 'Api\v2\BanksoalController@active');
 	Route::apiResource('/banksoal', 'API\v2\BanksoalController');
 
 	Route::resource('/soal', 'API\v2\SoalController');

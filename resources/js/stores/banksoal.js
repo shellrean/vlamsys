@@ -124,6 +124,15 @@ const actions = {
                 dispatch('getBanksoals').then(() => resolve())
             })
         })
+    },
+    getMyBanksoal({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            $axios.get('/banksoal/active')
+            .then((response) => {
+                commit('ASSIGN_ALL_DATA', response.data)
+				resolve(response.data)
+            })
+        })
     }
 }
 

@@ -208,7 +208,13 @@ const router = new Router({
 					meta: { title: 'Edit sekolah' }
 				}
 			]
-		}
+		},
+		{
+			path: '/hasil-ujian',
+			name: 'hasil-ujian',
+			component: lazyLoad('pages/ujian/HasilUjianSekolah'),
+			meta: { title: 'Hasil ujian' }
+		},
 	]
 })
 

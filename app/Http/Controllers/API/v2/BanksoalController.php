@@ -9,6 +9,8 @@ use App\Banksoal;
 use App\Directory;
 use App\File;
 use App\Sekolah;
+use App\Server;
+use App\Peserta;
 
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
@@ -169,5 +171,29 @@ class BanksoalController extends Controller
         $banksoaler = Banksoal::find($banksoal);
 
         return Excel::download(new HasilUjianExport($sekolah, $banksoal), $sekolaher->nis.'.xlsx');
+    }
+
+    public function active()
+    {
+        $user = request()->user('api');
+        $server = Server::where('sekolah_id', $user->sekolah_id)->pluck('server_name');
+        $matpels = Peserta::whereIn('name_server', $server)->pluck('jurusan_id');
+
+        $banksoal = Banksoal::whereHas('matpel',function($q) use($matpels) {
+            $q->whereIn('jurusan_id',$matpels);
+        })
+        ->with('matpel');
+        
+        $banksoal = $banksoal->get()
+        ->makeHidden('jumlah_soal')
+        ->makeHidden('jumlah_pilihan')
+        ->makeHidden('jumlah_soal_esay')
+        ->makeHidden('matpel_id')
+        ->makeHidden('author')
+        ->makeHidden('created_at')
+        ->makeHidden('updated_at')
+        ->makeHidden('directory_id');
+
+        return new AppCollection($banksoal);
     }
 }
