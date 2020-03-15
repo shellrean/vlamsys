@@ -3,7 +3,7 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-header">
-					<button @click="$bvModal.show('modal-scoped')" class="btn btn-sm btn-primary rounded-0">Tambah jadwal</button>
+					<button @click="$bvModal.show('modal-scoped')" class="btn btn-sm btn-primary">Tambah jadwal</button>
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -15,15 +15,15 @@
                     <br>
 					<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="ujians.data" show-empty>
 						<template v-slot:table-busy>
-                            <div class="text-center text-warning my-2">
-							  <img src="/img/loader.svg" width="50px" />
+                            <div class="text-center text-light my-2">
+							  <b-spinner small type="grow"></b-spinner> Loading...
                             </div>
                         </template>
 						<template v-slot:cell(lama)="row">
 							{{ parseInt(row.item.lama)/60+ " Menit" }}
 						</template>
 						<template v-slot:cell(banksoals)="row">
-							{{ row.item.banksoal_id == 0 ? 'Produktif' : row.item.banksoal.id }}
+							<b-badge variant="success" class="mr-1" v-for="(kode,index) in row.item.kode_banksoal" v-text="kode" :key="index"></b-badge>
 						</template>
 						<template v-slot:cell(status)="row">
 							<b-form-checkbox size="lg" v-model="row.item.status_ujian" @change="seterStatus(row.item.id,row.item.status_ujian)" value="1">Aktif</b-form-checkbox>
@@ -35,7 +35,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="float-right">
-                                <b-pagination
+                                <b-pagination 
+                                    size="sm"
                                     v-model="page"
                                     :total-rows="ujians.meta.total"
                                     :per-page="ujians.meta.per_page"
@@ -47,6 +48,7 @@
                     </div>
 				</div>
 				<div class="card-footer">
+
 				</div>
 			</div>
 		</div>
@@ -54,14 +56,20 @@
 		    <template v-slot:modal-header="{ close }">
 		      <h5>Setting ujian</h5>
 		    </template>
-			<div class="form-group">
-				<b-form-checkbox size="lg" v-model="produktif" value="1">Produktif</b-form-checkbox>
-			</div>
-		    <div class="form-group" v-show="!produktif">
+		    <div class="form-group">
 		    	<label>Banksoal</label>
-		    	<select class="form-control" :class="{ 'is-invalid' : errors.banksoal_id }" v-model="data.banksoal_id">
-		    		<option v-for="banksoal in banksoals" :value="banksoal.id" :key="banksoal.id">{{ banksoal.kode_banksoal}} - {{ banksoal.matpel.nama }}</option>
-		    	</select>
+		    	<div class="text-center text-light my-2" v-show="!banksoals">
+				  <b-spinner small type="grow"></b-spinner> Loading...
+                </div>
+		    	<multiselect 
+				v-model="data.banksoal_id" 
+				tag-placeholder="Cari untuk menambah banksoal" 
+				placeholder="Tambah banksoal" 
+				label="kode_banksoal" track-by="id" 
+				:options="banksoals" 
+				:multiple="true" 
+				:taggable="true"
+				v-if="banksoals"></multiselect>
 		    	<div class="invalid-feedback" v-if="errors.banksoal_id">{{ errors.banksoal_id[0] }}</div>
 		    </div>
 		    <div class="form-group">
@@ -93,10 +101,10 @@
 		    	</div>
 		    </div>
 		    <template v-slot:modal-footer="{ cancel }">
-		      <b-button size="sm" variant="success" squared @click="postUjian">
-		        Submit
+		      <b-button size="sm" variant="primary" @click="postUjian">
+		        Simpan
 		      </b-button>
-		      <b-button size="sm" variant="secondary" squared @click="cancel()">
+		      <b-button size="sm" variant="secondary" @click="cancel()">
 		        Cancel
 		      </b-button>
 		    </template>
@@ -107,11 +115,13 @@
 import { mapActions, mapState, mapMutations } from 'vuex'
 import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
+import Multiselect from 'vue-multiselect'
 
 export default {
 	name: 'DataUjian',
 	components: {
-	    datetime: Datetime
+	    datetime: Datetime,
+	    Multiselect
 	},
 	created() {
 		this.getUjians()
@@ -136,8 +146,7 @@ export default {
 			},
 			isActive: '',
 			isBusy: true,
-			timeout: 0,
-			produktif: ''
+			timeout: 0
 		}
 	},
 	computed: {
@@ -230,3 +239,4 @@ export default {
 	}
 }
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

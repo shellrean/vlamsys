@@ -28,12 +28,12 @@ class UjianController extends Controller
      */
     public function index()
     {
-        $ujian = Jadwal::with('banksoal')->orderBy('created_at', 'DESC');
+        $ujian = Jadwal::orderBy('created_at', 'DESC');
         if (request()->q != '') {
             $ujian = $ujian->where('token', 'LIKE', '%'. request()->q.'%');
         }
-
         $ujian = $ujian->paginate(10);
+        $ujian->makeHidden('banksoal_id');
         return new AppCollection($ujian);
     }
 
@@ -62,7 +62,6 @@ class UjianController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'banksoal_id'       => 'nullable|exists:banksoals,id',
             'tanggal'           => 'required',
             'mulai'             => 'required',
             'berakhir'          => 'required',
@@ -73,13 +72,25 @@ class UjianController extends Controller
             return response()->json(['errors' => $validator->errors()],422);
         }
         $data = [
-            'banksoal_id'       => ($request->banksoal_id != '' ? $request->banksoal_id : '0' ),
             'mulai'             => date('H:i:s', strtotime($request->mulai)),
             'berakhir'          => date('H:i:s',strtotime($request->berakhir)),
             'lama'              => $request->lama*60,
             'tanggal'           => date('Y-m-d',strtotime($request->tanggal)),
             'status_ujian'      => 0
         ];
+
+        if($request->banksoal_id != '') {
+            $fill = array();
+            foreach($request->banksoal_id as $banksol) {
+                $fush = [
+                    'id' => $banksol['id'],
+                    'jurusan' => $banksol['matpel']['jurusan_id']
+                ];
+                array_push($fill, $fush);
+            }   
+
+            $data['banksoal_id'] = $fill;
+        }
 
         Jadwal::create($data);
 

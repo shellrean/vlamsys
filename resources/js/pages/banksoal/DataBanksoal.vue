@@ -126,7 +126,6 @@ export default {
                 matpel_id: '',
                 jumlah_soal : 0,
                 jumlah_pilihan: 5,
-                server_name: '',
                 jumlah_soal_esay: 0
             },
             selected: '',
@@ -161,7 +160,6 @@ export default {
         ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
         postBanksoal() {
             this.addBanksoal({
-                name_server: this.data.server_name.server_name,
                 kode_banksoal : this.data.kode_banksoal,
                 matpel_id : this.data.matpel_id.id,
                 jumlah_soal: this.data.jumlah_soal,
