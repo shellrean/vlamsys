@@ -15,7 +15,7 @@
                     <br>
                     <b-table striped hover bordered small :fields="fields" :items="banksoals.data" show-empty>
                          <template v-slot:cell(show_details)="row">
-                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><i :class="row.detailsShowing ? 'cil-chevron-top' : 'cil-chevron-bottom'" /></b-button>
                         </template>
 
                         <template v-slot:row-details="row">
@@ -38,8 +38,8 @@
                         </template>
                        <template v-slot:cell(actions)="row">
                             <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm"><font-awesome-icon icon="list" /> Soal</router-link>
-                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning"><font-awesome-icon icon="edit" /> Edit</b-button>
-                            <button class="btn btn-danger btn-sm" @click="deleteBanksoal(row.item.id)"><font-awesome-icon icon="trash" /> Hapus</button>
+                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning"><f<i class="cil-pencil"></i> Edit</b-button>
+                            <button class="btn btn-danger btn-sm" @click="deleteBanksoal(row.item.id)"><i class="cil-trash"></i> Hapus</button>
                         </template>
                     </b-table>
                     <div class="row">
