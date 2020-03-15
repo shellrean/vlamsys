@@ -3,16 +3,17 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link :to="{ name: 'peserta.data' }" class="btn btn-warning btn-sm">Kembali </router-link>
+					<router-link :to="{ name: 'peserta.data' }" class="btn btn-light btn-sm">Kembali </router-link>
 				</div>
 				<div class="card-body">
 					<peserta-form></peserta-form>
 					<div class="form-group">
-						<b-button variant="primary" @click="submit" :disabled="isLoading">
+						<b-button size="sm" variant="primary" @click="submit" :disabled="isLoading">
 							<b-spinner small type="grow" v-show="isLoading"></b-spinner> Simpan
 						</b-button>
 					</div>
 				</div>
+				<div class="card-footer"></div>
 			</div>
 		</div>
 	</div>

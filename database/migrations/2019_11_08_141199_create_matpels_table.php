@@ -16,6 +16,7 @@ class CreateMatpelsTable extends Migration
         Schema::create('matpels', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('kode_mapel',100);
+            $table->string('jurusan_id');
             $table->string('nama');
             $table->timestamps();
         });

@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link :to="{ name: 'server.data' }" class="btn btn-warning btn-sm">Kembali </router-link>
+					<router-link :to="{ name: 'server.data' }" class="btn btn-light btn-sm">Kembali </router-link>
 				</div>
 				<div class="card-body">
 					<server-form></server-form>
@@ -12,6 +12,8 @@
 							<b-spinner small type="grow" v-show="isLoading"></b-spinner> Simpan
 						</b-button>
 					</div>
+				</div>
+				<div class="card-footer">
 				</div>
 			</div>
 		</div>

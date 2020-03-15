@@ -126,6 +126,15 @@ const actions = {
 				dispatch('getJawabanEsay').then(() => resolve())
 			})
 		})
+	},
+
+	getExistsEsay({ state, commit }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.get(`/ujian/esay/exists`, payload)
+			.then((response) => {
+				commit('ASSIGN_DATA', response.data)
+			})
+		})
 	}
 }
 

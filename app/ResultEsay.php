@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResultEsay extends Model
 {
-    protected $table = 'result_esay';
-
     protected $fillable = ['nilai','see'];
     
     public function pertanyaan()

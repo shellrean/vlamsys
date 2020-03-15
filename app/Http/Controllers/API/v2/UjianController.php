@@ -13,6 +13,7 @@ use App\Result;
 use App\ResultEsay;
 use App\Banksoal;
 use App\Peserta;
+use App\JawabanPeserta;
 
 use DB;
 use App\Http\Resources\AppCollection;
@@ -239,5 +240,29 @@ class UjianController extends Controller
         ->get();
 
         return response()->json(['data' => $results]);
+    }
+
+    /**
+     *
+     */
+    public function getExistsEsay()
+    {
+        $has = ResultEsay::all()->pluck('jawab_id')->unique();
+
+        $exists = JawabanPeserta::whereNotNull('esay')
+        ->whereNotIn('id', $has)
+        ->get()
+        ->pluck('banksoal_id')
+        ->unique();
+
+        $banksoal = Banksoal::whereIn('id', $exists)->get()
+        ->makeHidden('jumlah_soal')
+        ->makeHidden('jumlah_pilihan')
+        ->makeHidden('matpel_id')
+        ->makeHidden('directory_id')
+        ->makeHidden('inputed')
+        ->makeVisible('koreksi');
+
+        return $banksoal;
     }
 }

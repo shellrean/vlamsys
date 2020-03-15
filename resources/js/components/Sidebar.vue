@@ -55,12 +55,12 @@
                 <span class="c-sidebar-nav-icon"></span> Hasil ujian
               </router-link>
             </li>
-            <li class="c-sidebar-nav-item" v-if="$can('koreksi_esay')">
-              <router-link class="c-sidebar-nav-link" :to="{ name: 'ujian.koreksi' }">
-                <span class="c-sidebar-nav-icon"></span> Koreksi esay
-              </router-link>
-            </li>
           </ul>
+        </li>
+        <li class="c-sidebar-nav-item" v-if="$can('koreksi_esay')">
+          <router-link class="c-sidebar-nav-link" :to="{ name: 'ujian.koreksi' }">
+            <i class="c-sidebar-nav-icon cil-task"></i> Koreksi esay
+          </router-link>
         </li>
         <li class="c-sidebar-nav-item" v-if="$can('filemedia')">
           <router-link class="c-sidebar-nav-link" to="/filemedia">

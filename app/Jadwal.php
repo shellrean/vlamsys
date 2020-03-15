@@ -11,11 +11,11 @@ class Jadwal extends Model
     ];
 
     protected $appends = [
-    	'kode_banksoal'
+    	'kode_banksoal','ids'
     ];
 
     protected $hidden = [
-    	'created_at','updated_at'
+    	'created_at','updated_at','ids'
     ];
 
     protected $casts = [
@@ -33,4 +33,9 @@ class Jadwal extends Model
     	return Banksoal::whereIn('id', $ids)->get()->pluck('kode_banksoal');
     }
 
+    public function getIdsAttribute()
+    {
+        $this->casts['banksoal_id'] = 'string';
+        return $this->banksoal_id;
+    }
 }

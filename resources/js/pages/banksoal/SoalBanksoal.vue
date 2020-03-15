@@ -54,7 +54,7 @@
 
                        <template v-slot:cell(actions)="row">
                             <router-link :to="{ name: 'banksoal.soal.edit', params: {soal_id: row.item.id, banksoal_id: row.item.banksoal_id} }" class="btn btn-sm btn-warning ">
-                            	<f<i class="cil-pencil"></i> Edit
+                            	<i class="cil-pencil"></i> Edit
                             </router-link>
                             <button class="btn btn-danger btn-sm  " @click="deleteBanksoal(row.item.id)"><i class="cil-trash"></i> Hapus</button>
                         </template>

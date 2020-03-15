@@ -37,7 +37,7 @@
 					<b-table striped hover bordered small :fields="fields" :items="pesertas.data" :busy="isBusy" show-empty v-show="pesertas.data">
 						<template v-slot:cell(actions)="row">
 							<b-button variant="danger" squared size="sm" @click="deletePeserta(row.item.id)">
-								<font-awesome-icon icon="trash" /> Hapus
+								<i class="cil-trash"></i> Hapus
 							</b-button>
 						</template>
 					</b-table>

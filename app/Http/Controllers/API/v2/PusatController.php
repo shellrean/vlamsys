@@ -160,19 +160,6 @@ class PusatController extends Controller
                 ]);
             }
         }
-
-        // if($esay != null) {
-        //     foreach($esay as $e) {
-        //         DB::table('result_esay')->insert([
-        //             'banksoal_id'   => $e['banksoal_id'], 
-        //             'soal_id'       => $e['soal_id'],
-        //             'peserta_id'    => $e['peserta_id'],
-        //             'jadwal_id'     => $e['jadwal_id'],
-        //             'txt_jawaban'   => $e['jawab_essy']
-        //         ]);
-        //     }
-        // }
-        
         if($data != '') {
             foreach($data as $d) {
                
@@ -264,7 +251,7 @@ class PusatController extends Controller
             }
         }
 
-        $banksoaler = Banksoal::whereIn('id',$useBanksoal)->get();
+        $banksoaler = Banksoal::whereIn('id',$useBanksoal)->get()->makeHidden('inputed');
 
         $soal = Soal::whereIn('banksoal_id', $useBanksoal);
 
@@ -313,7 +300,7 @@ class PusatController extends Controller
                 ];
                 break;
             case 'jadwal':
-                $jadwal = Jadwal::where('status_ujian',1)->get();
+                $jadwal = Jadwal::where('status_ujian',1)->get()->makeHidden('kode_banksoal')->makeVisible('ids')->makeHidden('banksoal_id');
                 $data = [
                     'table'  => 'jadwals',
                     'data'   => $jadwal   

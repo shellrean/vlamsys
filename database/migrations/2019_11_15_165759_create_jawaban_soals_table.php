@@ -17,7 +17,7 @@ class CreateJawabanSoalsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('soal_id');
             $table->foreign('soal_id')->references('id')->on('soals')->onDelete('cascade');
-            $table->string('text_jawaban');
+            $table->text('text_jawaban');
             $table->string('correct');
             $table->timestamps();
         });

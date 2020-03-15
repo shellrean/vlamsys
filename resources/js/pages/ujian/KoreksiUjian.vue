@@ -6,23 +6,14 @@
 					Koreksi jawaban peserta
 				</div>
 				<div class="card-body">
-					<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="essies.data" show-empty>
+					<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="banksoals" show-empty>
 						<template v-slot:table-busy>
                             <div class="text-center text-warning my-2">
 							  <img src="/img/loader.svg" width="50px" />
                             </div>
                         </template>
-						<template v-slot:cell(pertanyaan)="row">
-							<div v-html="row.item.pertanyaan.pertanyaan"></div>
-						</template>
-						<template v-slot:cell(jawaban)="row">
-							<div v-html="row.item.txt_jawaban"></div>
-						</template>
-						<template v-slot:cell(nilai)="row">
-							<input type="number" placeholder="Nilai" class="form-control rounded-0" v-model="row.item.nilai">
-						</template>
 						<template v-slot:cell(aksi)="row">
-							<b-button variant="success" size="sm" squared @click="submitNilai(row.index)">Submit</b-button>
+							<b-button variant="light" size="sm" squared @click="submitNilai(row.index)">Koreksi banksoal ini</b-button>
 						</template>
 					</b-table>
 				</div>
@@ -38,15 +29,14 @@ import { mapActions, mapState } from 'vuex'
 export default {
 	name: 'UjianKoreksi',
 	created() {
-		this.getJawabanEsay()
+		this.getExistsEsay()
 	},
 	data() {
 		return {
 			fields: [
-				{ key: 'pertanyaan', label: 'Soal' },
-				{ key: 'jawaban', label: 'Jawaban peserta' },
-				{ key: 'nilai',label: 'Nilai' },
-				{ key: 'aksi', label: 'Kirim' }
+				{ key: 'kode_banksoal', label: 'Banksoal' },
+				{ key: 'koreksi', label: 'Jawaban belum terkoreksi' },
+				{ key: 'aksi', label: 'Aksi' }
 			],
 			nilai: '',
 			isBusy: true
@@ -54,11 +44,11 @@ export default {
 	},
 	computed: {
 		...mapState('ujian', {
-			essies: state => state.essies
+			banksoals: state => state.ujians
 		})
 	},
 	methods: {
-		...mapActions('ujian', ['getJawabanEsay','submitNilaiEsay']),
+		...mapActions('ujian', ['getJawabanEsay','submitNilaiEsay','getExistsEsay']),
 		submitNilai(index) {
 			this.submitNilaiEsay(this.essies.data[index])
 			.then(() => {
@@ -72,7 +62,7 @@ export default {
 		} 
 	},
 	watch: {
-		essies() {
+		banksoals() {
 			this.isBusy = false
 		}
 	}

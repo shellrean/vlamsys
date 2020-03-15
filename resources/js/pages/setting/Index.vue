@@ -13,9 +13,9 @@
     export default {
         name: 'Setting',
         created() {
-            // if(!this.$can('setting')) {
-            //     this.$router.push('/')
-            // }
+            if(!this.$can('setting')) {
+                this.$router.push('/')
+            }
         }
     }
 </script>

@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth.api'], function() {
 	Route::get('/ujian/esay/get', 'API\v2\UjianController@getEsay');
 	Route::post('/ujian/esay/input', 'API\v2\UjianController@inputEsay');
 	Route::get('/ujian/banksoal/{id}', 'API\v2\UjianController@getByBanksoal');
+	Route::get('/ujian/esay/exists', 'API\v2\UjianController@getExistsEsay');
 
 	Route::apiResource('/directory', 'API\v2\DirectoryController');
 	Route::post('/directory/filemedia', 'API\v2\DirectoryController@storeFilemedia');

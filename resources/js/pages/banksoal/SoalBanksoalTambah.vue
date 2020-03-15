@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <router-link :to="{ name: 'banksoal.soal', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
+          <router-link :to="{ name: 'banksoal.soal', params: { 'banksoal_id' : $route.params.banksoal_id } }" class="btn btn-light btn-sm">Kembali</router-link>
         </div>
         <div class="card-body">
             <div class="card">
@@ -281,7 +281,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <b-button variant="success" squared size="sm" :disabled="isLoading" @click.prevent="postSoalBanksoal">
+          <b-button variant="primary" size="sm" :disabled="isLoading" @click.prevent="postSoalBanksoal">
             <b-spinner small type="grow" v-show="isLoading"></b-spinner>
             Simpan
           </b-button>
@@ -295,7 +295,7 @@
         <div class="row">
           <div class="col-md-4">
             <img :src="gambar_pilih" style="max-width: 100%"> <br> <br>
-            <b-button size="sm" v-show="gambar_pilih != ''" variant="primary" squared @click="masukGambar">Masukkan gambar</b-button>
+            <b-button size="sm" v-show="gambar_pilih != ''" variant="primary" @click="masukGambar">Masukkan gambar</b-button>
           </div>
           <div class="col-md-8">
             <table class="table table-striped table-hover table-bordered">
@@ -310,7 +310,7 @@
                   <img :src="'http://192.168.0.200/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail rounded-0" style="max-width: 100px">
                 </td>
                 <td>
-                  <b-button variant="light" squared @click="pilihGambar(index)">
+                  <b-button variant="light" @click="pilihGambar(index)">
                     Lihat
                   </b-button>
                 </td>
@@ -439,7 +439,7 @@ export default {
     ...mapActions('banksoal',['addSoalBanksoal','getBanksoal']),
     ...mapMutations(['CLEAR_ERRORS','SET_LOADING']),
     postSoalBanksoal() {
-      if (this.correct === '') {
+      if (this.correct === '' && this.tipe_soal == 1) {
         this.$swal({
           title: 'Kunci jawaban kosong',
           text: "Pilih jawaban yang benar",

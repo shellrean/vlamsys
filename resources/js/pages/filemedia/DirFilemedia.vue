@@ -3,7 +3,7 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-header">
-					<router-link to="/filemedia" class="btn btn-warning btn-sm rounded-0">Kembali</router-link>
+					<router-link to="/filemedia" class="btn btn-light btn-sm">Kembali</router-link>
 				</div>
 				<div class="card-body">
 					<div class="row">

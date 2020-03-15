@@ -32,19 +32,16 @@
 					</div>
 					<b-table striped hover bordered small :fields="fields" :items="servers.data" :busy="isBusy" show-empty v-show="servers.data">
 						<template v-slot:cell(show_details)="row">
-                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                           <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><i :class="row.detailsShowing ? 'cil-chevron-top' : 'cil-chevron-bottom'" /></b-button>
                         </template>
                         <template v-slot:row-details="row">
                             <b-card>
                                 <table class="table table-borderless">
                                     <tr>
-                                        <td width="220px">Status sinkron</td><td v-text="(row.item.sinkron == '1' ? 'Berhasil' : 'Belum sinkron')"></td>
+                                        <td width="220px">Status server</td><td v-text="(row.item.status == '1' ? 'Aktif' : 'Offline')"></td>
                                     </tr>
                                     <tr>
-                                        <td>Status server</td><td v-text="(row.item.status == '1' ? 'Aktif' : 'Offline')"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Serial number</td><td v-text="row.item.serial_number"></td>
+                                        <td>UUID</td><td v-text="row.item.serial_number"></td>
                                     </tr>
                                 </table>
                             </b-card>
@@ -53,11 +50,11 @@
 							<b-button variant="success" title="Aktif/Matikan server" size="sm" @click="reserveServer(row.item.id)">
 								<font-awesome-icon icon="dot-circle" /> Aktif/Matikan
 							</b-button>
-							<b-button variant="warning" title="Hapus Serial" size="sm" @click="resetSerial(row.item.id)">
+							<b-button variant="warning" title="Hapus UUID" size="sm" @click="resetSerial(row.item.id)">
 								<font-awesome-icon icon="sync" /> Reset UUID
 							</b-button>
 							<b-button variant="danger" title="Hapus server" size="sm" @click="deleteServer(row.item.id)">
-								<font-awesome-icon icon="trash" /> Hapus
+								<i class="cil-trash"></i> Hapus
 							</b-button>
 						</template>
 					</b-table>
@@ -79,6 +76,7 @@
                         </div>
                     </div>
 				</div>
+				<div class="card-footer"></div>
 			</div>
 			<div class="card" v-if="$role('school')">
 				<div class="card-header">

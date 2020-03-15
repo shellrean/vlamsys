@@ -23,7 +23,7 @@
                     <br>
 					<b-table striped hover bordered small :fields="fields" :items="sekolah.data" show-empty>
 						<template v-slot:cell(show_details)="row">
-                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><font-awesome-icon :icon="row.detailsShowing ? 'chevron-circle-up' : 'chevron-circle-down'" /></b-button>
+                            <b-button size="sm" @click="row.toggleDetails" :variant="row.detailsShowing ? 'danger' : 'info'"><i :class="row.detailsShowing ? 'cil-chevron-top' : 'cil-chevron-bottom'" /></b-button>
                         </template>
 						<template v-slot:row-details="row">
                             <b-card>
@@ -32,10 +32,10 @@
                         </template>
 						<template v-slot:cell(actions)="row">
 							<router-link :to="{ name: 'sekolah.edit', params: { id: row.item.id } }" class="btn btn-warning btn-sm">
-								<font-awesome-icon icon="edit" /> Edit
+								<i class="cil-pencil"></i> Edit
 							</router-link>
 							<b-button variant="danger" size="sm" @click="deleteSekolah(row.item.id)">
-								<font-awesome-icon icon="trash" /> Hapus
+								<i class="cil-trash"></i> Hapus
 							</b-button>
 						</template>
 					</b-table>
@@ -98,12 +98,12 @@ export default {
 		...mapActions('sekolah', ['getSekolah','removeSekolah']),
 		deleteSekolah(id) {
 			this.$swal({
-				title: 'Kamu Yakin?',
+				title: 'Informasi',
 				text: 'Tindakan ini akan menghapus secara permanent!',
 				type: 'warning',
 				showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#c7c6c6',
                 confirmButtonText: 'Iya, Lanjutkan!'
             }).then((result) => {
                 if (result.value) {

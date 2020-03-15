@@ -11,11 +11,11 @@ class Banksoal extends Model
 	];
 
     protected $appends = [
-        'inputed'
+        'inputed','koreksi'
     ];
 
     protected $hidden = [
-        'created_at','updated_at','author'
+        'created_at','updated_at','author','koreksi'
     ];
 
     public function pertanyaans()
@@ -42,5 +42,15 @@ class Banksoal extends Model
     {
         $count = Soal::where('banksoal_id', $this->id)->count();
         return $count;
+    }
+
+    public function getKoreksiAttribute()
+    {
+        $exists = ResultEsay::where('banksoal_id', $this->id)
+        ->get()
+        ->pluck('jawab_id')
+        ->unique();
+
+        return JawabanPeserta::whereNotIn('id', $exists)->count();
     }
 }

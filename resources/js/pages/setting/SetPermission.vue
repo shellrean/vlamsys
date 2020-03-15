@@ -22,7 +22,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-primary btn-sm rounded-0" @click="setRole">Set role</button>
+						<button class="btn btn-primary btn-sm" @click="setRole">Set role</button>
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 						<p class="text-danger" v-if="errors.role_id">{{ errors.role_id[0] }}</p>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-primary btn-sm rounded-0" @click="checkPermission">{{ loading ? 'Loading...' : 'Check' }}</button>
+						<button class="btn btn-primary btn-sm" @click="checkPermission">{{ loading ? 'Loading...' : 'Check' }}</button>
 					</div>
 					<div class="form-group">
                         <div class="nav-tabs-custom">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="pull-right">
-                        <button class="btn btn-primary btn-sm rounded-0" @click="setPermission">
+                        <button class="btn btn-primary btn-sm" @click="setPermission">
                             <i class="fa fa-send"></i> Set Permission
                         </button>
                     </div>
