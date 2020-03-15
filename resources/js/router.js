@@ -9,6 +9,7 @@ import Home from './pages/Home.vue'
 import MatpelIndex from './pages/matpel/Index.vue'
 import DataMatpel from './pages/matpel/Matpel.vue'
 import AddMatpel from './pages/matpel/Add.vue'
+import EditMatpel from './pages/matpel/Edit.vue'
 
 import PesertaIndex from './pages/peserta/Index.vue'
 import DataPeserta from './pages/peserta/Peserta.vue'
@@ -89,6 +90,12 @@ const router = new Router({
                 	name: 'matpel.add',
                 	component: AddMatpel,
                 	meta: { title: 'Tambah mata pelajara' }
+                },
+                {
+                	path: 'edit/:id',
+                	name: 'matpel.edit',
+                	component: EditMatpel,
+                	meta: { title: 'Edit mata pelajaran' }
                 }
 			]
 		},

@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <h4 id="traffic" class="card-title mb-0">Manage Matpel</h4>
-                            <div class="small text-muted">Buat dan hapus matpel</div>
+                            <div class="small text-muted">Buat edit dan hapus matpel</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
                             <button type="button" class="btn float-right btn-primary btn-sm mx-1">
@@ -19,14 +19,20 @@
                     </div>
                     <br>
     				<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="matpels.data" show-empty>
+                        <template v-slot:cell(index)="data">
+                            {{ from+data.index }}
+                        </template>
                         <template v-slot:table-busy>
                             <div class="text-center text-warning my-2">
 							  <img src="/img/loader.svg" width="50px" />
                             </div>
                         </template>
                        <template v-slot:cell(actions)="row">
-                            <button class="btn btn-danger btn-sm rounded-0" @click="deleteMatpel(row.item.id)">
-                                <font-awesome-icon icon="trash" /> Hapus
+                            <router-link :to="{ name: 'matpel.edit', params: { id: row.item.id } }" class="btn btn-warning btn-sm">
+                                <f<i class="cil-pencil"></i> Edit
+                            </router-link>
+                            <button class="btn btn-danger btn-sm" @click="deleteMatpel(row.item.id)">
+                                <i class="cil-trash"></i> Hapus
                             </button>
                         </template>
                     </b-table>
@@ -63,6 +69,7 @@ export default {
     data() {
         return {
             fields: [
+                'index',
                 { key: 'kode_mapel', label: 'Kode matpel'},
                 { key: 'nama', label: 'Nama mata pelajaran'},
                 { key: 'actions', label: 'Aksi' }
@@ -79,7 +86,8 @@ export default {
         ...mapGetters(['isLoading']),
         ...mapState(['errors']),
         ...mapState('matpel', {
-            matpels: state => state.matpels
+            matpels: state => state.matpels,
+            from: state => state.from
         }),
         page: {
             get() {
@@ -105,6 +113,21 @@ export default {
             }).then((result) => {
                 if (result.value) {
                     this.removeMatpel(id)
+                    .then(() => {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Sukses',
+                            type: 'success',
+                            text: 'Data matpel berhasil dihapus.'
+                        })
+                    })
+                    .catch((err) => {
+                        this.$swal({
+                            title: 'Error',
+                            text: "Terjadi kesalahan. "+err.data.message,
+                            type: 'error'
+                        })
+                    })
                     this.getMatpels()
                 }
             })

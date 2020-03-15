@@ -25,7 +25,7 @@
                                         <td width="150px">Pembuat</td><td v-text="row.item.user.name"></td>
                                     </tr>
                                     <tr>
-                                        <td>Jumlah soal</td><td v-text="row.item.jumlah_soal"></td>
+                                        <td>Jumlah soal</td><td v-text="row.item.jumlah_soal+' / '+row.item.inputed"></td>
                                     </tr>
                                     <tr>
                                         <td>Jumlah pilihan</td><td v-text="row.item.jumlah_pilihan"></td>
@@ -88,8 +88,8 @@
             </div>
             <template v-slot:modal-footer="{ ok, cancel}">
 
-              <b-button variant="primary" size="sm" @click="!update ? postBanksoal() : updateBanksoal()" squared>Simpan</b-button>
-              <b-button variant="secondary" size="sm" @click="cancel()" squared>
+              <b-button variant="primary" size="sm" @click="!update ? postBanksoal() : updateBanksoal()">Simpan</b-button>
+              <b-button variant="secondary" size="sm" @click="cancel()">
                 Cancel
               </b-button>
             </template>
@@ -124,10 +124,10 @@ export default {
             data: {
                 kode_banksoal: '',
                 matpel_id: '',
-                jumlah_soal : '',
+                jumlah_soal : 0,
                 jumlah_pilihan: 5,
                 server_name: '',
-                jumlah_soal_esay: ''
+                jumlah_soal_esay: 0
             },
             selected: '',
             isBusy: true,

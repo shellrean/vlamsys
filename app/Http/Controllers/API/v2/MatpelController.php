@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Matpel;
+use App\Banksoal;
 use App\Http\Resources\MatpelCollection;
 use Illuminate\Support\Facades\Validator;
 
@@ -59,7 +60,7 @@ class MatpelController extends Controller
         $data = [
             'kode_mapel'    => $request->kode_mapel,
             'nama'          => $request->nama,
-            'jurusan_id' => ($request->jurusan_id != '' ? $request->jurusan_id['id'] : 0 ),
+            'jurusan_id' => ($request->jurusan_id != '' ? array_column($request->jurusan_id, 'id') : 0 ),
         ];
         
 
@@ -77,7 +78,9 @@ class MatpelController extends Controller
      */
     public function show($id)
     {
-        //
+        $matpel = Matpel::find($id);
+
+        return response()->json(['data' => $matpel]);
     }
 
     /**
@@ -89,7 +92,27 @@ class MatpelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'kode_mapel'    => 'required|unique:matpels,kode_mapel,'.$id,
+            'nama'          => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()],422);
+        }
+        
+        $data = [
+            'kode_mapel'    => $request->kode_mapel,
+            'nama'          => $request->nama,
+            'jurusan_id' => ($request->jurusan_id != '' ? array_column($request->jurusan_id, 'id') : 0 ),
+        ];
+        
+        $matpel = Matpel::find($id);
+
+        $matpel->update($data);
+
+
+        return response()->json(['data' => $data]);
     }
 
     /**
@@ -100,6 +123,10 @@ class MatpelController extends Controller
      */
     public function destroy($id)
     {
+        $banksoal = Banksoal::where('matpel_id', $id)->count();
+        if($banksoal) {
+            return response()->json(['message' => 'Ada banksoal yang menggunakan matpel ini'], 400);
+        }
         $laundry = Matpel::find($id);
         $laundry->delete();
         return response()->json(['status' => 'success']);

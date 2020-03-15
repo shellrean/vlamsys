@@ -10,6 +10,14 @@ class Banksoal extends Model
 		'kode_banksoal','kelas_id','author','matpel_id','jumlah_soal','jumlah_pilihan','jumlah_soal_esay','directory_id'
 	];
 
+    protected $appends = [
+        'inputed'
+    ];
+
+    protected $hidden = [
+        'created_at','updated_at','author'
+    ];
+
     public function pertanyaans()
     {
     	return $this->hasMany('App\Soal', 'banksoal_id','id');
@@ -28,5 +36,11 @@ class Banksoal extends Model
     public function ujian()
     {
         return $this->hasMany(Jadwal::class);
+    }
+
+    public function getInputedAttribute()
+    {
+        $count = Soal::where('banksoal_id', $this->id)->count();
+        return $count;
     }
 }

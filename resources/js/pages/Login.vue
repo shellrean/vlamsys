@@ -12,7 +12,7 @@
           <div>
             <div class="alert alert-danger rounded-0" v-if="errors.invalid">{{ errors.invalid }}</div>
             <p class="text-muted">Selamat datang di aplikasi Vlam-Sys. Silahkan masukkan username dan password</p>
-            
+            <form @submit.prevent="postLogin">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text rounded-0">
@@ -31,10 +31,11 @@
               <input class="form-control" :class="{ 'is-invalid' : errors.password }" type="password" placeholder="Password" v-model="data.password" @keyup="clearError">
               <div class="invalid-feedback" v-if="errors.password">{{ errors.password[0] }} </div>
             </div>
-            <b-button variant="dark" squared  :disabled="isLoading" @click.prevent="postLogin">
+            <b-button variant="dark" squared  :disabled="isLoading" type="submit">
               <b-spinner small type="grow" v-show="isLoading"></b-spinner>
               Login
             </b-button>
+            </form>
           </div>
         </div>
       </div>

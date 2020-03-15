@@ -21,18 +21,16 @@ import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import FormMatpel from './Form.vue'
 export default {
 	name: 'AddMatpel',
-	data() {
-		return {
-
-		}
+	created() {
+		this.editMatpel(this.$route.params.id)
 	},
 	computed: {
 		...mapGetters(['isLoading'])
 	},
 	methods: {
-		...mapActions('matpel',['submitMatpel']),
+		...mapActions('matpel',['updateMatpel','editMatpel']),
 		submit() {
-			this.submitMatpel()
+			this.updateMatpel(this.$route.params.id)
 			.then(() => {
 				this.$router.push({ name: 'matpel.data' })
 				this.$notify({

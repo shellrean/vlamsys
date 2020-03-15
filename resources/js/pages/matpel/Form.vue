@@ -11,17 +11,26 @@
 			<p class="text-danger" v-if="errors.nama">{{ errors.nama[0] }}</p>
 		</div>
 		<div class="form-group">
-			<b-form-checkbox size="lg" v-model="produktif" value="1">Produktif</b-form-checkbox>
+			<b-form-checkbox size="lg" v-model="produktif" value="1">Matpel khusus</b-form-checkbox>
 		</div>
 		<div class="form-group" v-show="produktif">
 			<label>Jurusan</label>
-			<v-select label="nama" :options="jurusans.data" v-model="matpel.jurusan_id"></v-select>
+			<multiselect 
+			v-model="matpel.jurusan_id" 
+			tag-placeholder="Cari untuk menambah jurusan" 
+			placeholder="Tambah jurusan terkait matpel" 
+			label="nama" track-by="id" 
+			:options="jurusans.data" 
+			:multiple="true" 
+			:taggable="true"
+			v-if="jurusans.data"></multiselect>
 		</div>
 	</div>
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import vSelect from 'vue-select'
+import Multiselect from 'vue-multiselect'
 import 'vue-select/dist/vue-select.css';
 
 export default {
@@ -32,12 +41,12 @@ export default {
 	data() {
 		return {
 			produktif: false,
-			jurusan_id: 0
 		}
 	},
 	components: {
-    'v-select': vSelect
-  },
+    	'v-select': vSelect,
+    	Multiselect
+  	},
 	computed: {
 		...mapState(['errors']),
 		...mapState('matpel', {
@@ -56,3 +65,4 @@ export default {
 	}
 }
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

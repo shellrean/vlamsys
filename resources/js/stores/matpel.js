@@ -8,7 +8,8 @@ const state = () => ({
         nama: '',
         jurusan_id: '',
     },
-	page: 1
+	page: 1,
+    from: 1
 })
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
             nama: '',
             jurusan_id: ''
         }
+    },
+    SET_FROM_DATA(state, payload) {
+        state.from = payload
     }
 }
 
@@ -43,6 +47,7 @@ const actions = {
 			$axios.get(`/matpel?page=${state.page}&q=${search}`)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
+                commit('SET_FROM_DATA', response.data.meta.from)
 				resolve(response.data)
 			})
 		}) 
@@ -57,18 +62,48 @@ const actions = {
         }) 
     },
 	submitMatpel({ dispatch, commit, state }) {
+        commit('SET_LOADING', true, { root: true })
         return new Promise((resolve, reject) => {
             $axios.post(`/matpel`, state.matpel)
             .then((response) => {
+                commit('SET_LOADING',false, { root: true })
                 dispatch('getMatpels').then(() => {
                     resolve(response.data)
                 })
             })
             .catch((error) => {
                 if (error.response.status == 422) {
-                    commit('SET_LOADING',false, { root: true })
                     commit('SET_ERRORS', error.response.data.errors, { root: true })
                 }
+                commit('SET_LOADING',false, { root: true })
+                reject()
+            })
+        })
+    },
+    editMatpel({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            $axios.get(`/matpel/${payload}`)
+            .then((response) => {
+                commit('ASSIGN_FORM', response.data.data)
+                resolve()
+            })
+            .catch((err) => {
+                reject()
+            })
+        })
+    },
+    updateMatpel({ dispatch, commit, state }, payload) {
+        commit('SET_LOADING', true, { root: true })
+        return new Promise((resolve, reject) => {
+            $axios.put(`/matpel/${payload}`, state.matpel)
+            .then((response) => {
+                commit('SET_LOADING',false, { root: true })
+                dispatch('getMatpels').then(() => resolve())
+                resolve()
+            })
+            .catch((err) => {
+                commit('SET_LOADING',false, { root: true })
+                reject()
             })
         })
     },
@@ -77,6 +112,9 @@ const actions = {
             $axios.delete(`/matpel/${payload}`)
             .then((response) => {
                 resolve(response.data)
+            })
+            .catch((err) => {
+                reject(err.response)
             })
         })
     }
