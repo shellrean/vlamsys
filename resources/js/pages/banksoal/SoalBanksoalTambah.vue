@@ -157,6 +157,118 @@
               </div>
             </div>
           </div>
+          <div class="card" v-if="tipe_soal == 2">
+            <div class="card-header">
+              <b>Jawaban rujukan</b>
+            </div>
+            <div class="card-body">
+              <div class="editor">
+                <editor-menu-bar :editor="rujukan" v-slot="{ commands, isActive }">
+                  <div class="menubar">
+                    <button
+                      class="menubar__button"
+                      @click="showImagePrompt(commands.image)"
+                    >
+                      <font-awesome-icon icon="image" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.bold() }"
+                      @click="commands.bold"
+                    >
+                      <font-awesome-icon icon="bold" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.italic() }"
+                      @click="commands.italic"
+                    >
+                      <font-awesome-icon icon="italic" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.strike() }"
+                      @click="commands.strike"
+                    >
+                      <font-awesome-icon icon="strikethrough" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.underline() }"
+                      @click="commands.underline"
+                    >
+                      <font-awesome-icon icon="underline" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.paragraph() }"
+                      @click="commands.paragraph"
+                    >
+                      <font-awesome-icon icon="paragraph" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+                      @click="commands.heading({ level: 1 })"
+                    >
+                      H1
+                    </button>
+
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+                      @click="commands.heading({ level: 2 })"
+                    >
+                      H2
+                    </button>
+
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+                      @click="commands.heading({ level: 3 })"
+                    >
+                      H3
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.bullet_list() }"
+                      @click="commands.bullet_list"
+                    >
+                      <font-awesome-icon icon="list" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.ordered_list() }"
+                      @click="commands.ordered_list"
+                    >
+                      <font-awesome-icon icon="list-ol" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      :class="{ 'is-active': isActive.blockquote() }"
+                      @click="commands.blockquote"
+                    >
+                      <font-awesome-icon icon="quote-right" />
+                    </button>
+                    <button
+                      class="menubar__button"
+                      @click="commands.undo"
+                    >
+                      <font-awesome-icon icon="undo" />
+                    </button>
+
+                    <button
+                      class="menubar__button"
+                      @click="commands.redo"
+                    >
+                      <font-awesome-icon icon="redo" />
+                    </button>
+                  </div>
+                </editor-menu-bar>
+                <editor-content class="editor__content" :editor="rujukan" />
+              </div>
+            </div>
+          </div>
           <div class="card" v-if="tipe_soal == 1">
             <div class="card-header">
               <b>Pilihan</b>
@@ -399,6 +511,33 @@ export default {
         ],
         content: ''
       }),
+      rujukan : new Editor({
+        extensions: [
+          new Blockquote(),
+          new Image(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Link(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Strike(),
+          new Underline(),
+          new History(),
+          new Placeholder({
+            emptyNodeClass: 'is-empty',
+            emptyNodeText: 'Tulis jawaban rujukan …',
+            showOnlyWhenEditable: true,
+          })
+        ],
+        content: ''
+      }),
       pilihan: [],
       jmlh_pilihan: '',
       gambar_pilih: '',
@@ -455,6 +594,7 @@ export default {
         })
         this.addSoalBanksoal({
           pertanyaan: this.question.getHTML(),
+          rujukan: this.rujukan.getHTML(),
           banksoal_id: this.$route.params.banksoal_id,
           pilihan: sender,
           correct: this.correct,
@@ -482,6 +622,7 @@ export default {
     },
     clearForm() {
       this.question.setContent(''),
+      this.rujukan.setContent(''),
       this.correct = '',
       this.pilihan.forEach(function(item) {
         item.setContent('')

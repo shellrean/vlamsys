@@ -38,8 +38,8 @@
         				<template v-slot:row-details="row">
 					        <b-card>
 					          <div v-html="row.item.pertanyaan"></div>
-					          <div v-if="row.item.audio != null"><audio-player :file="'/storage/audio/'+row.item.audio"></audio-player></div>
-					          <table class="table">
+					          <div v-if="row.item.audio != null" class="mb-2"><audio-player :file="'/storage/audio/'+row.item.audio"></audio-player></div>
+					          <table class="table" v-if="row.item.jawabans != ''">
 					          	<tr v-for="(jawab, index) in row.item.jawabans" :key="index">
                                     <td width="20px">
                                         <font-awesome-icon v-show="jawab.correct == '1'" icon="star" class="text-warning" />
@@ -49,6 +49,11 @@
 					          		</td> 
 					          	</tr>
 					          </table>
+                              <table v-show="row.item.tipe_soal == 2 && row.item.rujukan != '<p></p>'">
+                                  <tr>
+                                      <td v-html="row.item.rujukan"></td>
+                                  </tr>
+                              </table>
 					        </b-card>
 					    </template>
 
@@ -130,12 +135,12 @@ export default {
 		},
 		deleteBanksoal(id) {
 			this.$swal({
-                title: 'Kamu Yakin?',
+                title: 'Informasi',
                 text: "Tindakan ini akan menghapus secara permanent!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#c9c9ca',
                 confirmButtonText: 'Iya, Lanjutkan!'
             }).then((result) => {
                 if (result.value) {
