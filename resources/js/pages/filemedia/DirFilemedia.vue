@@ -35,7 +35,7 @@
   										<img :src="'/storage/'+content.dirname+'/'+content.filename" class="img-thumbnail" style="max-width: 50px">
   									</td>
   									<td>
-  										<b-button variant="danger" squared size="sm" ><font-awesome-icon icon="trash" /> Hapus</b-button>
+  										<b-button variant="danger" size="sm" ><i class="cil-trash"></i> Hapus</b-button>
   									</td>
   								</tr>
   							</table>

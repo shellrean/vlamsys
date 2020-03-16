@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary">Tambah</b-button>
+                    <b-button @click="$bvModal.show('modal-scoped')" size="sm" variant="primary">Tambah banksoal</b-button>
                 </div>
                 <div class="card-body">
                      <div class="row">
@@ -37,8 +37,8 @@
                             </b-card>
                         </template>
                        <template v-slot:cell(actions)="row">
-                            <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm"><font-awesome-icon icon="list" /> Soal</router-link>
-                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning"><f<i class="cil-pencil"></i> Edit</b-button>
+                            <router-link :to="{ name: 'banksoal.soal', params: {banksoal_id: row.item.id} }" class="btn btn-success btn-sm"><i class="cil-notes"></i> Soal</router-link>
+                            <b-button @click="getDataId(row.item.id)" size="sm" variant="warning"><i class="cil-pencil"></i> Edit</b-button>
                             <button class="btn btn-danger btn-sm" @click="deleteBanksoal(row.item.id)"><i class="cil-trash"></i> Hapus</button>
                         </template>
                     </b-table>
