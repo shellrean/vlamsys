@@ -29,6 +29,9 @@ import HasilUjian from './pages/ujian/HasilUjian.vue'
 import HasilListUjian from './pages/ujian/HasilListUjian.vue'
 import KoreksiUjian from './pages/ujian/KoreksiUjian.vue'
 
+import KoreksiIndex from './pages/koreksi/Index.vue'
+import KoreksiEsay from './pages/koreksi/KoreksiEsay.vue'
+
 import FilemediaIndex from './pages/filemedia/Index.vue'
 import DataFilemedia from './pages/filemedia/Filemedia.vue'
 import DataDirFilemedia from './pages/filemedia/DirFilemedia.vue'
@@ -188,7 +191,20 @@ const router = new Router({
 					path: 'hasil/koreksi',
 					name: 'ujian.koreksi',
 					component: KoreksiUjian,
-					meta: { tiel: 'Koreksi jawaban peserta' }
+					meta: { title: 'Koreksi jawaban peserta' }
+				}
+			]
+		},
+		{
+			path: '/koreksi',
+			component: KoreksiIndex,
+			meta: { requiresAuth: true },
+			children: [
+				{
+					path: 'esay/:banksoal',
+					name: 'koreksi.esay',
+					component: KoreksiEsay,
+					meta: { title: 'Koreksi esay' }
 				}
 			]
 		},

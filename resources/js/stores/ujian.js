@@ -108,31 +108,31 @@ const actions = {
 			})
 		})
 	},
-
-	getJawabanEsay({ commit, state }, payload) {
-		return new Promise((resolve,reject) => {
-			$axios.get(`/ujian/esay/get`)
-			.then((response) => {
-				commit('ASSIGN_JAWABAN_ESAY', response.data)
-				resolve(response.data)
-			})
-		})
-	},
-
 	submitNilaiEsay({ dispatch, state }, payload) {
 		return new Promise((resolve, reject) => {
 			$axios.post(`/ujian/esay/input`, payload)
 			.then((response) => {
-				dispatch('getJawabanEsay').then(() => resolve())
+				resolve()
 			})
 		})
 	},
-
 	getExistsEsay({ state, commit }, payload) {
 		return new Promise((resolve, reject) => {
 			$axios.get(`/ujian/esay/exists`, payload)
 			.then((response) => {
 				commit('ASSIGN_DATA', response.data)
+			})
+		})
+	},
+	getExistsByBanksoal({ state, commit }, payload) {
+		return new Promise((resolve, reject) => {
+			$axios.get(`/ujian/esay/koreksi/${payload}`)
+			.then((response) => {
+				commit('ASSIGN_JAWABAN_ESAY', response.data)
+				resolve()
+			})
+			.catch((err) => {
+				reject()
 			})
 		})
 	}

@@ -6,6 +6,13 @@
 					Koreksi jawaban peserta
 				</div>
 				<div class="card-body">
+					<div class="row">
+                        <div class="col-sm-5">
+                            <h4 id="traffic" class="card-title mb-0">Koreksi</h4>
+                            <div class="small text-muted">List banksoal yang belum terkoreksi</div>
+                        </div>
+                    </div>
+                    <br>
 					<b-table striped hover bordered :busy="isBusy" small :fields="fields" :items="banksoals" show-empty>
 						<template v-slot:table-busy>
                             <div class="text-center text-warning my-2">
@@ -13,7 +20,7 @@
                             </div>
                         </template>
 						<template v-slot:cell(aksi)="row">
-							<b-button variant="light" size="sm" squared @click="submitNilai(row.index)">Koreksi banksoal ini</b-button>
+							<router-link :to="{ name: 'koreksi.esay', params: { banksoal: row.item.id } }" class="btn btn-sm btn-primary"><i class="cil-task"></i> Koreksi banksoal ini</router-link>
 						</template>
 					</b-table>
 				</div>

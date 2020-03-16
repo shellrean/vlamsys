@@ -10,6 +10,10 @@ class Soal extends Model
 		'banksoal_id','pertanyaan','tipe_soal','audio'
 	];
 
+	protected $hidden = [
+		
+	];
+
 	public function banksoal()
 	{
 		return $this->belongsTo('App\Banksoal','banksoal_id');

@@ -147,19 +147,47 @@ class UjianController extends Controller
         return response()->json(['data' => $hasilPeserta]);
     }
 
-    public function getEsay()
+    public function getEsay($id)
     {
-        $esay = ResultEsay::with('pertanyaan')->where('see',0)->get();
+        $has = ResultEsay::where('banksoal_id', $id)->get()->pluck('jawab_id');
+        $exists = JawabanPeserta::whereNotIn('id', $has)
+        ->with(['pertanyaan' => function($q) {
+            $q->select(['id','rujukan','pertanyaan']);
+        }])
+        ->where('banksoal_id', $id)
+        ->paginate(10);
 
-        return response()->json(['data' => $esay]);
+        return new AppCollection($exists);
     }
 
     public function inputEsay(Request $request)
     {
-        $jawab = ResultEsay::find($request->id);
-        $jawab->nilai = $request->nilai;
-        $jawab->see = 1;
-        $jawab->save();
+        $jawab = JawabanPeserta::find($request->id);
+
+        $has = ResultEsay::where('banksoal_id', $jawab->banksoal_id)->get()->pluck('jawab_id');
+        $sames = JawabanPeserta::whereNotIn('id',$has)
+        ->where(['esay' => $jawab->esay, 'banksoal_id' => $jawab->banksoal_id, 'soal_id' => $jawab->soal_id])
+        ->get();
+
+        if($sames) {
+            foreach($sames as $same) {
+                ResultEsay::create([
+                    'banksoal_id'   => $same->banksoal_id,
+                    'peserta_id'    => $same->peserta_id,
+                    'jawab_id'      => $same->id,
+                    'point'         => $request->val
+                ]);
+            }
+
+            return response()->json(['data' => 'OK1']);
+        }
+
+        ResultEsay::create([
+            'banksoal_id'   => $jawab->banksoal_id,
+            'peserta_id'    => $jawab->peserta_id,
+            'jawab_id'      => $jawab->id,
+            'point'         => $request->val
+        ]);
 
         return response()->json(['data' => 'OK']);
     }

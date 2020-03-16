@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResultEsay extends Model
 {
-    protected $fillable = ['nilai','see'];
+	protected $guarded = [];
     
     public function pertanyaan()
     {
