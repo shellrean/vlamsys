@@ -11,6 +11,7 @@ use DB;
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
+use PDF;
 class SekolahController extends Controller
 {
     /**
@@ -111,10 +112,25 @@ class SekolahController extends Controller
         return response()->json([],200);
     }
 
+    /**
+     *
+     */
     public function allJurusan()
     {
         $data = DB::table('jurusans')->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    /**
+     *
+     *
+     */
+    public function preDataSekolah()
+    {
+        $sekolahs = Sekolah::orderBy('nama')->get();
+
+        $pdf = PDF::loadview('prev.sekolah',compact('sekolahs'));
+        return $pdf->stream('data-sekolah.pdf');
     }
 }

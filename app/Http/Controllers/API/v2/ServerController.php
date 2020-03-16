@@ -10,6 +10,8 @@ use App\Server;
 use App\Http\Resources\AppCollection;
 use Illuminate\Support\Facades\Validator;
 
+use PDF;
+
 class ServerController extends Controller
 {
     /**
@@ -94,5 +96,12 @@ class ServerController extends Controller
         $server->save();
 
         return response()->json([]);
+    }
+
+    public function preDataServer()
+    {
+        $servers = Server::with('password')->orderBy('sekolah_id')->get();
+        $pdf = PDF::loadview('prev.server',compact('servers'));
+        return $pdf->stream('data-server.pdf');
     }
 }

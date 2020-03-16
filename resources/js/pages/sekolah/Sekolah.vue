@@ -15,9 +15,10 @@
                             <div class="small text-muted">Buat edit dan hapus sekolah</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
-                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
-                                <i class="cil-print"></i>&nbsp; Cetak data sekolah
-                            </button>
+                            <a :href="'/prev/sekolah'" target="_blank" class="btn float-right btn-primary btn-sm mx-1">
+                                <i class="cil-print"></i>
+                                Cetak data sekolah
+                            </a>
                         </div>
                     </div>
                     <br>

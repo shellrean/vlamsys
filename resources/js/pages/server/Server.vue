@@ -12,9 +12,10 @@
                             <div class="small text-muted">Manage servers</div>
                         </div>
                         <div class="d-none d-md-block col-sm-7">
-                            <button type="button" class="btn float-right btn-primary btn-sm mx-1">
-                                <i class="cil-print"></i>&nbsp; Cetak data servers
-                            </button>
+                            <a :href="'/prev/server'" target="_blank" class="btn float-right btn-primary btn-sm mx-1">
+                                <i class="cil-print"></i>
+                                Cetak data servers
+                            </a>
                         </div>
                     </div>
                     <br>
